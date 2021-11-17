@@ -1,0 +1,5 @@
+{
+    "selectUsuarios" : "SELECT * FROM usuario",
+    "SelectUsuariosByUserName" : "select * from usuario WHERE usuarioNombre = ?"
+    
+}
