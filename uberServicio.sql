@@ -87,5 +87,30 @@ insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Muy buen servicio, lo recomiendo",10,1,1),
 ("Lo recomiendo",10,2,2);
+
+
+#procedimientos
+
+#procedimiento almacenado que permite insertar valores en la tabla de usuarios.
+DELIMITER //
+create procedure sp_agregar_usuarios(in P_Nombre varchar(50),
+									  in P_Apellido varchar(50),
+                                      in P_Correo varchar(60),
+                                      in P_Telefono varchar(9),
+                                      in P_UsuarioNombre varchar(50),
+                                      in P_Contrasena varchar(20),
+                                      in P_UrlFotoPerfil varchar(50))
+begin
+	
+    insert into usuario(nombre,apellido,correo,telefono,usuarioNombre,contrasena,urlFotoPerfil)  values 
+    (P_Nombre,P_Apellido,P_Correo,P_Telefono,P_UsuarioNombre,P_Contrasena,P_UrlFotoPerfil);
     
-    
+end//
+DELIMITER ;
+
+call sp_agregar_usuarios("Erick","Rapalo","erickrapalo@gmail.com","3447-2200","erickra","erick123","prueba5.jpg");
+select * from usuario;
+
+#vista de la tabla usuarios
+create view vw_usuarios as (select * from usuario u order by u.Nombre asc);
+select * from vw_usuarios;
