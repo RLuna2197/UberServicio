@@ -19,20 +19,7 @@ const app = express();
 
 app.use(bodyparser.json());
 
-//Tabla Usuario
 
-//ObtenerUsuarios
-app.get('/Usuarios', (req, res) => {
-    servicioUsuario.ObtenerUsuarios()
-        .then(data => {
-                res.status(200).send(data);
-            }
-
-        )
-        .catch(error => {
-            res.status(500).send(mensaje.mensajeError + error);
-        })
-})
 
 
 
@@ -176,5 +163,64 @@ app.delete('/Comentarios/:idComentario', (req, res) => {
     return res.status(200).send(JSON.stringify(resp));
 })
 
+//-------------------------------------------------------------------------------------------------
 
+//Tabla Usuario
+
+//ObtenerUsuarios
+app.get('/Usuarios', (req, res) => {
+    servicioUsuario.ObtenerUsuarios()
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Agregar Usuarios
+
+app.post('/Usuarios', (req, res) => {
+    
+    let correo = req.body.correo;
+    let usuarioNombre = req.body.usuarioNombre;
+    let contrasena = req.body.contrasena;
+    let vendedor = req.body.vendedor;
+    let comprador = req.body.comprador;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+   
+    console.log(correo, usuarioNombre, contrasena, vendedor, comprador)
+    if (validador.validarDatos(correo) || validador.validarDatos(usuarioNombre) || validador.validarDatos(contrasena) ) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioUsuario.agregarUsuario(correo, usuarioNombre, contrasena, vendedor, comprador)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
 app.listen(3000);
