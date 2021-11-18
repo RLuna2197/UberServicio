@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 //Servicios
 const servicioUsuario = require('./servicios/ServiceUsuario');
 const servicioComentario = require('./servicios/ServiceComentario');
+const servicioPersona = require('./servicios/ServicePersona');
 
 //Validacion
 const validador = require('./servicios/validacion');
@@ -221,6 +222,136 @@ app.post('/Usuarios', (req, res) => {
             resp.mensaje = mensajes.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
+    })
+
+
+//eliminar usuario
+app.delete('/Usuarios/:idUsuario', (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idUsuario)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioUsuario.eliminarUsuario(idUsuario)
+    resp.mensaje = mensaje.mensajeOK;
+    res.set({
+        "Context-type": "Text/json"
+
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
+//-------------------------------------------------------------------------------------------------
+
+//Tabla Persona
+
+//GetPersona
+app.get('/Personas/:idUsuario', (req, res) => {
+    //Obtener parametro 
+    let idUsuario = req.params.idUsuario;
+    
+    servicioPersona.SeleccionarPersonaByID(idUsuario)
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+
+//Update SET
+app.put('/Personas/:idUsuario', (req, res) => {
+
+   
+    //recibiendo del body
+    let nombre = req.body.nombre;
+    let apellido = req.body.apellido;
+    let telefono = req.body.telefono;
+    let urlFoto = req.body.urlFoto;
+    //recibiendo del parametro
+    let idUsuario = req.params.idUsuario;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(nombre) || validador.validarDatos(apellido) || validador.validarDatos(telefono) || validador.validarDatos(urlFoto) || validador.validarDatos(idUsuario)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    } 
+    
+    servicioPersona.actualizarPersona(nombre, apellido, telefono, urlFoto, idUsuario)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
 
 })
+
+//eliminar Persona
+app.delete('/Personas/:idUsuario', (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idUsuario)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioPersona.eliminarPersona(idUsuario)
+    resp.mensaje = mensaje.mensajeOK;
+    res.set({
+        "Context-type": "Text/json"
+
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
+
+
 app.listen(3000);
