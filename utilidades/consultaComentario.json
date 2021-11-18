@@ -1,0 +1,7 @@
+{
+    "selectComentarioByServicio" : "select * from comentario where idServicio =?",
+    "insertComentario": "INSERT INTO comentario (comentario, calificacion, idServicio, idUsuario) VALUES(?, ?, ? , ?)",
+    "updateComentario": "UPDATE comentario SET comentario=?, calificacion=? WHERE idComentario=?",
+    "deleteComentario" : "delete from comentario where idComentario=?"
+    
+}
