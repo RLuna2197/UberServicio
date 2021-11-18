@@ -25,9 +25,9 @@ create table pedido(
     horaFin time,
     total double
     );
-    
+	
 create table historialConversion(
-	 idConversion integer primary key,
+	 idConversion integer primary key auto_increment,
 	moneda varchar(60),
     valor varchar(60),
     idPedido integer,
@@ -96,11 +96,11 @@ insert into usuario(correo,usuarioNombre,contrasena) values
 insert into pedido(Fecha, Hora, total) values
 ('2021-11-17', '09:14:00', 3);
 
-insert into persona(nombre, apellido, telefono, urlFoto) values
-("Cristina","Martinez","7777-2200","prueba1.jpg"),
-("Roberto","Luna","7227-2230","prueba2.jpg"),
-("Victor","Venezuela","7334-2200","prueba3.jpg"),
-("Alessandro","Solorzano","3347-2200","prueba4.jpg");
+insert into persona(idUsuario,nombre, apellido, telefono, urlFoto) values
+(1,"Cristina","Martinez","7777-2200","prueba1.jpg"),
+(2,"Roberto","Luna","7227-2230","prueba2.jpg"),
+(3,"Victor","Venezuela","7334-2200","prueba3.jpg"),
+(4,"Alessandro","Solorzano","3347-2200","prueba4.jpg");
     
 
 insert into servicio(descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona) values
@@ -114,9 +114,9 @@ insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Lo recomiendo",10,2,2);
 
 
-#procedimientos
+#-------PROCEDIMIENTOS
 
-#procedimiento almacenado que permite insertar valores en la tabla de usuarios.
+#---------procedimiento almacenado que permite insertar valores en la tabla de usuarios.---------
 DELIMITER //
 create procedure sp_agregar_usuarios( in P_Correo varchar(60),
                                       in P_UsuarioNombre varchar(50),
@@ -134,6 +134,108 @@ DELIMITER ;
 call sp_agregar_usuarios("erickrapalo@gmail.com","erickra","erick123",1,1);
 select * from usuario;
 
-#vista de la tabla usuarios
+#-------------vista de la tabla usuarios---------
 create view vw_usuarios as (select * from usuario);
 select * from vw_usuarios;
+
+#---------------procedimientos para comentarios----------
+DELIMITER //
+create procedure sp_agregar_comentarios( in P_Comentario varchar(100),
+                                      in P_Calificacion int,
+                                      in P_IdServicio int,
+                                      in P_IdUsuario int)
+begin
+	
+    insert into comentario(comentario,calificacion,idServicio,idUsuario)  values 
+    (P_Comentario,P_Calificacion,P_IdServicio,P_IdUsuario);
+    
+end//
+DELIMITER ;
+
+call sp_agregar_comentarios("Excelente",10,1,1);
+select * from comentario;
+
+#----------------vista de la tabla comentario----------
+create view vw_comentarios as (select * from comentario);
+select * from vw_comentarios;
+
+#procedimientos para imagen
+DELIMITER //
+create procedure sp_agregar_imagenes( in P_Url varchar(100),
+                                      in P_IdServicio int)
+begin
+	
+    insert into imagenServicio(url,idServicio)  values 
+    (P_Url,P_IdServicio);
+    
+end//
+DELIMITER ;
+
+call sp_agregar_imagenes("prueba.png",1);
+select * from imagenServicio;
+
+#----------vista de la tabla usuarios-----------
+create view vw_imagenes as (select * from imagenServicio);
+select * from vw_imagenes;
+
+#------------procedimientos para pedido----------
+DELIMITER //
+create procedure sp_agregar_pedidos( in P_FechaInicio date,
+                                      in P_FechaFin date,
+                                      in P_HoraInicio time,
+                                      in P_HoraFin time,
+                                      in P_Total double)
+begin
+	
+    insert into pedido(fechaInicio,fechaFin,horaInicio,horaFin,total)  values 
+    (P_FechaInicio,P_FechaFin,P_HoraInicio,P_HoraFin,P_Total);
+    
+end//
+DELIMITER ;
+call sp_agregar_pedidos('2021-11-19','2021-11-19','12:00','01:00',1);
+select * from pedido;
+
+#vista de la tabla pedidos
+create view vw_pedidos as (select * from pedido);
+select * from vw_pedidos;
+
+#---------------procedimientos para categoria---------
+DELIMITER //
+create procedure sp_agregar_categorias( in P_NombreCategoria varchar(50),
+                                      in P_DescripcionCategoria varchar(50))
+begin
+	
+    insert into categoria(nombreCategoria,descripcionCategoria)  values 
+    (P_NombreCategoria,P_DescripcionCategoria);
+    
+end//
+DELIMITER ;
+call sp_agregar_categorias("mecanico","soluciones a motores de carros");
+select * from categoria;
+
+#----------vista de la tabla categoria---------
+create view vw_categorias as (select * from categoria);
+select * from vw_categorias;
+    
+#---------------procedimientos para historialConversion---------
+DELIMITER //
+create procedure sp_agregar_conversiones( in P_Moneda varchar(60),
+                                      in P_Valor varchar(60),
+                                      in P_IdPedido integer)
+begin
+	
+    insert into historialConversion(moneda,valor,idPedido)  values 
+    (P_Moneda,P_Valor,P_IdPedido);
+    
+end//
+DELIMITER ;
+call sp_agregar_conversiones("bitcoin","00.23445",1);
+select * from historialConversion;
+
+#----------vista de la tabla categoria---------
+create view vw_conversiones as (select * from historialConversion);
+select * from vw_conversiones;
+
+
+#------CREANDO TRIGGER para insetar el id de usuario a la persona
+    
