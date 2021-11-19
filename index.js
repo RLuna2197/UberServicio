@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const servicioUsuario = require('./servicios/ServiceUsuario');
 const servicioComentario = require('./servicios/ServiceComentario');
 const servicioPersona = require('./servicios/ServicePersona');
-
+const servicioImagen = require('./servicios/ServiceImagenServicio');
 //Validacion
 const validador = require('./servicios/validacion');
 
@@ -352,6 +352,135 @@ app.delete('/Personas/:idUsuario', (req, res) => {
     return res.status(200).send(JSON.stringify(resp));
 })
 
+//-------------------------------------------------------------------------------------------------
 
+//Tabla Imagen Servicio
+//Get
+app.get('/ImagenServicio/:idServicio', (req, res) => {
+    //Obtener parametro 
+    let idServicio= req.params.idServicio;
+    
+    servicioImagen.SeleccionarImagenByServicio(idServicio)
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Agregar Imagen
+app.post('/ImagenServicio', (req, res) => {
+    
+    let url = req.body.url;
+    let idServicio = req.body.idServicio;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+   
+    if (validador.validarDatos(url) || validador.validarDatos(idServicio) ) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioImagen.agregarImagen(url, idServicio)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+    })
+
+
+//Update SET
+app.put('/ImagenServicio/:idImagen', (req, res) => {
+
+   
+    //recibiendo del body
+    let url = req.body.url;
+    //recibiendo del parametro
+    let idImagen = req.params.idImagen;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(url) || validador.validarDatos(idImagen) ) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    } 
+    servicioImagen.actualizarImagen(url, idImagen)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
+
+//eliminar Persona
+app.delete('/ImagenServicio/:idImagen', (req, res) => {
+
+    let idImagen = req.params.idImagen;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idImagen)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioImagen.eliminarImagen(idImagen)
+    resp.mensaje = mensaje.mensajeOK;
+    res.set({
+        "Context-type": "Text/json"
+
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
 
 app.listen(3000);
