@@ -8,6 +8,7 @@ const servicioUsuario = require('./servicios/ServiceUsuario');
 const servicioComentario = require('./servicios/ServiceComentario');
 const servicioPersona = require('./servicios/ServicePersona');
 const servicioImagen = require('./servicios/ServiceImagenServicio');
+const servicioLogin = require('./servicios/ServiceLogin');
 //Validacion
 const validador = require('./servicios/validacion');
 
@@ -483,4 +484,42 @@ app.delete('/ImagenServicio/:idImagen', (req, res) => {
     return res.status(200).send(JSON.stringify(resp));
 })
 
+
+//login 
+
+const TOKEN_SECRET = "betheone$2021";
+
+//vamos a generar nuestro token
+function generarJWT(userName, password) {
+    // return jwt.sign(userName, TOKEN_SECRET, { expiresIn: 60 * 60 })
+    return jwt.sign(userName + password, TOKEN_SECRET);
+}
+
+app.post('/Login/:user/:pass', (req, res) => {
+
+    let user = req.params.user;
+    let pass = req.params.pass;
+    let token = "";
+
+    servicioLogin.login(user, pass)
+        .then(data => {
+            if (data[0]!=undefined && data[0]!=null) {
+                token = generarJWT(user,pass);
+                return res.status(200).json({
+                    "mensaje": token
+                })
+            } else {
+                return res.status(400).json({
+                    "mensaje": "Usuario no existe"
+                })
+            }
+
+        })
+        .catch(error => {
+            return res.status(500).json({
+                "mensaje": "Ocurrio un error"
+            })
+        })
+
+})
 app.listen(3000);
