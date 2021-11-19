@@ -1,5 +1,7 @@
 {
     "selectUsuarios" : "SELECT * FROM usuario",
-    "SelectUsuariosByUserName" : "select * from usuario WHERE usuarioNombre = ?"
+    "SelectUsuariosByUserName" : "select * from usuario WHERE usuarioNombre = ?",
+    "InsertUsuario": "call sp_agregar_usuarios(?,?,?,?,?)",
+    "deleteusuario" : "delete from usuario where idUsuario = ?"
     
 }

@@ -31,7 +31,36 @@ function SeleccionarUsuarioBynombreUsuario(usuarioNombre) {
     
 }
 
+//Metodo agregar
+function agregarUsuario(correo, usuarioNombre, contrasena, vendedor, comprador) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.InsertUsuario, [correo, usuarioNombre, contrasena, vendedor, comprador], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(resultado)
+            }
+        })
+    })
+}
+
+//Metodo eliminar 
+function eliminarUsuario(idUsuario) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.deleteusuario, [idUsuario], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(resultado)
+            }
+        })
+    })
+
+}
+
 module.exports = {
     ObtenerUsuarios : ObtenerUsuarios,
-    SeleccionarUsuarioBynombreUsuario : SeleccionarUsuarioBynombreUsuario
+    SeleccionarUsuarioBynombreUsuario : SeleccionarUsuarioBynombreUsuario,
+    agregarUsuario : agregarUsuario,
+    eliminarUsuario : eliminarUsuario
 }
