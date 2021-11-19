@@ -9,6 +9,7 @@ const servicioComentario = require('./servicios/ServiceComentario');
 const servicioPersona = require('./servicios/ServicePersona');
 const servicioImagen = require('./servicios/ServiceImagenServicio');
 const servicioLogin = require('./servicios/ServiceLogin');
+const servicio = require('./servicios/ServiceServicio');
 //Validacion
 const validador = require('./servicios/validacion');
 
@@ -483,7 +484,138 @@ app.delete('/ImagenServicio/:idImagen', (req, res) => {
     })
     return res.status(200).send(JSON.stringify(resp));
 })
+//-------------------------------------------------------------------------------------------------
 
+//Tabla Servicio
+
+//Get por servicio
+app.get('/Servicios/:idServicio', (req, res) => {
+    //Obtener parametro 
+    let idServicio= req.params.idServicio;
+
+
+    servicio.SeleccionarServicioById(idServicio)
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Get por categoria
+app.get('/Servicios/:idCategoria', (req, res) => {
+    //Obtener parametro 
+    let idCategoria = req.params.idCategoria;
+
+    
+    servicio.SeleccionarServicioByCate(idCategoria)
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Agregar Servicio
+app.post('/Servicios', (req, res) => {
+   
+    
+    let descripcion = req.body.descripcion;
+    let nombre = req.body.nombre;
+    let precio = req.body.precio;
+    let disponible = req.body.disponible;
+    let calificacion = req.body.calificacion;
+    let idCategoria = req.body.idCategoria;
+    let idPersona = req.body.idPersona;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+   
+    if (validador.validarDatos(descripcion) || validador.validarDatos(nombre) || validador.validarDatos(precio) || validador.validarDatos(disponible) || validador.validarDatos(calificacion) || validador.validarDatos(idCategoria) || validador.validarDatos(idPersona)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicio.agregarServicio(descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+    })
+
+
+//Update SET
+app.put('/Servicio/:idServicio', (req, res) => {
+
+   
+    //recibiendo del body
+    let descripcion = req.body.descripcion;
+    let nombre = req.body.nombre;
+    let precio = req.body.precio;
+    let disponible = req.body.disponible;
+    let calificacion = req.body.calificacion;
+    let idCategoria = req.body.idCategoria;
+  
+    //recibiendo del parametro
+    let idServicio = req.params.idServicio;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(descripcion) || validador.validarDatos(nombre) || validador.validarDatos(precio) || validador.validarDatos(disponible) || validador.validarDatos(calificacion) || validador.validarDatos(idCategoria) || validador.validarDatos(idServicio)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    } 
+    servicio.actualizarServicio(descripcion, nombre, precio, disponible, calificacion, idCategoria, idServicio)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
 
 //login 
 
