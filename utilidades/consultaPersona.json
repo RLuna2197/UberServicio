@@ -1,0 +1,7 @@
+{
+    "selectPersona" : "",
+    "SelectPersonaById" : "select * from persona WHERE idUsuario = ?",
+    "UpdatePersona": "UPDATE persona SET nombre=?, apellido=?, telefono=?, urlFoto=? WHERE idUsuario=?",
+    "deletePersona" : "delete from persona where idUsuario = ?"
+    
+}
