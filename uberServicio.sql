@@ -93,8 +93,6 @@ insert into usuario(correo,usuarioNombre,contrasena) values
 ("victor@gmail.com","victorv","victo123"),
 ("alezzo@gmail.com","alezzo","aless123");
 
-insert into pedido(Fecha, Hora, total) values
-('2021-11-17', '09:14:00', 3);
 
 insert into persona(nombre, apellido, telefono, urlFoto) values
 ("Cristina","Martinez","7777-2200","prueba1.jpg"),
@@ -137,3 +135,24 @@ select * from usuario;
 #vista de la tabla usuarios
 create view vw_usuarios as (select * from usuario);
 select * from vw_usuarios;
+
+
+DELIMITER //
+create procedure sp_agregar_comentario( in P_Comentario varchar(100),
+                                      in P_Calificacion int,
+                                      in P_IdServicio int,
+                                      in P_IdUsuario int)
+begin
+	declare v_prom float default 0;
+    insert into comentario(comentario,calificacion,idServicio,idUsuario)  values 
+    (P_Comentario,P_Calificacion,P_IdServicio,P_IdUsuario);
+    
+    select avg(calificacion) into v_prom from comentario where idServicio =P_IdServicio;
+    
+    UPDATE servicio SET calificacion= v_prom  WHERE idServicio=P_IdServicio;
+    
+end//
+DELIMITER ;
+
+select * from servicio;
+ALTER TABLE servicio MODIFY calificacion float;

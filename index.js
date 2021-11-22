@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 //Servicios
 const servicioUsuario = require('./servicios/ServiceUsuario');
@@ -23,17 +25,37 @@ const app = express();
 app.use(bodyparser.json());
 
 
+const swaggerOptions = {
+    swaggerDefinition:{
+        info:{
+            title : "UberService API",
+            description : "API desarrollada con Nodejs",
+            contact : {
+                name: "BeTheOne"
+            },
+            servers: ["http://localhost:3000"]
+        }
+
+    },
+    apis: ["index.js"]
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 
-
-// Tabla Comentario
-
-//Obetener Comentario por servicio
+/** 
+* 
+* /Comentarios
+*    get:
+*       description: Obtener los comentarios por el idServicio
+*/
 app.get('/Comentarios/:idServicio', (req, res) => {
     //Obtener parametro 
     let idServicio = req.params.idServicio;
     
+    console.log(idServicio)
     servicioComentario.SeleccionarComentarioByServicio(idServicio)
         .then(data => {
                 res.status(200).send(data);
@@ -109,7 +131,7 @@ app.put('/Comentarios/:idComentario', (req, res) => {
 
     if (validador.validarDatos(comentario) || validador.validarDatos(calificacion) || validador.validarDatos(idComentario)) {
         resp.status = 400;
-        resp.mensaje = mensajes.MensajeValidador
+        resp.mensaje = mensaje.MensajeValidador
 
         res.set({
             "Content-type": "Text/json"
@@ -642,7 +664,7 @@ app.post('/Login/:user/:pass', (req, res) => {
                 })
             } else {
                 return res.status(400).json({
-                    "mensaje": "Usuario no existe"
+                    "mensaje": "El usuario o contraseña no coincide."
                 })
             }
 
