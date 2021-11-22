@@ -52,7 +52,7 @@ function eliminarHistorialConversion(idConversion) {
 
 module.exports = {
     obtenerHistorialConversion: obtenerHistorialConversion,
-    // agregarHistorialConversion: agregarHistorialConversion,
+    //agregarHistorialConversion: agregarHistorialConversion,
     seleccionarHConversionByPedido: seleccionarHConversionByPedido,
     eliminarHistorialConversion: eliminarHistorialConversion
 }

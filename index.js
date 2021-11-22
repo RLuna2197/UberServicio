@@ -119,7 +119,7 @@ app.put('/Comentarios/:idComentario', (req, res) => {
     }
     servicioComentario.actualizarComentario(comentario, calificacion, idComentario)
         .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
+            resp.mensaje = mensaje.mensajeOKUpdate;
             res.set({
                 "Context-type": "Text/json"
 
@@ -158,7 +158,7 @@ app.delete('/Comentarios/:idComentario', (req, res) => {
 
     }
     servicioComentario.eliminarComentario(idComentario)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -248,7 +248,7 @@ app.delete('/Usuarios/:idUsuario', (req, res) => {
 
     }
     servicioUsuario.eliminarUsuario(idUsuario)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -307,7 +307,7 @@ app.put('/Personas/:idUsuario', (req, res) => {
 
     servicioPersona.actualizarPersona(nombre, apellido, telefono, urlFoto, idUsuario)
         .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
+            resp.mensaje = mensaje.mensajeOKUpdate;
             res.set({
                 "Context-type": "Text/json"
 
@@ -346,7 +346,7 @@ app.delete('/Personas/:idUsuario', (req, res) => {
 
     }
     servicioPersona.eliminarPersona(idUsuario)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -438,7 +438,7 @@ app.put('/ImagenServicio/:idImagen', (req, res) => {
     }
     servicioImagen.actualizarImagen(url, idImagen)
         .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
+            resp.mensaje = mensaje.mensajeOKUpdate;
             res.set({
                 "Context-type": "Text/json"
 
@@ -477,7 +477,7 @@ app.delete('/ImagenServicio/:idImagen', (req, res) => {
 
     }
     servicioImagen.eliminarImagen(idImagen)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -593,6 +593,7 @@ app.post('/Categoria', (req, res) => {
         mensaje: ""
     }
 
+    console.log(nombreCategoria, descripcionCategoria, idCategoria);
     if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria) || validador.validarDatos(idCategoria)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador
@@ -620,6 +621,52 @@ app.post('/Categoria', (req, res) => {
         })
 }*/
 
+app.put('/Categoria/:idCategoria', (req, res) => {
+    //recibiendo del body
+    let nombreCategoria = req.body.nombreCategoria;
+    let descripcionCategoria = req.body.descripcionCategoria;
+
+
+
+    //recibiendo del parametro
+    let idCategoria = req.params.idCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria) || validador.validarDatos(idCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioCategoria.actualizaCategoria(nombreCategoria, descripcionCategoria, idCategoria)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOKUpdate;
+            res.set({
+                "Context-type": "Text/json"
+
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
+
+
 //Eliminar Categoria
 app.delete('/Categoria/:idCategoria', (req, res) => {
     let idCategoria = req.params.idCategoria;
@@ -640,7 +687,7 @@ app.delete('/Categoria/:idCategoria', (req, res) => {
 
     }
     servicioCategoria.eliminarCategoria(idCategoria)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
     })
@@ -721,7 +768,7 @@ app.delete('/Pedido/:idPedido', (req, res) => {
         return res.status(400).send(JSON.stringify(resp));
     }
     servicioPedido.borrarPedido(idPedido)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
     })
@@ -744,6 +791,7 @@ app.get('/HistoConversion/:idPedido', (req, res) => {
         })
 })
 
+//Obtener historial conversion
 app.get('/HistoConversion', (req, res) => {
     servicioHConversion.obtenerHistorialConversion()
         .then(data => {
@@ -754,8 +802,49 @@ app.get('/HistoConversion', (req, res) => {
         })
 })
 
+//agregar Historial Conversion
+/*  app.post('/HistoConversion', (req, res) => {
+
+    let moneda = req.body.moneda;
+    let valor = req.body.valor;
+    let idPedido = req.body.idPedido;
 
 
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    console.log(moneda, valor, idPedido)
+    if (validador.validarDatos(moneda) || validador.validarDatos(valor) || validador.validarDatos(idPedido)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioHConversion.agregarHistorialConversion(moneda, valor, idPedido)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})*/
+
+
+//eliminar Historial Conversion
 app.delete('/HistoConversion/:idConversion', (req, res) => {
     let idConversion = req.params.idConversion;
 
@@ -774,7 +863,7 @@ app.delete('/HistoConversion/:idConversion', (req, res) => {
         return res.status(400).send(JSON.stringify(resp));
     }
     servicioHConversion.eliminarHistorialConversion(idConversion)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
     })

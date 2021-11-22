@@ -25,9 +25,9 @@ function agregarCategoria(nombreCategoria, descripcionCategoria) {
     })
 }
 
-function actualizarCategoria(nombreCategoria, descripcionCategoria, idCategoria) {
+function actualizaCategoria(nombreCategoria, descripcionCategoria, idCategoria) {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.actualizaCategoria, [nombreCategoria, descripcionCategoria, idCategoria], (error, resultado) => {
+        conexion.query(consulta.updateCategoria, [nombreCategoria, descripcionCategoria, idCategoria], (error, resultado) => {
             if (error) {
                 reject(error)
             } else {
@@ -52,6 +52,6 @@ function eliminarCategoria(idCategoria) {
 module.exports = {
     ObenterCategorias: ObenterCategorias,
     agregarCategoria: agregarCategoria,
-    actualizarCategoria: actualizarCategoria,
+    actualizaCategoria: actualizaCategoria,
     eliminarCategoria: eliminarCategoria
 }
