@@ -1,6 +1,6 @@
 {
-    "selectCategoriaByServicio": "select * from categoria where idCategoria=?",
+    "selectCategoria": "select * from categoria",
     "insertCategoria": "INSERT INTO categoria (nombreCategoria,descripcionCategoria) values(?,?)",
-    "updateCategoria": "UPDATE categoria set nombreCategoria=?, descripcionCategoria=? WHERE idCategoria=?",
+    "actualizaCategoria": "UPDATE categoria set nombreCategoria=?, descripcionCategoria=? WHERE idCategoria=?",
     "deleteCategoria": "delete from categoria where idCategoria=?"
 }

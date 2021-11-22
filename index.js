@@ -9,11 +9,15 @@ const servicioComentario = require('./servicios/ServiceComentario');
 const servicioPersona = require('./servicios/ServicePersona');
 const servicioImagen = require('./servicios/ServiceImagenServicio');
 const servicioLogin = require('./servicios/ServiceLogin');
+const servicioCategoria = require('./servicios/ServiceCategoria');
+const servicioPedido = require('./servicios/ServicePedido');
+const servicioHConversion = require('./servicios/ServiceHistorialConversion');
 //Validacion
 const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
+const { Router } = require('express');
 
 //express
 const app = express();
@@ -23,16 +27,13 @@ app.use(bodyparser.json());
 
 
 
-
-
-
 // Tabla Comentario
 
 //Obetener Comentario por servicio
 app.get('/Comentarios/:idServicio', (req, res) => {
     //Obtener parametro 
     let idServicio = req.params.idServicio;
-    
+
     servicioComentario.SeleccionarComentarioByServicio(idServicio)
         .then(data => {
                 res.status(200).send(data);
@@ -48,7 +49,7 @@ app.get('/Comentarios/:idServicio', (req, res) => {
 //Agregar Comentario
 
 app.post('/Comentarios', (req, res) => {
- 
+
     let comentario = req.body.comentario;
     let calificacion = req.body.calificacion;
     let idServicio = req.body.idServicio;
@@ -58,8 +59,8 @@ app.post('/Comentarios', (req, res) => {
         status: 200,
         mensaje: ""
     }
-   
-  
+
+
     if (validador.validarDatos(comentario) || validador.validarDatos(calificacion) || validador.validarDatos(idServicio) || validador.validarDatos(idUsuario)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador;
@@ -185,7 +186,7 @@ app.get('/Usuarios', (req, res) => {
 //Agregar Usuarios
 
 app.post('/Usuarios', (req, res) => {
-    
+
     let correo = req.body.correo;
     let usuarioNombre = req.body.usuarioNombre;
     let contrasena = req.body.contrasena;
@@ -196,9 +197,9 @@ app.post('/Usuarios', (req, res) => {
         status: 200,
         mensaje: ""
     }
-   
+
     console.log(correo, usuarioNombre, contrasena, vendedor, comprador)
-    if (validador.validarDatos(correo) || validador.validarDatos(usuarioNombre) || validador.validarDatos(contrasena) ) {
+    if (validador.validarDatos(correo) || validador.validarDatos(usuarioNombre) || validador.validarDatos(contrasena)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador;
 
@@ -223,7 +224,7 @@ app.post('/Usuarios', (req, res) => {
             resp.mensaje = mensajes.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
-    })
+})
 
 
 //eliminar usuario
@@ -263,7 +264,7 @@ app.delete('/Usuarios/:idUsuario', (req, res) => {
 app.get('/Personas/:idUsuario', (req, res) => {
     //Obtener parametro 
     let idUsuario = req.params.idUsuario;
-    
+
     servicioPersona.SeleccionarPersonaByID(idUsuario)
         .then(data => {
                 res.status(200).send(data);
@@ -279,7 +280,7 @@ app.get('/Personas/:idUsuario', (req, res) => {
 //Update SET
 app.put('/Personas/:idUsuario', (req, res) => {
 
-   
+
     //recibiendo del body
     let nombre = req.body.nombre;
     let apellido = req.body.apellido;
@@ -302,8 +303,8 @@ app.put('/Personas/:idUsuario', (req, res) => {
         })
         return res.status(400).send(JSON.stringify(resp));
 
-    } 
-    
+    }
+
     servicioPersona.actualizarPersona(nombre, apellido, telefono, urlFoto, idUsuario)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
@@ -359,8 +360,8 @@ app.delete('/Personas/:idUsuario', (req, res) => {
 //Get
 app.get('/ImagenServicio/:idServicio', (req, res) => {
     //Obtener parametro 
-    let idServicio= req.params.idServicio;
-    
+    let idServicio = req.params.idServicio;
+
     servicioImagen.SeleccionarImagenByServicio(idServicio)
         .then(data => {
                 res.status(200).send(data);
@@ -374,7 +375,7 @@ app.get('/ImagenServicio/:idServicio', (req, res) => {
 
 //Agregar Imagen
 app.post('/ImagenServicio', (req, res) => {
-    
+
     let url = req.body.url;
     let idServicio = req.body.idServicio;
 
@@ -382,8 +383,8 @@ app.post('/ImagenServicio', (req, res) => {
         status: 200,
         mensaje: ""
     }
-   
-    if (validador.validarDatos(url) || validador.validarDatos(idServicio) ) {
+
+    if (validador.validarDatos(url) || validador.validarDatos(idServicio)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador;
 
@@ -408,13 +409,13 @@ app.post('/ImagenServicio', (req, res) => {
             resp.mensaje = mensajes.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
-    })
+})
 
 
 //Update SET
 app.put('/ImagenServicio/:idImagen', (req, res) => {
 
-   
+
     //recibiendo del body
     let url = req.body.url;
     //recibiendo del parametro
@@ -425,7 +426,7 @@ app.put('/ImagenServicio/:idImagen', (req, res) => {
         mensaje: ""
     }
 
-    if (validador.validarDatos(url) || validador.validarDatos(idImagen) ) {
+    if (validador.validarDatos(url) || validador.validarDatos(idImagen)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador
 
@@ -434,7 +435,7 @@ app.put('/ImagenServicio/:idImagen', (req, res) => {
         })
         return res.status(400).send(JSON.stringify(resp));
 
-    } 
+    }
     servicioImagen.actualizarImagen(url, idImagen)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
@@ -503,8 +504,8 @@ app.post('/Login/:user/:pass', (req, res) => {
 
     servicioLogin.login(user, pass)
         .then(data => {
-            if (data[0]!=undefined && data[0]!=null) {
-                token = generarJWT(user,pass);
+            if (data[0] != undefined && data[0] != null) {
+                token = generarJWT(user, pass);
                 return res.status(200).json({
                     "mensaje": token
                 })
@@ -522,4 +523,262 @@ app.post('/Login/:user/:pass', (req, res) => {
         })
 
 })
+
+//-------------------------------------------------------------------------------------------------
+
+//Tabla Categoria
+
+//ObtenerCategorias
+app.get('/Categoria', (req, res) => {
+    servicioCategoria.ObenterCategorias()
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//agregar Categorias
+app.post('/Categoria', (req, res) => {
+    let nombreCategoria = req.body.nombreCategoria;
+    let descripcionCategoria = req.body.descripcionCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+
+    if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+
+    servicioCategoria.agregarCategoria(nombreCategoria, descripcionCategoria)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-Type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})
+
+//Editar Categoria --Tiene problemas para actualizar. 
+/*app.put('/Categoria/:idCategoria'), (req, res) => {
+    let nombreCategoria = req.body.nombreCategoria;
+    let descripcionCategoria = req.body.descripcionCategoria;
+
+    let idCategoria = req.params.idCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria) || validador.validarDatos(idCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Context-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
+    servicioCategoria.actualizarCategoria(nombreCategoria, descripcionCategoria, idCategoria)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+}*/
+
+//Eliminar Categoria
+app.delete('/Categoria/:idCategoria', (req, res) => {
+    let idCategoria = req.params.idCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioCategoria.eliminarCategoria(idCategoria)
+    resp.mensaje = mensaje.mensajeOK;
+    res.set({
+        "Context-type": "Text/json"
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
+//-------------------------------------------------------------------------------------------------
+
+//Tabla Pedido
+//Consultar pedidos
+app.get('/Pedido', (req, res) => {
+    servicioPedido.obtenerPedidos()
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Agregar Pedidos
+app.post("/Pedido", (req, res) => {
+    let fechaInicio = req.body.fechaInicio;
+    let fechaFin = req.body.fechaFin;
+    let horaInicio = req.body.horaInicio;
+    let horaFin = req.body.horaFin;
+    let total = req.body.total;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.mensajeError;
+
+        res.set({
+            "Context-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})
+
+//Eliminar pedido
+app.delete('/Pedido/:idPedido', (req, res) => {
+
+    let idPedido = req.params.idPedido;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idPedido)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
+    servicioPedido.borrarPedido(idPedido)
+    resp.mensaje = mensaje.mensajeOK;
+    res.set({
+        "Context-type": "Text/json"
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
+//----------------------------------------------------------------
+//Tabla Historial Conversion
+
+//Obtener hc por pedidos
+app.get('/HistoConversion/:idPedido', (req, res) => {
+    let idPedido = req.params.idPedido;
+
+    servicioHConversion.seleccionarHConversionByPedido(idPedido)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+app.get('/HistoConversion', (req, res) => {
+    servicioHConversion.obtenerHistorialConversion()
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+
+
+app.delete('/HistoConversion/:idConversion', (req, res) => {
+    let idConversion = req.params.idConversion;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idConversion)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
+    servicioHConversion.eliminarHistorialConversion(idConversion)
+    resp.mensaje = mensaje.mensajeOK;
+    res.set({
+        "Context-type": "Text/json"
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
 app.listen(3000);

@@ -1,9 +1,9 @@
 const conexion = require('../db/conexionDB');
 const consulta = require('../utilidades/consultaCategoria.json');
 
-function SeleccionarCategoriaByServicio(idCategoria) {
+function ObenterCategorias() {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.selectCategoriaByServicio, [idCategoria], (error, resultado) => {
+        conexion.query(consulta.selectCategoria, (error, resultado) => {
             if (error) {
                 reject(error)
             } else {
@@ -25,9 +25,9 @@ function agregarCategoria(nombreCategoria, descripcionCategoria) {
     })
 }
 
-function actualizarCategoria(nombreCategoria, descripcionCategoria) {
+function actualizarCategoria(nombreCategoria, descripcionCategoria, idCategoria) {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.updateCategoria, [nombreCategoria, descripcionCategoria], (error, resultado) => {
+        conexion.query(consulta.actualizaCategoria, [nombreCategoria, descripcionCategoria, idCategoria], (error, resultado) => {
             if (error) {
                 reject(error)
             } else {
@@ -39,7 +39,7 @@ function actualizarCategoria(nombreCategoria, descripcionCategoria) {
 
 function eliminarCategoria(idCategoria) {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.updateCategoria, [idCategoria], (error, resultado) => {
+        conexion.query(consulta.deleteCategoria, [idCategoria], (error, resultado) => {
             if (error) {
                 reject(error)
             } else {
@@ -50,7 +50,7 @@ function eliminarCategoria(idCategoria) {
 }
 
 module.exports = {
-    SeleccionarCategoriaByServicio: SeleccionarCategoriaByServicio,
+    ObenterCategorias: ObenterCategorias,
     agregarCategoria: agregarCategoria,
     actualizarCategoria: actualizarCategoria,
     eliminarCategoria: eliminarCategoria
