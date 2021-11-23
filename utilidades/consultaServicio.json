@@ -1,7 +1,7 @@
 {
-    "selectServiciobyCategoria" : "select * from servicio where idCategoria =? and disponible =?",
-    "SelectServicioById" : "select * from servicio WHERE idServicio = ? and disponible =?",
-    "insertServicio": "INSERT INTO categoria (descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona) values(?,?,?,?,?,?,?)",
-    "UpdateServicio": "UPDATE servicio SET descripcion=?, nombre=?, precio=?, disponible=? calificacion=? idCategoria=? WHERE idServicio=?"
+    "selectServiciobyCategoria" : "select * from servicio where idCategoria =? and disponible =1",
+    "SelectServicioById" : "select * from servicio WHERE idServicio = ?",
+    "insertServicio": "INSERT INTO servicio (descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona) values(?,?,?,?,?,?,?)",
+    "UpdateServicio": "UPDATE servicio SET descripcion=?, nombre=?, precio=?, disponible=?, calificacion=?, idCategoria=? WHERE idServicio=?"
     
 }

@@ -50,7 +50,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 *    get:
 *       description: Obtener los comentarios por el idServicio
 */
-app.get('/Comentarios/:idServicio', (req, res) => {
+app.get('/Comentarios/:idServicio', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idServicio = req.params.idServicio;
     
@@ -540,7 +540,7 @@ app.put('/ImagenServicio/:idImagen', (req, res) => {
 })
 
 //eliminar Persona
-app.delete('/ImagenServicio/:idImagen', (req, res) => {
+app.delete('/ImagenServicio/:idImagen',  (req, res) => {
 
     let idImagen = req.params.idImagen;
 
@@ -572,7 +572,7 @@ app.delete('/ImagenServicio/:idImagen', (req, res) => {
 //Tabla Servicio
 
 //Get por servicio
-app.get('/Servicios/:idServicio', (req, res) => {
+app.get('/Servicios/:idServicio', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idServicio= req.params.idServicio;
 
@@ -589,7 +589,7 @@ app.get('/Servicios/:idServicio', (req, res) => {
 })
 
 //Get por categoria
-app.get('/Servicios/:idCategoria', (req, res) => {
+app.get('/Servicios/Categoria/:idCategoria', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idCategoria = req.params.idCategoria;
 
@@ -606,9 +606,8 @@ app.get('/Servicios/:idCategoria', (req, res) => {
 })
 
 //Agregar Servicio
-app.post('/Servicios', (req, res) => {
+app.post('/Servicios' ,autenticarToken, validador.validate(validador.ServiceValidation) ,(req, res) => {
    
-    
     let descripcion = req.body.descripcion;
     let nombre = req.body.nombre;
     let precio = req.body.precio;
@@ -644,16 +643,15 @@ app.post('/Servicios', (req, res) => {
             res.set({
                 "Context-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
     })
 
 
 //Update SET
-app.put('/Servicio/:idServicio', (req, res) => {
+app.put('/Servicios/:idServicio', autenticarToken, validador.validate(validador.ServiceValidation), (req, res) => {
 
-   
     //recibiendo del body
     let descripcion = req.body.descripcion;
     let nombre = req.body.nombre;
@@ -669,7 +667,7 @@ app.put('/Servicio/:idServicio', (req, res) => {
         status: 200,
         mensaje: ""
     }
-
+    
     if (validador.validarDatos(descripcion) || validador.validarDatos(nombre) || validador.validarDatos(precio) || validador.validarDatos(disponible) || validador.validarDatos(calificacion) || validador.validarDatos(idCategoria) || validador.validarDatos(idServicio)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador
@@ -694,7 +692,7 @@ app.put('/Servicio/:idServicio', (req, res) => {
             res.set({
                 "Content-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError +data
             return res.status(200).send(JSON.stringify(resp));
         })
 

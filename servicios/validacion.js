@@ -51,9 +51,24 @@ function PersonValidation(data) {
     schema.validateSync(data);
 }
 
+function ServiceValidation(data) {
+    const schema = yup.object().shape({
+        descripcion: yup.string().max(1000),
+        nombre: yup.string().max(100).required(),
+        precio : yup.number().positive().required(),
+        disponible: yup.bool().required(),
+        calificacion : yup.number(),
+        idCategoria : yup.number().integer().positive().required(),
+        idPersona : yup.number().integer().positive().required()
+    });
+    
+    schema.validateSync(data);
+}
+
 module.exports = {
     validarDatos: validarDatos,
     validate: validate,
     createUsersValidation : createUsersValidation,
-    PersonValidation : PersonValidation
+    PersonValidation : PersonValidation,
+    ServiceValidation : ServiceValidation
 }
