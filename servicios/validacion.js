@@ -65,10 +65,22 @@ function ServiceValidation(data) {
     schema.validateSync(data);
 }
 
+function CommentValidation(data) {
+    const schema = yup.object().shape({
+        comentario: yup.string().max(1000),
+        calificacion: yup.number().integer().positive().required(),
+        idServicio : yup.number().integer().positive().required(),
+        idUsuario: yup.number().integer().positive().required()
+    });
+    
+    schema.validateSync(data);
+}
+
 module.exports = {
     validarDatos: validarDatos,
     validate: validate,
     createUsersValidation : createUsersValidation,
     PersonValidation : PersonValidation,
-    ServiceValidation : ServiceValidation
+    ServiceValidation : ServiceValidation,
+    CommentValidation : CommentValidation
 }

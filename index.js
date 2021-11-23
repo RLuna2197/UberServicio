@@ -68,7 +68,7 @@ app.get('/Comentarios/:idServicio', autenticarToken, (req, res) => {
 
 //Agregar Comentario
 
-app.post('/Comentarios', (req, res) => {
+app.post('/Comentarios', autenticarToken, validador.validate(validador.CommentValidation), (req, res) => {
  
     let comentario = req.body.comentario;
     let calificacion = req.body.calificacion;
@@ -111,7 +111,7 @@ app.post('/Comentarios', (req, res) => {
 })
 
 //Editar Comentario
-app.put('/Comentarios/:idComentario', (req, res) => {
+app.put('/Comentarios/:idComentario', autenticarToken, validador.validate(validador.CommentValidation), (req, res) => {
     //recibiendo del body
     let comentario = req.body.comentario;
     let calificacion = req.body.calificacion;
@@ -157,7 +157,7 @@ app.put('/Comentarios/:idComentario', (req, res) => {
 })
 
 //Eliminar Comentario
-app.delete('/Comentarios/:idComentario', (req, res) => {
+app.delete('/Comentarios/:idComentario', autenticarToken, (req, res) => {
 
     let idComentario = req.params.idComentario;
 
