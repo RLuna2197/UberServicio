@@ -1,6 +1,5 @@
 create database uberServicio;
 use uberServicio;
-
 create table categoria(
 	 idCategoria integer primary key auto_increment,
 	nombreCategoria varchar(50),
@@ -15,7 +14,6 @@ create table usuario(
     vendedor boolean,
     comprador boolean
     );
-    
     
 create table pedido(
 	 idPedido integer primary key auto_increment,
@@ -80,8 +78,69 @@ create table pedidoServicio(
     foreign key(idServicio) references servicio(idServicio),
     primary key(idPedido, idServicio)
     );
+ 
+ALTER TABLE servicio MODIFY calificacion float;
+ALTER TABLE usuario modify usuarioNombre varchar(20) unique;
+ALTER TABLE usuario modify correo varchar(100) unique;
+ALTER TABLE usuario ADD estado Boolean;
+
+#procedimientos
+
+#procedimiento almacenado que permite insertar valores en la tabla de usuarios.
+DELIMITER //
+create procedure sp_agregar_usuarios( in P_Correo varchar(100),
+                                      in P_UsuarioNombre varchar(50),
+                                      in P_Contrasena varchar(20),
+                                      in P_vendedor boolean,
+                                      in P_Comprador boolean,
+                                      in P_estado boolean)
+begin
+	
+    insert into usuario(correo,usuarioNombre,contrasena,vendedor,comprador, estado)  values 
+    (P_Correo,P_UsuarioNombre,P_Contrasena,P_Vendedor,P_Comprador, 1);
     
+end//
+DELIMITER;
+
+call sp_agregar_usuarios("prueba@gmail.com","prueba","prueba123",0,0);
+
+#vista de la tabla usuarios
+create view vw_usuarios as (select * from usuario);
+select * from vw_usuarios;
+
+
+DELIMITER //
+create procedure sp_agregar_comentario( in P_Comentario varchar(100),
+                                      in P_Calificacion int,
+                                      in P_IdServicio int,
+                                      in P_IdUsuario int)
+begin
+	declare v_prom float default 0;
+    insert into comentario(comentario,calificacion,idServicio,idUsuario)  values 
+    (P_Comentario,P_Calificacion,P_IdServicio,P_IdUsuario);
     
+    select avg(calificacion) into v_prom from comentario where idServicio =P_IdServicio;
+    
+    UPDATE servicio SET calificacion= v_prom  WHERE idServicio=P_IdServicio;
+    
+end//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER tg_agregar_persona
+after insert on usuario
+for each row
+BEGIN
+	declare v_usuario int default 0;
+    select idUsuario into v_usuario from usuario where idUsuario = new.idUsuario;
+    
+    insert into persona(idUsuario, nombre, apellido, telefono, urlFoto) value(v_usuario, "","","","");
+
+END //
+DELIMITER ;
+
+
 #Agregando datos a la tablas
 
 insert into Categoria(nombreCategoria,descripcionCategoria) VALUES
@@ -110,49 +169,3 @@ insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Muy buen servicio, lo recomiendo",10,1,1),
 ("Lo recomiendo",10,2,2);
-
-
-#procedimientos
-
-#procedimiento almacenado que permite insertar valores en la tabla de usuarios.
-DELIMITER //
-create procedure sp_agregar_usuarios( in P_Correo varchar(60),
-                                      in P_UsuarioNombre varchar(50),
-                                      in P_Contrasena varchar(20),
-                                      in P_Vendedor boolean,
-                                      in P_Comprador boolean)
-begin
-	
-    insert into usuario(correo,usuarioNombre,contrasena,vendedor,comprador)  values 
-    (P_Correo,P_UsuarioNombre,P_Contrasena,P_Vendedor,P_Comprador);
-    
-end//
-DELIMITER ;
-
-call sp_agregar_usuarios("erickrapalo@gmail.com","erickra","erick123",1,1);
-select * from usuario;
-
-#vista de la tabla usuarios
-create view vw_usuarios as (select * from usuario);
-select * from vw_usuarios;
-
-
-DELIMITER //
-create procedure sp_agregar_comentario( in P_Comentario varchar(100),
-                                      in P_Calificacion int,
-                                      in P_IdServicio int,
-                                      in P_IdUsuario int)
-begin
-	declare v_prom float default 0;
-    insert into comentario(comentario,calificacion,idServicio,idUsuario)  values 
-    (P_Comentario,P_Calificacion,P_IdServicio,P_IdUsuario);
-    
-    select avg(calificacion) into v_prom from comentario where idServicio =P_IdServicio;
-    
-    UPDATE servicio SET calificacion= v_prom  WHERE idServicio=P_IdServicio;
-    
-end//
-DELIMITER ;
-
-select * from servicio;
-ALTER TABLE servicio MODIFY calificacion float;

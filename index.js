@@ -17,6 +17,7 @@ const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
+const validacion = require('./servicios/validacion');
 
 //express
 const app = express();
@@ -44,7 +45,6 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
-
 /** 
 * 
 * /Comentarios
@@ -67,14 +67,13 @@ app.get('/Comentarios/:idServicio', (req, res) => {
         })
 })
 
-
 //Agregar Comentario
 
 app.post('/Comentarios', (req, res) => {
  
     let comentario = req.body.comentario;
     let calificacion = req.body.calificacion;
-    let idServicio = req.body.idServicio;
+    let idServicio = req.body.idServicio; 
     let idUsuario = req.body.idUsuario;
 
     let resp = {
@@ -111,7 +110,6 @@ app.post('/Comentarios', (req, res) => {
         })
 
 })
-
 
 //Editar Comentario
 app.put('/Comentarios/:idComentario', (req, res) => {
@@ -193,7 +191,7 @@ app.delete('/Comentarios/:idComentario', (req, res) => {
 //Tabla Usuario
 
 //ObtenerUsuarios
-app.get('/Usuarios', (req, res) => {
+app.get('/Usuarios', autenticarToken, (req, res) => {
     servicioUsuario.ObtenerUsuarios()
         .then(data => {
                 res.status(200).send(data);
@@ -205,23 +203,40 @@ app.get('/Usuarios', (req, res) => {
         })
 })
 
-//Agregar Usuarios
+//Obtener usuario por userName
+app.get('/Usuarios/:usuarioNombre', autenticarToken,  (req, res) => {
+    //Obtener parametro 
+    let usuarioNombre = req.params.usuarioNombre;
+    
+    servicioUsuario.SeleccionarUsuarioBynombreUsuario(usuarioNombre)
+        .then(data => {
+                res.status(200).send(data);
+            }
 
-app.post('/Usuarios', (req, res) => {
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Agregar Usuarios
+app.post('/Usuarios', autenticarToken, validador.validate(validador.createUsersValidation), (req, res) => {
     
     let correo = req.body.correo;
     let usuarioNombre = req.body.usuarioNombre;
     let contrasena = req.body.contrasena;
     let vendedor = req.body.vendedor;
     let comprador = req.body.comprador;
+    let estado = req.body.estado;
 
     let resp = {
         status: 200,
         mensaje: ""
     }
    
-    console.log(correo, usuarioNombre, contrasena, vendedor, comprador)
-    if (validador.validarDatos(correo) || validador.validarDatos(usuarioNombre) || validador.validarDatos(contrasena) ) {
+    
+    if (validador.validarDatos(correo) || validador.validarDatos(usuarioNombre) || validador.validarDatos(contrasena) 
+        || validador.validarDatos(vendedor) || validador.validarDatos(comprador)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador;
 
@@ -230,7 +245,7 @@ app.post('/Usuarios', (req, res) => {
         })
         return res.status(400).send(JSON.stringify(resp))
     }
-    servicioUsuario.agregarUsuario(correo, usuarioNombre, contrasena, vendedor, comprador)
+    servicioUsuario.agregarUsuario(correo, usuarioNombre, contrasena, vendedor, comprador, estado)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
             res.set({
@@ -243,14 +258,62 @@ app.post('/Usuarios', (req, res) => {
             res.set({
                 "Context-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError + data;
             return res.status(200).send(JSON.stringify(resp));
         })
     })
 
+//Editar usuarios
+app.put('/Usuarios/:idUsuario', autenticarToken, validador.validate(validador.createUsersValidation), (req, res) => {
+        //recibiendo del body
+    let correo = req.body.correo;
+    let usuarioNombre = req.body.usuarioNombre;
+    let contrasena = req.body.contrasena;
+    let vendedor = req.body.vendedor;
+    let comprador = req.body.comprador;
+    let estado = req.body.estado;
+  
+        //recibiendo del parametro
+        let idUsuario = req.params.idUsuario;
+    
+        let resp = {
+            status: 200,
+            mensaje: ""
+        }
+    
+        if (validador.validarDatos(correo) || validador.validarDatos(usuarioNombre) || validador.validarDatos(contrasena) 
+        || validador.validarDatos(vendedor) || validador.validarDatos(comprador)) {
+            resp.status = 400;
+            resp.mensaje = mensaje.MensajeValidador
+    
+            res.set({
+                "Content-type": "Text/json"
+            })
+            return res.status(400).send(JSON.stringify(resp));
+    
+        }
+        servicioUsuario.actualizarUsuario(correo, usuarioNombre, contrasena, vendedor, comprador, estado, idUsuario)
+            .then(data => {
+                resp.mensaje = mensaje.mensajeOK;
+                res.set({
+                    "Context-type": "Text/json"
+    
+                })
+                return res.status(200).send(JSON.stringify(resp));
+            })
+            .catch(data => {
+                resp.status = 500;
+                res.set({
+                    "Content-type": "Text/json"
+                })
+                resp.mensaje = mensajes.mensajeError
+                return res.status(200).send(JSON.stringify(resp));
+            })
+    
+    })   
 
 //eliminar usuario
-app.delete('/Usuarios/:idUsuario', (req, res) => {
+app.delete('/Usuarios/:idUsuario', autenticarToken, (req, res) => {
 
     let idUsuario = req.params.idUsuario;
 
@@ -649,11 +712,41 @@ function generarJWT(userName, password) {
     return jwt.sign(userName + password, TOKEN_SECRET);
 }
 
+
+function autenticarToken(req, res, next) {
+
+    const authHeader = req.headers['llave']
+    const token = authHeader && authHeader.split(' ')[1]
+ 
+    if (token == null) return res.status(401).json({"Mensaje":"Debe iniciar sesion"})
+
+    jwt.verify(token, TOKEN_SECRET, (err, user) => {
+        console.log(err)
+
+        if (err) return res.status(401).json({"Mensaje":"Debe iniciar sesion"})
+
+        req.user = user
+
+        next();
+    })
+
+}
+
 app.post('/Login/:user/:pass', (req, res) => {
 
     let user = req.params.user;
     let pass = req.params.pass;
     let token = "";
+
+    if(validador.validarDatos(user) || validador.validarDatos(pass)){
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
 
     servicioLogin.login(user, pass)
         .then(data => {
@@ -674,6 +767,6 @@ app.post('/Login/:user/:pass', (req, res) => {
                 "mensaje": "Ocurrio un error"
             })
         })
-
+        
 })
 app.listen(3000);
