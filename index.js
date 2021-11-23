@@ -441,7 +441,7 @@ app.delete('/Personas/:idUsuario', (req, res) => {
 
 //Tabla Imagen Servicio
 //Get
-app.get('/ImagenServicio/:idServicio', (req, res) => {
+app.get('/ImagenServicio/:idServicio', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idServicio= req.params.idServicio;
     
@@ -457,7 +457,7 @@ app.get('/ImagenServicio/:idServicio', (req, res) => {
 })
 
 //Agregar Imagen
-app.post('/ImagenServicio', (req, res) => {
+app.post('/ImagenServicio', autenticarToken, validador.validate(validador.ImageServiceValidation), (req, res) => {
     
     let url = req.body.url;
     let idServicio = req.body.idServicio;
@@ -496,7 +496,7 @@ app.post('/ImagenServicio', (req, res) => {
 
 
 //Update SET
-app.put('/ImagenServicio/:idImagen', (req, res) => {
+app.put('/ImagenServicio/:idImagen', autenticarToken, validador.validate(validador.ImageServiceValidation), (req, res) => {
 
    
     //recibiendo del body
@@ -539,8 +539,8 @@ app.put('/ImagenServicio/:idImagen', (req, res) => {
 
 })
 
-//eliminar Persona
-app.delete('/ImagenServicio/:idImagen',  (req, res) => {
+//eliminar 
+app.delete('/ImagenServicio/:idImagen', autenticarToken, (req, res) => {
 
     let idImagen = req.params.idImagen;
 

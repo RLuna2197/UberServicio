@@ -76,11 +76,21 @@ function CommentValidation(data) {
     schema.validateSync(data);
 }
 
+function ImageServiceValidation(data) {
+    const schema = yup.object().shape({
+        url: yup.string().max(200),
+        idServicio : yup.number().integer().positive().required(),
+    });
+    
+    schema.validateSync(data);
+}
+
 module.exports = {
     validarDatos: validarDatos,
     validate: validate,
     createUsersValidation : createUsersValidation,
     PersonValidation : PersonValidation,
     ServiceValidation : ServiceValidation,
-    CommentValidation : CommentValidation
+    CommentValidation : CommentValidation,
+    ImageServiceValidation : ImageServiceValidation
 }
