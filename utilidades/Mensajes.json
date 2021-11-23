@@ -1,5 +1,7 @@
 {
-    "mensajeError":"Ocurrio un Error",
-    "mensajeOK":"Se agrego correctamete",
-    "MensajeValidador":"Debe completar la informacion"
+    "mensajeError": "Ocurrio un Error",
+    "mensajeOK": "Se agrego correctamete",
+    "mensajeOKUpdate": "Se actualizo correctamete",
+    "mensajeOKDelete": "Se elimino correctamete",
+    "MensajeValidador": "Debe completar la informacion"
 }

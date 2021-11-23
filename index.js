@@ -12,11 +12,15 @@ const servicioPersona = require('./servicios/ServicePersona');
 const servicioImagen = require('./servicios/ServiceImagenServicio');
 const servicioLogin = require('./servicios/ServiceLogin');
 const servicio = require('./servicios/ServiceServicio');
+const servicioCategoria = require('./servicios/ServiceCategoria');
+const servicioPedido = require('./servicios/ServicePedido');
+const servicioHConversion = require('./servicios/ServiceHistorialConversion');
 //Validacion
 const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
+const { Router } = require('express');
 
 //express
 const app = express();
@@ -79,8 +83,8 @@ app.post('/Comentarios', autenticarToken, validador.validate(validador.CommentVa
         status: 200,
         mensaje: ""
     }
-   
-  
+
+
     if (validador.validarDatos(comentario) || validador.validarDatos(calificacion) || validador.validarDatos(idServicio) || validador.validarDatos(idUsuario)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador;
@@ -138,7 +142,7 @@ app.put('/Comentarios/:idComentario', autenticarToken, validador.validate(valida
     }
     servicioComentario.actualizarComentario(comentario, calificacion, idComentario)
         .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
+            resp.mensaje = mensaje.mensajeOKUpdate;
             res.set({
                 "Context-type": "Text/json"
 
@@ -177,7 +181,7 @@ app.delete('/Comentarios/:idComentario', autenticarToken, (req, res) => {
 
     }
     servicioComentario.eliminarComentario(idComentario)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -260,7 +264,7 @@ app.post('/Usuarios', autenticarToken, validador.validate(validador.createUsersV
             resp.mensaje = mensaje.mensajeError + data;
             return res.status(200).send(JSON.stringify(resp));
         })
-    })
+})
 
 //Editar usuarios
 app.put('/Usuarios/:idUsuario', autenticarToken, validador.validate(validador.createUsersValidation), (req, res) => {
@@ -332,7 +336,7 @@ app.delete('/Usuarios/:idUsuario', autenticarToken, (req, res) => {
 
     }
     servicioUsuario.eliminarUsuario(idUsuario)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -348,7 +352,7 @@ app.delete('/Usuarios/:idUsuario', autenticarToken, (req, res) => {
 app.get('/Personas/:idUsuario', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idUsuario = req.params.idUsuario;
-    
+
     servicioPersona.SeleccionarPersonaByID(idUsuario)
         .then(data => {
                 res.status(200).send(data);
@@ -363,7 +367,7 @@ app.get('/Personas/:idUsuario', autenticarToken, (req, res) => {
 //Update SET
 app.put('/Personas/:idUsuario', autenticarToken, validador.validate(validador.PersonValidation), (req, res) => {
 
-   
+
     //recibiendo del body
     let nombre = req.body.nombre;
     let apellido = req.body.apellido;
@@ -386,11 +390,11 @@ app.put('/Personas/:idUsuario', autenticarToken, validador.validate(validador.Pe
         })
         return res.status(400).send(JSON.stringify(resp));
 
-    } 
-    
+    }
+
     servicioPersona.actualizarPersona(nombre, apellido, telefono, urlFoto, idUsuario)
         .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
+            resp.mensaje = mensaje.mensajeOKUpdate;
             res.set({
                 "Context-type": "Text/json"
 
@@ -429,7 +433,7 @@ app.delete('/Personas/:idUsuario', (req, res) => {
 
     }
     servicioPersona.eliminarPersona(idUsuario)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -443,8 +447,8 @@ app.delete('/Personas/:idUsuario', (req, res) => {
 //Get
 app.get('/ImagenServicio/:idServicio', autenticarToken, (req, res) => {
     //Obtener parametro 
-    let idServicio= req.params.idServicio;
-    
+    let idServicio = req.params.idServicio;
+
     servicioImagen.SeleccionarImagenByServicio(idServicio)
         .then(data => {
                 res.status(200).send(data);
@@ -466,8 +470,8 @@ app.post('/ImagenServicio', autenticarToken, validador.validate(validador.ImageS
         status: 200,
         mensaje: ""
     }
-   
-    if (validador.validarDatos(url) || validador.validarDatos(idServicio) ) {
+
+    if (validador.validarDatos(url) || validador.validarDatos(idServicio)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador;
 
@@ -492,13 +496,13 @@ app.post('/ImagenServicio', autenticarToken, validador.validate(validador.ImageS
             resp.mensaje = mensajes.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
-    })
+})
 
 
 //Update SET
 app.put('/ImagenServicio/:idImagen', autenticarToken, validador.validate(validador.ImageServiceValidation), (req, res) => {
 
-   
+
     //recibiendo del body
     let url = req.body.url;
     //recibiendo del parametro
@@ -509,7 +513,7 @@ app.put('/ImagenServicio/:idImagen', autenticarToken, validador.validate(validad
         mensaje: ""
     }
 
-    if (validador.validarDatos(url) || validador.validarDatos(idImagen) ) {
+    if (validador.validarDatos(url) || validador.validarDatos(idImagen)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador
 
@@ -518,10 +522,10 @@ app.put('/ImagenServicio/:idImagen', autenticarToken, validador.validate(validad
         })
         return res.status(400).send(JSON.stringify(resp));
 
-    } 
+    }
     servicioImagen.actualizarImagen(url, idImagen)
         .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
+            resp.mensaje = mensaje.mensajeOKUpdate;
             res.set({
                 "Context-type": "Text/json"
 
@@ -560,7 +564,7 @@ app.delete('/ImagenServicio/:idImagen', autenticarToken, (req, res) => {
 
     }
     servicioImagen.eliminarImagen(idImagen)
-    resp.mensaje = mensaje.mensajeOK;
+    resp.mensaje = mensaje.mensajeOKDelete;
     res.set({
         "Context-type": "Text/json"
 
@@ -746,8 +750,8 @@ app.post('/Login/:user/:pass', (req, res) => {
 
     servicioLogin.login(user, pass)
         .then(data => {
-            if (data[0]!=undefined && data[0]!=null) {
-                token = generarJWT(user,pass);
+            if (data[0] != undefined && data[0] != null) {
+                token = generarJWT(user, pass);
                 return res.status(200).json({
                     "mensaje": token
                 })
@@ -765,4 +769,351 @@ app.post('/Login/:user/:pass', (req, res) => {
         })
         
 })
+
+//-------------------------------------------------------------------------------------------------
+
+//Tabla Categoria
+
+//ObtenerCategorias
+app.get('/Categoria', (req, res) => {
+    servicioCategoria.ObenterCategorias()
+        .then(data => {
+                res.status(200).send(data);
+            }
+
+        )
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//agregar Categorias
+app.post('/Categoria', (req, res) => {
+    let nombreCategoria = req.body.nombreCategoria;
+    let descripcionCategoria = req.body.descripcionCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+
+    if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+
+    servicioCategoria.agregarCategoria(nombreCategoria, descripcionCategoria)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-Type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})
+
+//Editar Categoria --Tiene problemas para actualizar. 
+/*app.put('/Categoria/:idCategoria'), (req, res) => {
+    let nombreCategoria = req.body.nombreCategoria;
+    let descripcionCategoria = req.body.descripcionCategoria;
+
+    let idCategoria = req.params.idCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    console.log(nombreCategoria, descripcionCategoria, idCategoria);
+    if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria) || validador.validarDatos(idCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Context-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
+    servicioCategoria.actualizarCategoria(nombreCategoria, descripcionCategoria, idCategoria)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+}*/
+
+app.put('/Categoria/:idCategoria', (req, res) => {
+    //recibiendo del body
+    let nombreCategoria = req.body.nombreCategoria;
+    let descripcionCategoria = req.body.descripcionCategoria;
+
+
+
+    //recibiendo del parametro
+    let idCategoria = req.params.idCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(nombreCategoria) || validador.validarDatos(descripcionCategoria) || validador.validarDatos(idCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioCategoria.actualizaCategoria(nombreCategoria, descripcionCategoria, idCategoria)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOKUpdate;
+            res.set({
+                "Context-type": "Text/json"
+
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
+
+
+//Eliminar Categoria
+app.delete('/Categoria/:idCategoria', (req, res) => {
+    let idCategoria = req.params.idCategoria;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idCategoria)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioCategoria.eliminarCategoria(idCategoria)
+    resp.mensaje = mensaje.mensajeOKDelete;
+    res.set({
+        "Context-type": "Text/json"
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
+//-------------------------------------------------------------------------------------------------
+
+//Tabla Pedido
+//Consultar pedidos
+app.get('/Pedido', (req, res) => {
+    servicioPedido.obtenerPedidos()
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Agregar Pedidos
+app.post("/Pedido", (req, res) => {
+    let fechaInicio = req.body.fechaInicio;
+    let fechaFin = req.body.fechaFin;
+    let horaInicio = req.body.horaInicio;
+    let horaFin = req.body.horaFin;
+    let total = req.body.total;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.mensajeError;
+
+        res.set({
+            "Context-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})
+
+//Eliminar pedido
+app.delete('/Pedido/:idPedido', (req, res) => {
+
+    let idPedido = req.params.idPedido;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idPedido)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
+    servicioPedido.borrarPedido(idPedido)
+    resp.mensaje = mensaje.mensajeOKDelete;
+    res.set({
+        "Context-type": "Text/json"
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
+//----------------------------------------------------------------
+//Tabla Historial Conversion
+
+//Obtener hc por pedidos
+app.get('/HistoConversion/:idPedido', (req, res) => {
+    let idPedido = req.params.idPedido;
+
+    servicioHConversion.seleccionarHConversionByPedido(idPedido)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//Obtener historial conversion
+app.get('/HistoConversion', (req, res) => {
+    servicioHConversion.obtenerHistorialConversion()
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//agregar Historial Conversion
+/*  app.post('/HistoConversion', (req, res) => {
+
+    let moneda = req.body.moneda;
+    let valor = req.body.valor;
+    let idPedido = req.body.idPedido;
+
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    console.log(moneda, valor, idPedido)
+    if (validador.validarDatos(moneda) || validador.validarDatos(valor) || validador.validarDatos(idPedido)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioHConversion.agregarHistorialConversion(moneda, valor, idPedido)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})*/
+
+
+//eliminar Historial Conversion
+app.delete('/HistoConversion/:idConversion', (req, res) => {
+    let idConversion = req.params.idConversion;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(idConversion)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+    }
+    servicioHConversion.eliminarHistorialConversion(idConversion)
+    resp.mensaje = mensaje.mensajeOKDelete;
+    res.set({
+        "Context-type": "Text/json"
+    })
+    return res.status(200).send(JSON.stringify(resp));
+})
+
 app.listen(3000);
