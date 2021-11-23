@@ -83,10 +83,9 @@ ALTER TABLE servicio MODIFY calificacion float;
 ALTER TABLE usuario modify usuarioNombre varchar(20) unique;
 ALTER TABLE usuario modify correo varchar(100) unique;
 ALTER TABLE usuario ADD estado Boolean;
-ALTER TABLE servicio modify descripcion text
-ALTER TABLE servicio modify nombre varchar(100)
-ALTER TABLE comentario modify comentario text
-describe comentario
+ALTER TABLE servicio modify descripcion text;
+ALTER TABLE servicio modify nombre varchar(100);
+ALTER TABLE comentario modify comentario text;
 
 #procedimientos
 
@@ -173,6 +172,3 @@ insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Muy buen servicio, lo recomiendo",10,1,1),
 ("Lo recomiendo",10,2,2);
-
-
-select * from usuario where estado=1 and contrasena="luna123" and (correo ="robertoluna@gmail.com" or usuarioNombre ="roberLuna")
