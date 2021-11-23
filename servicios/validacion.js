@@ -17,7 +17,7 @@ function validate(validation) {
             next();
         } catch (error) {
             res.status(400).json({
-                status: 'error',
+                status: 'Error',
                 message: error.message,
             });
         }
@@ -38,8 +38,22 @@ function createUsersValidation(data) {
     schema.validateSync(data);
 }
 
+
+function PersonValidation(data) {
+    const schema = yup.object().shape({
+        nombre: yup.string().min(4).max(50).required(),
+        apellido: yup.string().min(4).max(50).required(),
+        telefono: yup.string().max(8).required(),
+        urlFoto: yup.string().required()
+
+    });
+    
+    schema.validateSync(data);
+}
+
 module.exports = {
     validarDatos: validarDatos,
     validate: validate,
-    createUsersValidation : createUsersValidation
+    createUsersValidation : createUsersValidation,
+    PersonValidation : PersonValidation
 }

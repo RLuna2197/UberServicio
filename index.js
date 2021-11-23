@@ -17,7 +17,6 @@ const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
-const validacion = require('./servicios/validacion');
 
 //express
 const app = express();
@@ -346,7 +345,7 @@ app.delete('/Usuarios/:idUsuario', autenticarToken, (req, res) => {
 //Tabla Persona
 
 //GetPersona
-app.get('/Personas/:idUsuario', (req, res) => {
+app.get('/Personas/:idUsuario', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idUsuario = req.params.idUsuario;
     
@@ -361,9 +360,8 @@ app.get('/Personas/:idUsuario', (req, res) => {
         })
 })
 
-
 //Update SET
-app.put('/Personas/:idUsuario', (req, res) => {
+app.put('/Personas/:idUsuario', autenticarToken, validador.validate(validador.PersonValidation), (req, res) => {
 
    
     //recibiendo del body
@@ -410,7 +408,7 @@ app.put('/Personas/:idUsuario', (req, res) => {
 
 })
 
-//eliminar Persona
+//eliminar Persona (No se usara)
 app.delete('/Personas/:idUsuario', (req, res) => {
 
     let idUsuario = req.params.idUsuario;
