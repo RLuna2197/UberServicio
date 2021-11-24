@@ -86,6 +86,7 @@ ALTER TABLE usuario ADD estado Boolean;
 ALTER TABLE servicio modify descripcion text;
 ALTER TABLE servicio modify nombre varchar(100);
 ALTER TABLE comentario modify comentario text;
+AlTER TABLE categoria modify descripcionCategoria text;
 
 #procedimientos
 
@@ -145,7 +146,6 @@ DELIMITER ;
 
 
 #Agregando datos a la tablas
-
 insert into Categoria(nombreCategoria,descripcionCategoria) VALUES
 ("Electronica","Soluciones a la parte electronica de sus equipos ");
 

@@ -775,7 +775,7 @@ app.post('/Login/:user/:pass', (req, res) => {
 //Tabla Categoria
 
 //ObtenerCategorias
-app.get('/Categoria', (req, res) => {
+app.get('/Categoria', autenticarToken, (req, res) => {
     servicioCategoria.ObenterCategorias()
         .then(data => {
                 res.status(200).send(data);
@@ -788,7 +788,7 @@ app.get('/Categoria', (req, res) => {
 })
 
 //agregar Categorias
-app.post('/Categoria', (req, res) => {
+app.post('/Categoria', autenticarToken, validador.validate(validador.CategoryValidation), (req, res) => {
     let nombreCategoria = req.body.nombreCategoria;
     let descripcionCategoria = req.body.descripcionCategoria;
 
@@ -867,7 +867,7 @@ app.post('/Categoria', (req, res) => {
         })
 }*/
 
-app.put('/Categoria/:idCategoria', (req, res) => {
+app.put('/Categoria/:idCategoria', autenticarToken, validador.validate(validador.CategoryValidation), (req, res) => {
     //recibiendo del body
     let nombreCategoria = req.body.nombreCategoria;
     let descripcionCategoria = req.body.descripcionCategoria;
@@ -913,7 +913,7 @@ app.put('/Categoria/:idCategoria', (req, res) => {
 })
 
 
-//Eliminar Categoria
+//Eliminar Categoria(Probablemente no se use)
 app.delete('/Categoria/:idCategoria', (req, res) => {
     let idCategoria = req.params.idCategoria;
 
@@ -1088,7 +1088,6 @@ app.get('/HistoConversion', (req, res) => {
             return res.status(200).send(JSON.stringify(resp));
         })
 })*/
-
 
 //eliminar Historial Conversion
 app.delete('/HistoConversion/:idConversion', (req, res) => {
