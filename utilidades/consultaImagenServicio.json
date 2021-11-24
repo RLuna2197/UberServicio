@@ -1,0 +1,7 @@
+{
+    "selectImagenbyServicio" : "select * from imagenservicio where idServicio =?",
+    "insertImagen": "INSERT INTO imagenservicio (url, idServicio) VALUES(?, ?)",
+    "updateImagen": "UPDATE imagenservicio SET url=? WHERE idImagen=?",
+    "deleteImagen" : "delete from imagenservicio where idServicio=?"
+    
+}

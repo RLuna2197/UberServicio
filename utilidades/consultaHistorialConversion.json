@@ -1,0 +1,5 @@
+{
+    "obtenerHistorialConversion": "select * from historialConversion",
+    "insertarHistorialConversion": "insert into historialConversion (moneda, valor, idPedido) values(?,?,?)",
+    "eliminarHistorialConversion": "delete from historialConversion where idConversion=?"
+}

@@ -1,6 +1,5 @@
 create database uberServicio;
 use uberServicio;
-
 create table categoria(
 	 idCategoria integer primary key auto_increment,
 	nombreCategoria varchar(50),
@@ -9,20 +8,37 @@ create table categoria(
     
 create table usuario(
 	idUsuario integer primary key auto_increment,
-	nombre varchar(50),
-    apellido varchar(50),
     correo varchar(60),
-    telefono varchar(9),
     usuarioNombre varchar(50),
     contrasena varchar(20),
-    urlFotoPerfil varchar(50)
+    vendedor boolean,
+    comprador boolean
     );
     
 create table pedido(
 	 idPedido integer primary key auto_increment,
-	Fecha date,
-    Hora time,
+	fechaInicio date,
+    fechaFin date,
+    horaInicio time,
+    horaFin time,
     total double
+    );
+    
+create table historialConversion(
+	 idConversion integer primary key,
+	moneda varchar(60),
+    valor varchar(60),
+    idPedido integer,
+    foreign key(idPedido) references pedido(idPedido)
+    );
+    
+create table persona(
+	 idUsuario integer primary key,
+	nombre varchar(60),
+    apellido varchar(60),
+    telefono varchar(9),
+    urlFoto varchar(50),
+    foreign key(idUsuario) references Usuario(idUsuario)
     );
     
 create table servicio(
@@ -33,9 +49,9 @@ create table servicio(
     disponible boolean,
     calificacion int,
     idCategoria integer,
-    idUsuario integer,
+    idPersona integer,
     foreign key(idCategoria) references Categoria(idCategoria),
-    foreign key(idUsuario) references Usuario(idUsuario)
+    foreign key(idPersona) references persona(idUsuario)
     );
     
 create table imagenServicio(
@@ -62,23 +78,92 @@ create table pedidoServicio(
     foreign key(idServicio) references servicio(idServicio),
     primary key(idPedido, idServicio)
     );
-    
-    
-#Agregando datos a la tablas
+ 
+ALTER TABLE servicio MODIFY calificacion float;
+ALTER TABLE usuario modify usuarioNombre varchar(20) unique;
+ALTER TABLE usuario modify correo varchar(100) unique;
+ALTER TABLE usuario ADD estado Boolean;
+ALTER TABLE servicio modify descripcion text;
+ALTER TABLE servicio modify nombre varchar(100);
+ALTER TABLE comentario modify comentario text;
+AlTER TABLE categoria modify descripcionCategoria text;
 
+#procedimientos
+
+#procedimiento almacenado que permite insertar valores en la tabla de usuarios.
+DELIMITER //
+create procedure sp_agregar_usuarios( in P_Correo varchar(100),
+                                      in P_UsuarioNombre varchar(50),
+                                      in P_Contrasena varchar(20),
+                                      in P_vendedor boolean,
+                                      in P_Comprador boolean,
+                                      in P_estado boolean)
+begin
+	
+    insert into usuario(correo,usuarioNombre,contrasena,vendedor,comprador, estado)  values 
+    (P_Correo,P_UsuarioNombre,P_Contrasena,P_Vendedor,P_Comprador, 1);
+    
+end//
+DELIMITER;
+
+call sp_agregar_usuarios("prueba@gmail.com","prueba","prueba123",0,0);
+
+#vista de la tabla usuarios
+create view vw_usuarios as (select * from usuario);
+select * from vw_usuarios;
+
+
+DELIMITER //
+create procedure sp_agregar_comentario( in P_Comentario varchar(100),
+                                      in P_Calificacion int,
+                                      in P_IdServicio int,
+                                      in P_IdUsuario int)
+begin
+	declare v_prom float default 0;
+    insert into comentario(comentario,calificacion,idServicio,idUsuario)  values 
+    (P_Comentario,P_Calificacion,P_IdServicio,P_IdUsuario);
+    
+    select avg(calificacion) into v_prom from comentario where idServicio =P_IdServicio;
+    
+    UPDATE servicio SET calificacion= v_prom  WHERE idServicio=P_IdServicio;
+    
+end//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER tg_agregar_persona
+after insert on usuario
+for each row
+BEGIN
+	declare v_usuario int default 0;
+    select idUsuario into v_usuario from usuario where idUsuario = new.idUsuario;
+    
+    insert into persona(idUsuario, nombre, apellido, telefono, urlFoto) value(v_usuario, "","","","");
+
+END //
+DELIMITER ;
+
+
+#Agregando datos a la tablas
 insert into Categoria(nombreCategoria,descripcionCategoria) VALUES
 ("Electronica","Soluciones a la parte electronica de sus equipos ");
 
-insert into usuario(nombre,apellido,correo,telefono,usuarioNombre,contrasena,urlFotoPerfil) values
-("Cristina","Martinez","crissisabel98@gmail.com","7777-2200","cristi98","cris123","prueba1.jpg"),
-("Roberto","Luna","robertoluna@gmail.com","7227-2230","roberLuna","luna123","prueba2.jpg"),
-("Victor","Venezuela","victor@gmail.com","7334-2200","victorv","victo123","prueba3.jpg"),
-("Alessandro","Solorzano","alezzo@gmail.com","3347-2200","alezzo","aless123","prueba4.jpg");
+insert into usuario(correo,usuarioNombre,contrasena) values
+("crissisabel98@gmail.com","cristi98","cris123"),
+("robertoluna@gmail.com","roberLuna","luna123"),
+("victor@gmail.com","victorv","victo123"),
+("alezzo@gmail.com","alezzo","aless123");
 
-insert into pedido(Fecha, Hora, total) values
-('2021-11-17', '09:14:00', 3);
 
-insert into servicio(descripcion, nombre, precio, disponible, calificacion, idCategoria, idUsuario) values
+insert into persona(nombre, apellido, telefono, urlFoto) values
+("Cristina","Martinez","7777-2200","prueba1.jpg"),
+("Roberto","Luna","7227-2230","prueba2.jpg"),
+("Victor","Venezuela","7334-2200","prueba3.jpg"),
+("Alessandro","Solorzano","3347-2200","prueba4.jpg");
+    
+
+insert into servicio(descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona) values
 ("reparacion alectrica de refrigeradoras","reparacion de refrigeradoras","100",1,10,1,1),
 ("reparacion alectrica de carros","soluciones electronicas de carro","100",1,10,1,2);
 
@@ -87,30 +172,3 @@ insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Muy buen servicio, lo recomiendo",10,1,1),
 ("Lo recomiendo",10,2,2);
-
-
-#procedimientos
-
-#procedimiento almacenado que permite insertar valores en la tabla de usuarios.
-DELIMITER //
-create procedure sp_agregar_usuarios(in P_Nombre varchar(50),
-									  in P_Apellido varchar(50),
-                                      in P_Correo varchar(60),
-                                      in P_Telefono varchar(9),
-                                      in P_UsuarioNombre varchar(50),
-                                      in P_Contrasena varchar(20),
-                                      in P_UrlFotoPerfil varchar(50))
-begin
-	
-    insert into usuario(nombre,apellido,correo,telefono,usuarioNombre,contrasena,urlFotoPerfil)  values 
-    (P_Nombre,P_Apellido,P_Correo,P_Telefono,P_UsuarioNombre,P_Contrasena,P_UrlFotoPerfil);
-    
-end//
-DELIMITER ;
-
-call sp_agregar_usuarios("Erick","Rapalo","erickrapalo@gmail.com","3447-2200","erickra","erick123","prueba5.jpg");
-select * from usuario;
-
-#vista de la tabla usuarios
-create view vw_usuarios as (select * from usuario u order by u.Nombre asc);
-select * from vw_usuarios;
