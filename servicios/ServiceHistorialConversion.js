@@ -14,17 +14,6 @@ function obtenerHistorialConversion() {
 }
 
 
-function seleccionarHConversionByPedido(idPedido) {
-    return new Promise((resolve, reject) => {
-        conexion.query(consulta.obtenerHistorialConversionbyPedido, [idPedido], (error, resultado) => {
-            if (error) {
-                reject(error)
-            } else {
-                resolve(resultado)
-            }
-        })
-    })
-}
 
 /*function agregarHistorialConversion(moneda, valor, idPedido) {
     return new Promise((resolve, reject) => {
@@ -53,6 +42,5 @@ function eliminarHistorialConversion(idConversion) {
 module.exports = {
     obtenerHistorialConversion: obtenerHistorialConversion,
     //agregarHistorialConversion: agregarHistorialConversion,
-    seleccionarHConversionByPedido: seleccionarHConversionByPedido,
     eliminarHistorialConversion: eliminarHistorialConversion
 }
