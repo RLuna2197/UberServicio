@@ -1,1 +1,83 @@
-<p>servicio works!</p>
+<div class="container">
+
+    <br/>
+    <div class="alert alert-success" role="alert">
+      Agregando un Nuevo Servicio
+    </div>
+    <br/>
+    <br/>
+    
+    <form class="row g-3" enctype="multipart/form-data" action="" method="post" autocomplete="off">
+
+ 
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Nombre del Servicio</label>
+        <input type="text" style="width: 90%;" class="form-control" name="nService" value="" required>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Descripcion</label>
+        <input type="text" style="width: 90%;" class="form-control" name="dService" value="" required>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Precio</label>
+        <input type="number" min="0.00" max="10000.00" step="0.01" placeholder="$ " style="width: 90%;" class="form-control" name="pService" value="" required>
+      </div>
+      
+      <div class="col-xs-12 col-md-6">
+        <label class="form-label">Disponibilidad del servicio </label>
+
+        <select name="disponibilidad" style="width: 90%;" class="form-select" required>
+          <option class="option" id="disponibilidad">Debes Seleccionar...</option>
+
+          <option value="">DISPONIBLE</option>
+
+          <option value="">NO DISPONIBLE</option>
+
+        </select>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Calificacion: </label>
+        
+      </div>
+  
+
+
+      <div class="col-xs-12 col-md-6">
+        <label class="form-label">Categoria del servicio </label>
+
+        <select name="idCategoria" style="width: 90%;" class="form-select" required>
+          <option class="option" id="idCategoria">Debes Seleccionar...</option>
+
+          <option value="">categoria x</option>
+
+          <option value="">categoria y</option>
+
+        </select>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <label class="form-label">Persona</label>
+
+        <select name="idUsuario" style="width: 90%;" class="form-select" required>
+          <option class="option" id="idUsuario">Debes Seleccionar...</option>
+
+          <option value="">persona x</option>
+
+          <option value="">persona y</option>
+
+        </select>
+      </div>
+
+      <div class="col-xs-6 col-md-12">
+        <button class="btn btn-success" type="submit">Agregar Servicio</button>
+      </div>
+
+  
+
+      
+    </form>
+
+    
+  </div>

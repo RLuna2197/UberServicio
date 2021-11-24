@@ -11,6 +11,7 @@ import { VerServicioComponent } from './ver-servicio/ver-servicio.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { ServicioComponent } from './servicio/servicio.component';
 import { HistorialServicioComponent } from './historial-servicio/historial-servicio.component';
+import { PedidoComponent } from './pedido/pedido.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HistorialServicioComponent } from './historial-servicio/historial-servi
     VerServicioComponent,
     UsuarioComponent,
     ServicioComponent,
-    HistorialServicioComponent
+    HistorialServicioComponent,
+    PedidoComponent
   ],
   imports: [
     BrowserModule,
