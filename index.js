@@ -20,9 +20,7 @@ const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
-const {
-    Router
-} = require('express');
+const {   Router} = require('express');
 
 //express
 const app = express();
