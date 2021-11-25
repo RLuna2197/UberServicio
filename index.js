@@ -9,14 +9,18 @@ const servicioComentario = require('./servicios/ServiceComentario');
 const servicioPersona = require('./servicios/ServicePersona');
 const servicioImagen = require('./servicios/ServiceImagenServicio');
 const servicioLogin = require('./servicios/ServiceLogin');
+const servicioHConversion = require('./servicios/ServiceHistorialConversion');
+
 //Validacion
 const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
+const ServiceHistorialConversion = require('./servicios/ServiceHistorialConversion');
 
 //express
 const app = express();
+const axios = require('axios').default;
 
 
 app.use(bodyparser.json());
@@ -483,6 +487,59 @@ app.delete('/ImagenServicio/:idImagen', (req, res) => {
     })
     return res.status(200).send(JSON.stringify(resp));
 })
+
+//-------------------------------------------------------------------------------------------------
+
+//Tabla Histoial Conversion
+
+//Obtener historial de conversion por pedido
+
+app.get('/Hconversion/:idPedido', (req, res) =>{
+    //obtener parametros
+    let idPedido = req.params.idPedido;
+
+    ServiceHistorialConversion.SeleccionarConversionPorPedido(idPedido)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+//consumiendo api de conversion
+
+
+app.get('/api/euro', (req, res) => {
+    axios({
+        method: 'get',
+        url: 'https://v6.exchangerate-api.com/v6/9c56fbeb0db492ca17115f56/pair/USD/EUR',
+        responseType: 'json'
+    })
+    .then(resultado => {
+        res.status(200).json(resultado.data)
+    })
+    .catch(error => {
+        res.status(500).json(error)
+    })
+});
+
+
+app.get('/api/bitcoin', (req, res) => {
+    axios({
+        method: 'get',
+        url: 'https://rest.coinapi.io/v1/exchangerate/USD/BTC/?apikey=A6A935E9-674A-4D8F-AA11-F93D0CC0AEED',
+        responseType: 'json'
+    })
+    .then(resultado => {
+        res.status(200).json(resultado.data)
+    })
+    .catch(error => {
+        res.status(500).json(error),
+        console.log(error)
+    })
+});
+
 
 
 //login 

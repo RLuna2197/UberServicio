@@ -1,0 +1,3 @@
+{
+    "selectConversionPorPedido" : "select * from historialconversion where idPedido=?"
+}
