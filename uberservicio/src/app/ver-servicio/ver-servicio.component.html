@@ -1,0 +1,102 @@
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<div class="container">
+
+    <br/>
+    <div class="alert alert-success" role="alert">
+      Agregando un Nuevo Usuario
+    </div>
+    <br/>
+    <br/>
+    
+    <div class="container">
+
+        <form id="login-form">
+          <div class="form-container sign-in-container">
+            <img id="urlImage" src="/assets/img/o.jpg" alt="">
+    
+          </div>
+    
+    
+          <div class="overlay-container">
+    
+            <h5 id="iddetalle" style="font-weight:initial;">Detalles del Servicio</h5>
+            <h5 id="nServicio">Servicio: Servicio</h5>
+            <h5 id="descServicio">Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio 
+                Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio 
+                Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio 
+            </h5>
+    
+    <br/>
+            <div style="text-align: left ; padding-top: 2%;">
+              <b style="font-weight:lighter; font-size: 20px; " id="precioProducto">Precio por servicio: $  </b>
+             
+             
+            </div>        
+            <br/>
+            <div class="col-xs-6 col-md-12" data-toggle="modal" data-target="#exampleModalCenter">
+                <a class="btn btn-success">Contratar servicio</a>
+              </div>       
+          </div>
+        </form>
+      </div>
+
+    
+  </div>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Datos del pedido</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        
+         <div class="col-xs-12 col-md-12">
+            <label for="start">Fecha Inicio:</label>
+    <br/>
+    <input type="date" id="start" name="fecha-inic"
+           value=""
+           min="" max="">
+          </div>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Fecha Fin:</label>
+    <br/>
+    <input type="date" id="start" name="fecha-fin"
+           value=""
+           min="" max="">
+          </div>
+
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Hora a solicitar:</label>
+    <br/>
+    <input type="time" name="hora" min="18:00" max="21:00" step="3600" />
+          </div>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Hora a finalizar:</label>
+    <br/>
+    <input type="time" name="hora" min="18:00" max="21:00" step="3600" />
+          </div>
+
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Su total por servicio es: </label>
+    <br/>
+    <label for="start">$</label>
+          </div>
+
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Realizar Pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>

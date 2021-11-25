@@ -9,7 +9,33 @@ function SeleccionarConversionPorPedido(idPedido){
         conexion.query(consulta.selectConversionPorPedido, [idPedido], (error, resultado) => {
             if(error){
                 reject(error)
-            }else{
+            }else {
+                resolve(resultado)
+            }
+        })
+    })
+}
+
+
+
+/*function agregarHistorialConversion(moneda, valor, idPedido) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.insertarHistorialConversion, [moneda, valor, idPedido], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(resultado)
+            }
+        })
+    })
+}*/
+
+function eliminarHistorialConversion(idConversion) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.eliminarHistorialConversion, [idConversion], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
                 resolve(resultado)
             }
         })
@@ -17,5 +43,7 @@ function SeleccionarConversionPorPedido(idPedido){
 }
 
 module.exports = {
-    SeleccionarConversionPorPedido : SeleccionarConversionPorPedido
+    SeleccionarConversionPorPedido : SeleccionarConversionPorPedido,
+    //agregarHistorialConversion: agregarHistorialConversion,
+    eliminarHistorialConversion: eliminarHistorialConversion
 }

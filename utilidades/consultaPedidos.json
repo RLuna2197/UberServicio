@@ -1,0 +1,5 @@
+{
+    "SelectPedidos": "SELECT * FROM pedido",
+    "insertarPedido": "insert into pedido(fechaInicio, fechaFin, horaInicio, horaFin, total) values(?,?,?,?,?);",
+    "eliminarPedido": "delete from pedido where idPedido=?"
+}
