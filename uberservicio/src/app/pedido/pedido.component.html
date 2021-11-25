@@ -1,0 +1,70 @@
+<div class="container">
+
+    <br/>
+    <div class="alert alert-success" role="alert">
+      Llene la informacion y pago de su pedido
+    </div>
+    <br/>
+    <br/>
+    
+    <form class="row g-3" enctype="multipart/form-data" action="" method="post" autocomplete="off">
+
+ 
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Correo</label>
+        <input type="text" style="width: 90%;" class="form-control" name="correo" value="" required>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label for="start">Fecha Inicio:</label>
+<br/>
+<input type="date" id="start" name="fecha-inic"
+       value=""
+       min="" max="">
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label for="start">Fecha Fin:</label>
+<br/>
+<input type="date" id="start" name="fecha-fin"
+       value=""
+       min="" max="">
+      </div>
+      
+
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Nombre de Usuario</label>
+        <input type="text" style="width: 90%;" class="form-control" name="user" value="" required>
+      </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Contraseña</label>
+        <input type="text" style="width: 90%;" class="form-control" name="pass" value="" required>
+      </div>
+      
+      <div class="col-xs-12 col-md-6">
+        <label class="form-label">Rol de la Persona </label>
+
+        <select name="idCategoria" style="width: 90%;" class="form-select" required>
+          <option class="option" id="idCategoria">Debes Seleccionar tu Rol</option>
+
+          <option value="">Comprador</option>
+
+          <option value="">Vendedor</option>
+
+        </select>
+      </div>
+
+      <div class="col-xs-6 col-md-12">
+        <button class="btn btn-success" type="submit">Agregar Usuario</button>
+      </div>
+
+      <div class="col-xs-6 col-md-12">
+        <a href="/persona" class="btn btn-success">Datos de Persona</a>
+      </div>
+
+      
+    </form>
+
+    
+  </div>

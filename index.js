@@ -15,6 +15,7 @@ const servicio = require('./servicios/ServiceServicio');
 const servicioCategoria = require('./servicios/ServiceCategoria');
 const servicioPedido = require('./servicios/ServicePedido');
 const servicioHConversion = require('./servicios/ServiceHistorialConversion');
+const ServiceHistorialConversion = require('./servicios/ServiceHistorialConversion');
 //Validacion
 const validador = require('./servicios/validacion');
 
@@ -22,8 +23,10 @@ const validador = require('./servicios/validacion');
 const mensaje = require('./utilidades/Mensajes.json');
 const {   Router} = require('express');
 
+
 //express
 const app = express();
+const axios = require('axios').default;
 
 
 app.use(bodyparser.json());

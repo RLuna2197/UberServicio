@@ -1,38 +1,15 @@
+//importacion de conexion y consulta
 const conexion = require('../db/conexionDB');
-const consulta = require('../utilidades/consultaHistorialConversion.json');
+const consulta = require('../utilidades/consultaHistorialConversion.json')
 
-function obtenerHistorialConversion() {
+//Metodo para seleccionar historialdeconersion por pedido
+
+function SeleccionarConversionPorPedido(idPedido){
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.obtenerHistorialConversion, (error, resultado) => {
-            if (error) {
+        conexion.query(consulta.selectConversionPorPedido, [idPedido], (error, resultado) => {
+            if(error){
                 reject(error)
-            } else {
-                resolve(resultado)
-            }
-        })
-    })
-}
-
-
-
-/*function agregarHistorialConversion(moneda, valor, idPedido) {
-    return new Promise((resolve, reject) => {
-        conexion.query(consulta.insertarHistorialConversion, [moneda, valor, idPedido], (error, resultado) => {
-            if (error) {
-                reject(error)
-            } else {
-                resolve(resultado)
-            }
-        })
-    })
-}*/
-
-function eliminarHistorialConversion(idConversion) {
-    return new Promise((resolve, reject) => {
-        conexion.query(consulta.eliminarHistorialConversion, [idConversion], (error, resultado) => {
-            if (error) {
-                reject(error)
-            } else {
+            }else{
                 resolve(resultado)
             }
         })
@@ -40,7 +17,5 @@ function eliminarHistorialConversion(idConversion) {
 }
 
 module.exports = {
-    obtenerHistorialConversion: obtenerHistorialConversion,
-    //agregarHistorialConversion: agregarHistorialConversion,
-    eliminarHistorialConversion: eliminarHistorialConversion
+    SeleccionarConversionPorPedido : SeleccionarConversionPorPedido
 }
