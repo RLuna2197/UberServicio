@@ -20,7 +20,9 @@ const validador = require('./servicios/validacion');
 
 //Mensajes 
 const mensaje = require('./utilidades/Mensajes.json');
-const { Router } = require('express');
+const {
+    Router
+} = require('express');
 
 //express
 const app = express();
@@ -108,7 +110,7 @@ app.post('/Comentarios', autenticarToken, validador.validate(validador.CommentVa
             res.set({
                 "Context-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
 
@@ -546,32 +548,32 @@ app.put('/ImagenServicio/:idImagen', autenticarToken, validador.validate(validad
 //eliminar 
 app.delete('/ImagenServicio/:idImagen', autenticarToken, (req, res) => {
 
-        let idImagen = req.params.idImagen;
+    let idImagen = req.params.idImagen;
 
-        let resp = {
-            status: 200,
-            mensaje: ""
-        }
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
 
-        if (validador.validarDatos(idImagen)) {
-            resp.status = 400;
-            resp.mensaje = mensajes.MensajeValidador
+    if (validador.validarDatos(idImagen)) {
+        resp.status = 400;
+        resp.mensaje = mensajes.MensajeValidador
 
-            res.set({
-                "Content-type": "Text/json"
-            })
-            return res.status(400).send(JSON.stringify(resp));
-
-        }
-        servicioImagen.eliminarImagen(idImagen)
-        resp.mensaje = mensaje.mensajeOKDelete;
         res.set({
-            "Context-type": "Text/json"
-
+            "Content-type": "Text/json"
         })
-        return res.status(200).send(JSON.stringify(resp));
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicioImagen.eliminarImagen(idImagen)
+    resp.mensaje = mensaje.mensajeOKDelete;
+    res.set({
+        "Context-type": "Text/json"
+
     })
-    //-------------------------------------------------------------------------------------------------
+    return res.status(200).send(JSON.stringify(resp));
+})
+//-------------------------------------------------------------------------------------------------
 
 //Tabla Servicio
 
@@ -579,31 +581,61 @@ app.delete('/ImagenServicio/:idImagen', autenticarToken, (req, res) => {
 app.get('/Servicios/:idServicio', autenticarToken, (req, res) => {
     //Obtener parametro 
     let idServicio = req.params.idServicio;
-
+    let A_Servicio = [];
 
     servicio.SeleccionarServicioById(idServicio)
         .then(data => {
-                res.status(200).send(data);
-            }
-
-        )
+            data[0] = {
+                ...data[0],
+                Imagenes: [],
+                Comentarios: []
+            };
+            A_Servicio = data;
+        })
         .catch(error => {
             res.status(500).send(mensaje.mensajeError + error);
         })
+
+    servicioComentario.SeleccionarComentarioByServicio(idServicio)
+        .then(data1 => {
+            for (let k = 0; k < data1.length; k++) {
+
+                A_Servicio[0].Comentarios.push(data1[k]);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+
+    servicioImagen.SeleccionarImagenByServicio(idServicio)
+        .then(data2 => {
+            for (let k = 0; k < data2.length; k++) {
+
+                A_Servicio[0].Imagenes.push(data2[k]);
+            }
+            res.status(200).send(A_Servicio);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+
 })
 
 //Get por categoria
-app.get('/Servicios/Categoria/:idCategoria', autenticarToken, (req, res) => {
+app.get('/Servicios', autenticarToken, (req, res) => {
     //Obtener parametro 
-    let idCategoria = req.params.idCategoria;
 
-
-    servicio.SeleccionarServicioByCate(idCategoria)
+    servicio.SeleccionarServicio()
         .then(data => {
-                res.status(200).send(data);
+            for (let index = 0; index < data.length; index++) {
+                data[index] = {
+                    ...data[index],
+                    Imagenes: []
+                };
+                
             }
-
-        )
+            res.status(200).send(data);
+        })
         .catch(error => {
             res.status(500).send(mensaje.mensajeError + error);
         })
@@ -718,12 +750,16 @@ function autenticarToken(req, res, next) {
     const authHeader = req.headers['llave']
     const token = authHeader && authHeader.split(' ')[1]
 
-    if (token == null) return res.status(401).json({ "Mensaje": "Debe iniciar sesion" })
+    if (token == null) return res.status(401).json({
+        "Mensaje": "Debe iniciar sesion"
+    })
 
     jwt.verify(token, TOKEN_SECRET, (err, user) => {
         console.log(err)
 
-        if (err) return res.status(401).json({ "Mensaje": "Debe iniciar sesion" })
+        if (err) return res.status(401).json({
+            "Mensaje": "Debe iniciar sesion"
+        })
 
         req.user = user
 
