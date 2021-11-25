@@ -4,9 +4,9 @@ const consulta = require('../utilidades/consultaServicio.json');
 
 
 //Metodo seleccionar Servicio por categoria
-function SeleccionarServicioByCate(idCategoria) {
+function SeleccionarServicio() {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.selectServiciobyCategoria , [idCategoria], (error, resultado) => {
+        conexion.query(consulta.selectServicio, (error, resultado) => {
             if (error) {
                 reject(error)
             } else {
@@ -58,7 +58,7 @@ function actualizarServicio(descripcion, nombre, precio, disponible, calificacio
 }
 
 module.exports = {
-    SeleccionarServicioByCate : SeleccionarServicioByCate,
+    SeleccionarServicio : SeleccionarServicio,
     SeleccionarServicioById : SeleccionarServicioById,
     agregarServicio : agregarServicio,
     actualizarServicio : actualizarServicio

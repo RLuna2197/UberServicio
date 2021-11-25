@@ -12,7 +12,9 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { ServicioComponent } from './servicio/servicio.component';
 import { HistorialServicioComponent } from './historial-servicio/historial-servicio.component';
 import { PedidoComponent } from './pedido/pedido.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HomeVComponent } from './home-v/home-v.component';
+import { Nadvar2vComponent } from './nadvar2v/nadvar2v.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +27,17 @@ import { HttpClientModule } from '@angular/common/http';
     UsuarioComponent,
     ServicioComponent,
     HistorialServicioComponent,
+
+    PedidoComponent,
+    HomeVComponent,
+    Nadvar2vComponent,
+    PerfilComponent,
     PedidoComponent
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

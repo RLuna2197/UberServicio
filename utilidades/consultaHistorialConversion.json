@@ -1,6 +1,6 @@
 {
-    "selectConversionPorPedido" : "select * from historialconversion where idPedido=?",
     "obtenerHistorialConversion": "select * from historialConversion",
     "insertarHistorialConversion": "insert into historialConversion (moneda, valor, idPedido) values(?,?,?)",
-    "eliminarHistorialConversion": "delete from historialConversion where idConversion=?"
+    "eliminarHistorialConversion": "delete from historialConversion where idConversion=?",
+    "selectConversionPorPedido" : "select * from historialconversion where idPedido=?"
 }

@@ -82,7 +82,7 @@ input {
 
 	width: 968px;
 
-	height: 480px;
+	height: 280px;
 }
 
 .form-container {
@@ -197,4 +197,42 @@ form#login-form:before, form#login-form:after {
   }
 
 
+
+  form {
+    
+    margin: 0 auto;
+    height: 33px;
+  }
   
+  #form p {
+    text-align: center;
+  }
+  
+  #form label {
+    font-size: 20px;
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  label {
+    color: grey;
+  }
+  
+  .clasificacion {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+  }
+  
+  label.star:hover,
+  label:hover ~ label {
+    color: orange;
+  }
+  
+  input[type="radio"]:checked ~ label {
+    color: orange;
+  }
+
+  
+

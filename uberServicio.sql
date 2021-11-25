@@ -171,6 +171,7 @@ insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio
     
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Muy buen servicio, lo recomiendo",10,1,1),
+<<<<<<< HEAD
 ("Lo recomiendo",10,2,2);
 <<<<<<< HEAD
 
@@ -302,3 +303,6 @@ select * from vw_conversiones;
     
 =======
 >>>>>>> 98cdfcf7ee022071ad23356e40f29b6bba3dbc96
+=======
+("Lo recomiendo",10,2,2);
+>>>>>>> c144e5a37c7223af050064621cdc96cbe4550413

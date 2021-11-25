@@ -1,18 +1,24 @@
+<html>
 
+
+<body>
   <div class="header" style="background-color:black;">
     
-    <div class="search-bar" style="margin-left: 10%;">
+    <div class="search-bar" style="margin-left: 8%;">
       <input type="text" placeholder="Buscar..."> <i type="button" id="palabra" ></i>
 
     </div>
+    <div class="contenedor-redes-sociales">
+      <a class="facebook" href="/homev" target="">
+        
+        <span class="titulo">Eres Comprador </span>
+        <span class="titulo-hover">Ser Vendedor</span>
+      </a>
+   </div>
   </div>
-
-
-
-
   <div class="area"></div>
   <nav class="main-menu">
-    <ul>    
+    <ul>      
       <li>
         <br/>
         <br/>
@@ -27,20 +33,9 @@
       </li>
       <br/>
       
+    
       <li class="has-subnav">
-        <a href="/usuario">
-          <i class="fa fa-file fa-2x"></i>
-        
-          <span class="nav-text">
-           Crear Usuario
-          </span>
-        </a>
-
-      </li>
-      
-      <br/>
-      <li class="has-subnav">
-        <a href="#">
+        <a href="/historials">
           <i class="fa fa-folder-open fa-2x"></i>
           <span class="nav-text">
             Pedidos
@@ -49,39 +44,9 @@
 
       </li>
       <br/>
-      
-      <li class="has-subnav">
-        <a href="/categoria">
-          <i class="fa fa-bars fa-2x"></i>
-          <span class="nav-text">
-            Categorias
-          </span>
-        </a>
-
-      </li>
-      <br/>
-      
+  
       <li>
-        <a href="/servicio">
-          <i class="fa fa-wrench fa-2x"></i>
-         
-          <span class="nav-text">
-            Servicios
-          </span>
-        </a>
-      </li>
-      <br/>    
-      <li>
-        <a href="#">
-          <i class="fa fa-money fa-2x"></i>
-          <span class="nav-text">
-             Conversion
-          </span>
-        </a>
-      </li> 
-      <br/>    
-      <li>
-        <a href="#">
+        <a href="/perfil">
           <i class="fa fa-user fa-2x"></i>
           <span class="nav-text">
              Perfil
@@ -89,10 +54,9 @@
         </a>
       </li>       
     </ul>
-
     <ul class="logout">
       <li>
-        <a href="#">
+        <a href="/login">
           <i class="fa fa-power-off fa-2x"></i>
           <span class="nav-text">
             Logout
@@ -101,9 +65,9 @@
       </li>
     </ul>
   </nav>
+</body>
+</html>
 
- 
-  
 <router-outlet>
 
 </router-outlet>

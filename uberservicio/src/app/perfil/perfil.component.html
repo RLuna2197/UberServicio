@@ -1,0 +1,121 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Aula 09 - Portfolio</title>
+  <link rel="stylesheet" href="perfil.component.css">
+  <head>
+    <link rel="stylesheet" href="/uberservicio/src/app/home/home.component.css"/>  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  
+  <script src="https://kit.fontawesome.com/d37c5443c6.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <div class="container centered">
+    <header class="perfil">
+      <img src="https://avatars.githubusercontent.com/u/46529244?v=4" alt="">
+      <div class="title">
+        <h1>Nombre del Usuario</h1>
+        <h3>usuario123@gmail</h3>
+        <p>#imersaodev #alura</p>
+
+      </div>
+    </header>
+
+    <!-- estrutura do projeto -->
+    <main class="projetos">
+      <div class="container-projetos">
+        <h4>Projetos</h4>
+        <p class="line-1 anim-typewriter"></p>
+        <ol>
+          <li><a >  Nombre: </a></li>
+          <li><a >  Apellido: </a></li>
+          <li><a >  Telefono: </a></li>
+          <li><a >  Correo de Usuario: </a></li>
+          <li><a >  Nombre de Usuario: </a></li>
+          <li><a >  Preferencia del Usuario: </a></li>
+          
+          
+        </ol>
+      </div>
+
+    </main>
+      <br/>
+  <a class="css-boton boton-primario" data-toggle="modal" data-target="#exampleModalCenter2">
+   Actualizar Perfil
+  </a> 
+  </div>
+
+  <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Actualizacion de perfil</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <img src="https://avatars.githubusercontent.com/u/46529244?v=4" alt="" style="width: 70%; height: 20%;">
+            <br/>
+            <br/>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Nuevo nombre</label>
+    <br/>
+    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu nombre...">
+          </div>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Nuevo Apellido</label>
+    <br/>
+    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu apellido...">
+          </div>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Nuevo Telefono</label>
+    <br/>
+    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu telefono...">
+          </div>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Nuevo User</label>
+    <br/>
+    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu user...">
+          </div>
+          <div class="col-xs-12 col-md-12">
+            <label for="start">Nuevo Pass</label>
+    <br/>
+    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu pass...">
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <label class="form-label">Su preferencia: </label>
+    
+            <select name="idUsuario" style="width: 90%;" class="form-select" required>
+              
+    
+              <option value="">Comprador</option>
+    
+              <option value="">Vendedor</option>     
+    
+    
+            </select>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Actualizar </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Script -->
+  <script src="app.js"></script>
+</body>
+
+</html>
