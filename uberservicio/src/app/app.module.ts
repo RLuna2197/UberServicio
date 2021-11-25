@@ -12,6 +12,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { ServicioComponent } from './servicio/servicio.component';
 import { HistorialServicioComponent } from './historial-servicio/historial-servicio.component';
 import { PedidoComponent } from './pedido/pedido.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PedidoComponent } from './pedido/pedido.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

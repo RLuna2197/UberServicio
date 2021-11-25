@@ -94,6 +94,15 @@ function CategoryValidation(data) {
     schema.validateSync(data);
 }
 
+function OrderValidation(data) {
+    const schema = yup.object().shape({
+        nombreCategoria: yup.string().max(50).required(),
+        descripcionCategoria : yup.number().integer().positive().required()
+    });
+    
+    schema.validateSync(data);
+}
+
 module.exports = {
     validarDatos: validarDatos,
     validate: validate,
