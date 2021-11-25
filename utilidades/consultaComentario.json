@@ -1,0 +1,7 @@
+{
+    "selectComentarioByServicio" : "select * from comentario where idServicio =?",
+    "insertComentario": "call sp_agregar_comentario(?,?,?,?)",
+    "updateComentario": "UPDATE comentario SET comentario=?, calificacion=? WHERE idComentario=?",
+    "deleteComentario" : "delete from comentario where idComentario=?"
+    
+}
