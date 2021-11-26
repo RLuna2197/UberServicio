@@ -94,9 +94,13 @@ export class VerServicioComponent implements OnInit {
     
     this.datApiComen.saveComentario(this.comentarioNuevo).subscribe(res => {
       console.log(res);
+
     }, err => {
       console.log(err);
     })
+
+    this.getComentarios();
+    this.getServicios();
   }
   
 }
