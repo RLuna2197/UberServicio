@@ -16,7 +16,7 @@ import { HomeVComponent } from './home-v/home-v.component';
 import { Nadvar2vComponent } from './nadvar2v/nadvar2v.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
 
   ],
   providers: [],

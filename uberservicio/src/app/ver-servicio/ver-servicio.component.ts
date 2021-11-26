@@ -25,6 +25,7 @@ export class VerServicioComponent implements OnInit {
     this.getComentarios();
     //this.idPersona = localStorage.getItem('id');
     this.idPersona = localStorage.getItem('id') as string;
+    this.getPersonaByid(this.idPersona);
     
   }
   //Obtener Servicio
@@ -53,7 +54,7 @@ export class VerServicioComponent implements OnInit {
 
   private getPersonaByid(idPersona: string){
     this.dataApiPerson.getPersonaByid(idPersona).subscribe((response) => {
-      this.comentarios = response;
+      this.personas = response;
     },
       (error) => { console.error(error); }
     );
