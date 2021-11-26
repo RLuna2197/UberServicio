@@ -1,12 +1,14 @@
 export class Servicio {
     idServicio: number = 0;
-    descripcion: string = '';
     nombre: string = '';
+    descripcion: string = '';  
     precio: string = '';
     disponible: boolean = false;
     calificacion:number= 0;
-    idCategoria: number = 0;
-    idPersona: number = 0;
+    nombreCategoria: string = '';
+    persona:string = '';
+    Imagenes: Array<any> = [];
+    Comentarios: Array<any> = [];
 
     constructor() {
         this.idServicio,
@@ -15,7 +17,9 @@ export class Servicio {
         this.precio,
         this.disponible,
         this.calificacion,
-        this.idCategoria,
-        this.idPersona
+        this.nombreCategoria,
+        this.persona,
+        this.Imagenes,
+        this.Comentarios
     }
 }

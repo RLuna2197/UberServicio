@@ -1,5 +1,5 @@
 {
-    "selectComentarioByServicio" : "select * from comentario where idServicio =?",
+    "selectComentarioByServicio" : "select c.idComentario, c.comentario, c.calificacion, c.idUsuario, u.correo, u.usuarioNombre  , p.nombre , p.urlFoto from comentario c, usuario u, persona p  where c.idUsuario = u.idUsuario  and u.idUsuario = p.idUsuario and idServicio = ? order by idComentario desc",
     "insertComentario": "call sp_agregar_comentario(?,?,?,?)",
     "updateComentario": "UPDATE comentario SET comentario=?, calificacion=? WHERE idComentario=?",
     "deleteComentario" : "delete from comentario where idComentario=?"

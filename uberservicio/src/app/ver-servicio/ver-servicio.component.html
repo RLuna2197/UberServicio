@@ -11,33 +11,57 @@
 <div class="container">
 
   <br/>
-  <div class="alert alert-success" role="alert">
-    Agregando un Nuevo Usuario
-  </div>
+ <!--  <div class="alert alert-success" role="alert">
+    Agregando un Nuevo Usuario 
+  </div> -->
   <br/>
   <br/>
   
   <div class="container">
 
-      <form id="login-form">
+      <form id="login-form" *ngFor='let servicio of servicios'>
+        
         <div class="form-container sign-in-container">
-          <img id="urlImage" src="/assets/img/o.jpg" alt="">
+          <img id="urlImage" src="/assets/img/Servicios/{{servicio.Imagenes[0].url}}"  class="img-thumbnail" width="400" height="400">
   
         </div>
   
   
         <div class="overlay-container">
   
-          <h5 id="iddetalle" style="font-weight:initial;">Detalles del Servicio</h5>
-          <h5 id="nServicio">Servicio: Servicio</h5>
-          <h5 id="descServicio">Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio 
-              Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio 
-              Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio Descripcion del Servicio 
+          <h5 id="iddetalle" style="font-weight:initial;">{{servicio.nombre}}</h5>
+          <form>
+            <p class="clasificacion">
+              <input id="radio1" type="radio" name="estrellas" value="5">
+              <!--
+                --><label id="star" for="radio1"  [ngStyle]="{'color': servicio.calificacion >= 5  ? 'orange' : 'grey' }"  >★</label>
+              <!--
+                --><input id="radio2" type="radio" name="estrellas" value="4">
+              <!--
+                --><label for="radio2" [ngStyle]="{'color': servicio.calificacion >= 4  ? 'orange' : 'grey' }">★</label>
+              <!--
+                --><input id="radio3" type="radio" name="estrellas" value="3">
+              <!--
+                --><label for="radio3" [ngStyle]="{'color': servicio.calificacion >= 3  ? 'orange' : 'grey' }">★</label>
+              <!--
+                --><input id="radio4" type="radio" name="estrellas" value="2">
+              <!--
+                --><label for="radio4" [ngStyle]="{'color': servicio.calificacion >= 2  ? 'orange' : 'grey' }" >★</label>
+              <!--
+                --><input id="radio5" type="radio" name="estrellas" value="1">
+              <!--
+                --><label for="radio5"   [ngStyle]="{'color': servicio.calificacion >= 1  ? 'orange' : 'grey' }"  >★</label>
+            </p>
+          </form>
+          <h5 id="descServicio">
+            {{servicio.descripcion}} 
           </h5>
+
+          
   
   <br/>
           <div style="text-align: left ; padding-top: 2%;">
-            <b style="font-weight:lighter; font-size: 20px; " id="precioProducto">Precio por servicio: $  </b>
+            <b style="font-weight:lighter; font-size: 20px; " id="precioProducto">Precio por servicio: $  {{servicio.precio}}</b>
            
            
           </div>        
@@ -52,12 +76,7 @@
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+<br>
 <br/>
 <!-- coments-->
 <div class="container my-5">
@@ -74,128 +93,50 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor='let comentario of comentarios'>
           <td>
             <div class="d-flex align-items-center">
-              <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px"
+              <img src="/assets/img/{{comentario.urlFoto}}" alt="" style="width: 45px; height: 45px"
                 class="rounded-circle" />
               <div class="ms-3">
-                <p class="fw-bold mb-1">John Doe</p>
-                <p class="text-muted mb-0">john.doe@gmail.com</p>
+                <p class="fw-bold mb-1">{{comentario.nombre}}</p>
+                <p class="text-muted mb-0">{{comentario.correo}}</p>
               </div>
             </div>
           </td>
-          <td>HOLA ESTE ES MI COMENTARIO DE LA APLICACION</td>
+          <td>{{comentario.comentario}}</td>
           <td></td>
           <td></td>
-          <div class="box date">
-            <form>
-              <p class="clasificacion">
-                <input id="radio1" type="radio" name="estrellas" value="5">
-                <!--
-                  --><label id="star" for="radio1">★</label>
-                <!--
-                  --><input id="radio2" type="radio" name="estrellas" value="4">
-                <!--
-                  --><label for="radio2">★</label>
-                <!--
-                  --><input id="radio3" type="radio" name="estrellas" value="3">
-                <!--
-                  --><label for="radio3">★</label>
-                <!--
-                  --><input id="radio4" type="radio" name="estrellas" value="2">
-                <!--
-                  --><label for="radio4">★</label>
-                <!--
-                  --><input id="radio5" type="radio" name="estrellas" value="1">
-                <!--
-                  --><label for="radio5">★</label>
-              </p>
-            </form>
-          </div>
-
-        </tr>
-        <tr>
           <td>
-            <div class="d-flex align-items-center">
-              <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-                style="width: 45px; height: 45px" />
-              <div class="ms-3">
-                <p class="fw-bold mb-1">Alex Ray</p>
-                <p class="text-muted mb-0">alex.ray@gmail.com</p>
-              </div>
-            </div>
-          </td>
-          <td>HOLA ESTE ES MI COMENTARIO DE LA APLICACION</td>
-          <td></td>
-          <td></td>
           <div class="box date">
             <form>
               <p class="clasificacion">
                 <input id="radio1" type="radio" name="estrellas" value="5">
                 <!--
-                  --><label id="star" for="radio1">★</label>
+                  --><label id="star" for="radio1"  [ngStyle]="{'color': comentario.calificacion >= 5  ? 'orange' : 'grey' }"  >★</label>
                 <!--
                   --><input id="radio2" type="radio" name="estrellas" value="4">
                 <!--
-                  --><label for="radio2">★</label>
+                  --><label for="radio2" [ngStyle]="{'color': comentario.calificacion >= 4  ? 'orange' : 'grey' }">★</label>
                 <!--
                   --><input id="radio3" type="radio" name="estrellas" value="3">
                 <!--
-                  --><label for="radio3">★</label>
+                  --><label for="radio3" [ngStyle]="{'color': comentario.calificacion >= 3  ? 'orange' : 'grey' }">★</label>
                 <!--
                   --><input id="radio4" type="radio" name="estrellas" value="2">
                 <!--
-                  --><label for="radio4">★</label>
+                  --><label for="radio4" [ngStyle]="{'color': comentario.calificacion >= 2  ? 'orange' : 'grey' }" >★</label>
                 <!--
                   --><input id="radio5" type="radio" name="estrellas" value="1">
                 <!--
-                  --><label for="radio5">★</label>
+                  --><label for="radio5"   [ngStyle]="{'color': comentario.calificacion >= 1  ? 'orange' : 'grey' }"  >★</label>
               </p>
             </form>
           </div>
+        </td>
         </tr>
-        <tr>
-          <td>
-            <div class="d-flex align-items-center">
-              <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt=""
-                style="width: 45px; height: 45px" />
-              <div class="ms-3">
-                <p class="fw-bold mb-1">Kate Hunington</p>
-                <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-              </div>
-            </div>
-          </td>
-          <td>HOLA ESTE ES MI COMENTARIO DE LA APLICACION</td>
-          <td></td>
-          <td></td>
-          <div class="box date">
-            <form>
-              <p class="clasificacion">
-                <input id="radio1" type="radio" name="estrellas" value="5">
-                <!--
-                  --><label id="star" for="radio1">★</label>
-                <!--
-                  --><input id="radio2" type="radio" name="estrellas" value="4">
-                <!--
-                  --><label for="radio2">★</label>
-                <!--
-                  --><input id="radio3" type="radio" name="estrellas" value="3">
-                <!--
-                  --><label for="radio3">★</label>
-                <!--
-                  --><input id="radio4" type="radio" name="estrellas" value="2">
-                <!--
-                  --><label for="radio4">★</label>
-                <!--
-                  --><input id="radio5" type="radio" name="estrellas" value="1">
-                <!--
-                  --><label for="radio5">★</label>
-              </p>
-            </form>
-          </div>
-
-        </tr>
+        
+      
         <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter2">
           <a class="btn btn-success">Agregar Comentario</a>
         </div>
@@ -289,7 +230,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" >
         <div class="col-xs-12 col-md-12">
           <label for="start">Usuario: </label>
           <br />

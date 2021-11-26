@@ -172,3 +172,12 @@ insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
 ("Muy buen servicio, lo recomiendo",10,1,1),
 ("Lo recomiendo",10,2,2);
+
+
+
+create view vw_comentarios as (
+select c.idComentario, c.comentario, c.calificacion, c.idUsuario, u.correo, u.usuarioNombre  , p.nombre , p.urlFoto
+from comentario c, usuario u, persona p
+where c.idUsuario = u.idUsuario  and u.idUsuario = p.idUsuario and idServicio = 5
+order by idComentario desc);
+

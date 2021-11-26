@@ -225,7 +225,7 @@ form#login-form:before, form#login-form:after {
     unicode-bidi: bidi-override;
   }
   
-  label.star:hover,
+  /* label.star:hover,
   label:hover ~ label {
     color: orange;
   }
@@ -233,6 +233,6 @@ form#login-form:before, form#login-form:after {
   input[type="radio"]:checked ~ label {
     color: orange;
   }
-
+ */
   
 
