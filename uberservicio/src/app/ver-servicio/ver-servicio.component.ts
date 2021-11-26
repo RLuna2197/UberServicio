@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Comentario } from '../model/comentario';
 import { Servicio } from '../model/servicio';
 import { ComentarioService } from '../services/comentario.service';
 import { PersonaService } from '../services/persona.service';
@@ -10,12 +12,22 @@ import { ServicioService } from '../services/servicio.service';
   styleUrls: ['./ver-servicio.component.css']
 })
 export class VerServicioComponent implements OnInit {
+  formularioComentario:FormGroup;
   servicios: Servicio[] = [];
   comentarios: any[] = [];
   personas: any[] =[];
   idPersona: string= "" ;
+  inputComentario: string="";
+  califi: number=0;
+  comentarioNuevo: Comentario = new Comentario();
+  
 
-  constructor(private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService) { }
+  constructor(private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService) {
+    this.formularioComentario=this.fb.group({
+      comentario:['',Validators.required],
+      calificacion:['',Validators.required]    
+    })
+   }
   
   ngOnInit( ): void {
 
@@ -23,9 +35,14 @@ export class VerServicioComponent implements OnInit {
     
     this.getServicios();
     this.getComentarios();
-    //this.idPersona = localStorage.getItem('id');
+    //Obteniendo el usuario logeado
     this.idPersona = localStorage.getItem('id') as string;
     this.getPersonaByid(this.idPersona);
+
+    this.formularioComentario=this.fb.group({
+      comentario:['',Validators.required],
+      calificacion:['',Validators.required]    
+    })
     
   }
   //Obtener Servicio
@@ -51,7 +68,7 @@ export class VerServicioComponent implements OnInit {
     this.datApiComen.getComentarioByid().subscribe((comentarios) => console.log(comentarios)); // mostrar en consola
   }
 
-
+  //Obtener datos de usuario registrado
   private getPersonaByid(idPersona: string){
     this.dataApiPerson.getPersonaByid(idPersona).subscribe((response) => {
       this.personas = response;
@@ -62,5 +79,24 @@ export class VerServicioComponent implements OnInit {
     this.dataApiPerson.getPersonaByid(idPersona).subscribe((persona) => console.log(persona)); // mostrar en consola
   }
 
+
+  //Comentario
+  calificacion(cali: number){
+    this.califi = cali; 
+    console.log(cali)
+  }
+
+  agregarComentario(){
+    this.comentarioNuevo.comentario = this.inputComentario;
+    this.comentarioNuevo.calificacion = this.califi;
+    this.comentarioNuevo.idServicio = 5;
+    this.comentarioNuevo.idUsuario = Number(this.idPersona);
+    
+    this.datApiComen.saveComentario(this.comentarioNuevo).subscribe(res => {
+      console.log(res);
+    }, err => {
+      console.log(err);
+    })
+  }
   
 }
