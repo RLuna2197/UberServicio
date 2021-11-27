@@ -37,7 +37,7 @@ const routes: Routes = [
 }
 ,
 {
-  path:'verS', component: VerServicioComponent
+  path:'verS/:id', component: VerServicioComponent
 }
 ,
 {
