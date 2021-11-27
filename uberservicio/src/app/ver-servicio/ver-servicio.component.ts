@@ -159,11 +159,11 @@ export class VerServicioComponent implements OnInit {
     this.pedidoNuevo.total = this.total;
     this.pedidoNuevo.idPedido = 5;
 
-    this.DataPedio.savePedido(this.pedidoNuevo).subscribe(res => {
-      console.log(res);
+    this.DataPedio.savePedido(this.pedidoNuevo).subscribe(resp => {
+      console.log(resp);
 
-    }, err => {
-      console.log(err);
+    }, erro => {
+      console.log(erro);
     })
     
   }
