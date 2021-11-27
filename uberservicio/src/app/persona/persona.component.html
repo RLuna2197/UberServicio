@@ -1,51 +1,57 @@
-<div class="container">
 
-    <br/>
-    <div class="alert alert-success" role="alert">
-      Agregando datos de Persona
-    </div>
-    <br/>
-    <br/>
-    
-    <form class="row g-3" enctype="multipart/form-data" action="" method="post" autocomplete="off">
 
-        <div class="col-xs-12 col-md-6">
-            <label class="form-label">Su usuario </label>
-    
-            <select name="idUsuario" style="width: 90%;" class="form-select" required>
-              <option class="option" id="idUsuario">Debes Seleccionar tu User</option>
-    
-              <option value="">usuario x</option>
-    
-              <option value="">usuario y</option>
-    
-            </select>
-          </div>
- 
+<head>
+  
+  <script type="text/javascript" src="login.js"></script>
+  <link href="persona.component.css" rel="stylesheet" type="text/css">
+  
+  </head>
+<body>
+
+  <!--form area start-->
+  <div class="form">
+    <!--login form start-->
+    <form class="login-form" action="" method="post">
+      <i class="fa fa-user fa-2x"></i>
+      <input class="user-input" type="text" name="" placeholder="Nombre" required>
+      <input class="user-input" type="text" name="" placeholder="Apellido" required>
+      <input class="user-input" type="text" name="" placeholder="Telefono" required>
+     
+      <input class="user-input" type="text" name="" placeholder="Correo" required>
+      <input class="user-input" type="text" name="" placeholder="User" required>
+      <input class="user-input" type="password" name="" placeholder="Password" required>
       <div class="col-xs-12 col-md-12">
-        <label class="form-label">Nombre</label>
-        <input type="text" style="width: 90%;" class="form-control" name="pNombre" value="" required>
-      </div>
-
-      <div class="col-xs-12 col-md-12">
-        <label class="form-label">Apellido</label>
-        <input type="text" style="width: 90%;" class="form-control" name="pApellido" value="" required>
-      </div>
-
-      <div class="col-xs-12 col-md-12">
-        <label class="form-label">Telefono</label>
-        <input type="number" style="width: 90%;" class="form-control" name="pTelefono" value="" required>
-      </div>
-
-      <div class="col-xs-12 col-md-12">
-        <label class="form-label">Foto de persona</label>
+        <label class="form-label">Fotos de la persona</label>
         <br/>
-        <input name="uploadedfile" type="file" />
+        <input name=" " type="file" />
       </div>
-      <div class="col-xs-6 col-md-12">
-        <button class="btn btn-success" type="submit">Agregar Persona</button>
+      <div class="options-01">
+        <label class="remember-me"><input type="checkbox" name="">Remember me</label>
+        <a href="#">Forgot your password?</a>
+      </div>
+      <input class="btn" type="submit" name="" value="Registrate">
+      <div class="options-02 a">
+        <p>Volver a Login <a href="/login">Login</a></p>
       </div>
     </form>
+    <!--login form end-->
+    <!--signup form start-->
+    <form class="signup-form" action="" method="post">
+      <i class="fas fa-user-plus"></i>
+      <input class="user-input" type="text" name="" placeholder="Username" required>
+      <input class="user-input" type="email" name="" placeholder="Email Address" required>
+      <input class="user-input" type="password" name="" placeholder="Password" required>
+      <input class="btn" type="submit" name="" value="SIGN UP">
+      <div class="options-02">
+        <p>Already Registered? <a href="#">Sign In</a></p>
+      </div>
+    </form>
+    <!--signup form end-->
 
+    <br>
+    <br>
     
   </div>
+  <!--form area end-->
+
+</body>

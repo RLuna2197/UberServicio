@@ -330,3 +330,108 @@ background-size: 14px;
 	
 
 
+/* ==============================
+	$-Resets
+============================== */
+html,
+body {
+  height: 100%;
+  font-size: 24px;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 220px;
+  margin: 0;
+  line-height: 1.5;
+  background-color: #eee;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+/* headers */
+h1 {
+  font-family: "Roboto Slab", Times, "Times New Roman", serif;
+  font-size: 2.2em;
+}
+
+/* highlight colors */
+/* anchor links */
+a {
+  text-decoration: none;
+  color: coral;
+}
+a:hover, a:active {
+  text-decoration: underline;
+}
+
+.upper {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.upper h1 {
+  margin-top: 0;
+  font-size: 1.4em;
+  color: teal;
+}
+
+.center-ta-c {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+@import url('https://fonts.googleapis.com/css?family=Roboto:500');
+
+.btn {
+  /* Para <button> */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+
+  /* Para <a> */
+  display: inline-block;
+  text-decoration: none;
+
+  /* Otros */
+  margin: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.btn-enlace {
+  position: relative;
+  padding: 6px 16px;
+  border-radius: 0.25rem;
+  background-color: #0f84e4;
+  color: #fff;
+  transition: background-color 0.15s ease-in-out, top 0.15s ease-in-out,
+    left 0.15s ease-in-out;
+    margin-left: 860px;
+}
+
+.btn-elim {
+  position: relative;
+  padding: 6px 16px;
+  border-radius: 0.25rem;
+  background-color: #d32f2f;
+  color: #fff;
+  transition: background-color 0.15s ease-in-out, top 0.15s ease-in-out,
+    left 0.15s ease-in-out;
+}
