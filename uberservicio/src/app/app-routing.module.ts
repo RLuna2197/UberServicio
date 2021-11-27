@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ActualizarSComponent } from './actualizar-s/actualizar-s.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { HistorialServicioComponent } from './historial-servicio/historial-servicio.component';
 import { HomeVComponent } from './home-v/home-v.component';
@@ -11,12 +12,19 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { PersonaComponent } from './persona/persona.component';
 import { ServicioComponent } from './servicio/servicio.component';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { VerServicioCComponent } from './ver-servicio-c/ver-servicio-c.component';
+import { VerServicioVComponent } from './ver-servicio-v/ver-servicio-v.component';
 import { VerServicioComponent } from './ver-servicio/ver-servicio.component';
 
 const routes: Routes = [
 
+{
+  path:'', redirectTo:'login', pathMatch:'full'
+}
+,
+
   { 
-    path:'', component: HomeComponent
+    path:'home', component: HomeComponent
 
   }
 ,
@@ -62,6 +70,22 @@ const routes: Routes = [
 ,
 {
   path:'historials', component: HistorialServicioComponent
+}
+,
+{
+  path:'verserviciov', component: VerServicioVComponent
+}
+,
+{
+  path:'login', component: LoginComponent
+}
+,
+{
+  path:'verservicioc', component: VerServicioCComponent
+}
+,
+{
+  path:'actuaS', component: ActualizarSComponent
 }
 ];
 

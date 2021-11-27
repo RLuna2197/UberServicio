@@ -1,4 +1,73 @@
-<div class="container">
+
+    <div class="area"></div>
+    <nav class="main-menu">
+      <ul>      
+        <li>
+          <br/>
+          <br/>
+          <br/>
+          <a href="/homev">
+            <i class="fa fa-home fa-2x"></i>
+            <span class="nav-text">
+              Principal
+            </span>
+          </a>
+        </li>
+        <br/>
+        
+      
+        <li class="has-subnav">
+          <a href="/servicio">
+            <i class="fa fa-folder-open fa-2x"></i>
+            <span class="nav-text">
+              Crear Servicio
+            </span>
+          </a>
+  
+        </li>
+        <br/>    
+        <li class="has-subnav">
+          <a href="/verserviciov">
+            <i class="fa fa-folder fa-2x"></i>
+            <span class="nav-text">
+              Soicitados
+            </span>
+          </a>
+        </li>
+        <br/>
+        <li class="has-subnav">
+          <a href="/verservicioc">
+            <i class="fa fa-folder fa-2x"></i>
+            <span class="nav-text">
+              Creados
+            </span>
+          </a>
+        </li>
+        <br/>
+        <li>
+          <a href="/perfil">
+            <i class="fa fa-user fa-2x"></i>
+            <span class="nav-text">
+               Perfil
+            </span>
+          </a>
+        </li>       
+      </ul>
+      <ul class="logout">
+        <li>
+          <a href="/login">
+            <i class="fa fa-power-off fa-2x"></i>
+            <span class="nav-text">
+              Logout
+            </span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  <router-outlet>
+  
+  </router-outlet>
+  <div class="container">
 
     <br/>
     <div class="alert alert-success" role="alert">
@@ -42,6 +111,12 @@
         <label class="form-label">Calificacion: </label>
         
       </div>
+
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label">Fotos del servicio</label>
+        <br/>
+        <input name=" " type="file" />
+      </div>
   
 
 
@@ -73,11 +148,5 @@
       <div class="col-xs-6 col-md-12">
         <button class="btn btn-success" type="submit">Agregar Servicio</button>
       </div>
-
-  
-
-      
-    </form>
-
-    
+    </form>  
   </div>

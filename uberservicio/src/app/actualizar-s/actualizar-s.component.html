@@ -1,0 +1,157 @@
+
+      <div class="area"></div>
+      <nav class="main-menu">
+        <ul>      
+          <li>
+            <br/>
+            <br/>
+            <br/>
+            <a href="/homev">
+              <i class="fa fa-home fa-2x"></i>
+              <span class="nav-text">
+                Principal
+              </span>
+            </a>
+          </li>
+          <br/>
+          
+        
+          <li class="has-subnav">
+            <a href="/servicio">
+              <i class="fa fa-folder-open fa-2x"></i>
+              <span class="nav-text">
+                Crear Servicio
+              </span>
+            </a>
+    
+          </li>
+          <br/>    
+          <li class="has-subnav">
+            <a href="/verserviciov">
+              <i class="fa fa-folder fa-2x"></i>
+              <span class="nav-text">
+                Soicitados
+              </span>
+            </a>
+          </li>
+          <br/>
+          <li class="has-subnav">
+            <a href="/verservicioc">
+              <i class="fa fa-folder fa-2x"></i>
+              <span class="nav-text">
+                Creados
+              </span>
+            </a>
+          </li>
+          <br/>
+          <li>
+            <a href="/perfil">
+              <i class="fa fa-user fa-2x"></i>
+              <span class="nav-text">
+                 Perfil
+              </span>
+            </a>
+          </li>       
+        </ul>
+        <ul class="logout">
+          <li>
+            <a href="/login">
+              <i class="fa fa-power-off fa-2x"></i>
+              <span class="nav-text">
+                Logout
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    
+    <div class="container">
+  
+      <br/>
+      <div class="alert alert-success" role="alert">
+        Actualizar su servicio
+      </div>
+      <br/>
+      <br/>
+      
+      <form class="row g-3" enctype="multipart/form-data" action="" method="post" autocomplete="off">
+  
+   
+        <div class="col-xs-12 col-md-12">
+          <label class="form-label">Nombre del Servicio</label>
+          <input type="text" style="width: 90%;" class="form-control" name="nService" value="" required>
+        </div>
+  
+        <div class="col-xs-12 col-md-12">
+          <label class="form-label">Descripcion</label>
+          <input type="text" style="width: 90%;" class="form-control" name="dService" value="" required>
+        </div>
+  
+        <div class="col-xs-12 col-md-12">
+          <label class="form-label">Precio</label>
+          <input type="number" min="0.00" max="10000.00" step="0.01" placeholder="$ " style="width: 90%;" class="form-control" name="pService" value="" required>
+        </div>
+        
+        <div class="col-xs-12 col-md-6">
+          <label class="form-label">Disponibilidad del servicio </label>
+  
+          <select name="disponibilidad" style="width: 90%;" class="form-select" required>
+            <option class="option" id="disponibilidad">Debes Seleccionar...</option>
+  
+            <option value="">DISPONIBLE</option>
+  
+            <option value="">NO DISPONIBLE</option>
+  
+          </select>
+        </div>
+  
+        <div class="col-xs-12 col-md-12">
+          <label class="form-label">Calificacion: </label>
+          
+        </div>
+  
+        <div class="col-xs-12 col-md-12">
+          <label class="form-label">Fotos del servicio</label>
+          <br/>
+          <input name=" " type="file" />
+        </div>
+    
+  
+  
+        <div class="col-xs-12 col-md-6">
+          <label class="form-label">Categoria del servicio </label>
+  
+          <select name="idCategoria" style="width: 90%;" class="form-select" required>
+            <option class="option" id="idCategoria">Debes Seleccionar...</option>
+  
+            <option value="">categoria x</option>
+  
+            <option value="">categoria y</option>
+  
+          </select>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <label class="form-label">Persona</label>
+  
+          <select name="idUsuario" style="width: 90%;" class="form-select" required>
+            <option class="option" id="idUsuario">Debes Seleccionar...</option>
+  
+            <option value="">persona x</option>
+  
+            <option value="">persona y</option>
+  
+          </select>
+        </div>
+  
+        <div class="col-xs-6 col-md-12">
+          <button class="btn btn-success" type="submit">Actualizar Servicio</button>
+        </div>
+        <a role="button" href="/actuaS" id="btn6" class="btn btn-enlace" style="color:white">Actualizar</a>
+  
+    
+  
+        
+      </form>
+  
+      
+    </div>
