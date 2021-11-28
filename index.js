@@ -956,6 +956,20 @@ app.get('/Pedido/:idUsuario', autenticarToken, (req, res) => {
         })
 })
 
+//Consultar pedidos por servicio
+app.get('/Pedido/Servicio/:idServicio', autenticarToken, (req, res) => {
+
+    let idServicio = req.params.idServicio;
+    
+    servicioPedido.obtenerPedidosPorServicio(idServicio)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
 //Agregar Pedidos
 app.post("/Pedido", autenticarToken, (req, res) => {
     let fechaInicio = req.body.fechaInicio;

@@ -13,6 +13,18 @@ function obtenerPedidos(idUsuario) {
     })
 }
 
+function obtenerPedidosPorServicio(idServicio) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.SelectPedidosbyCliente, [idServicio], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(resultado)
+            }
+        })
+    })
+}
+
 function insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente) {
     return new Promise((resolve, reject) => {
         conexion.query(consulta.insertarPedido, [fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente], (error, resultado) => {
@@ -40,5 +52,6 @@ function borrarPedido(idPedido) {
 module.exports = {
     obtenerPedidos: obtenerPedidos,
     insertarPedidos: insertarPedidos,
-    borrarPedido: borrarPedido
+    borrarPedido: borrarPedido,
+    obtenerPedidosPorServicio :obtenerPedidosPorServicio
 }

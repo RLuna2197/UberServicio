@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { HomeComponent } from './home/home.component';
 import { VerServicioComponent } from './ver-servicio/ver-servicio.component';
+import { VerServicioVComponent} from './ver-servicio-v/ver-servicio-v.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { ServicioComponent } from './servicio/servicio.component';
 import { HistorialServicioComponent } from './historial-servicio/historial-servicio.component';
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiltroServicioPipe } from './filtro-servicio.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     UsuarioComponent,
     ServicioComponent,
     HistorialServicioComponent,
+    VerServicioVComponent,
 
     PedidoComponent,
     HomeVComponent,
@@ -46,7 +49,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    CommonModule
 
   ],
   providers: [],

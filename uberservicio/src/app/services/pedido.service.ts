@@ -27,6 +27,17 @@ export class PedidoService {
     return this.http.get<any[]>(`${this.url}/Pedido/${idUsuario}`,httpOptions);
   }
 
+  getPedidoByServicio(idServicios: number){
+    const httpOptions = {
+      headers: new HttpHeaders({
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      "llave": "Bearer eyJhbGciOiJIUzI1NiJ9.cm9iZXJMdW5hbHVuYTEyMw.BBD_ybOCN5btQEEzkN76HJ2u1bRTbD9zTr3lhYZr408"
+      })
+      };
+    return this.http.get<any[]>(`${this.url}/Pedido/Servicio/${idServicios}`,httpOptions);
+  }
+
   savePedido(obj: Pedido){
     const httpOptions = {
       headers: new HttpHeaders({

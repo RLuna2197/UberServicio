@@ -1,5 +1,6 @@
 {
     "SelectPedidosbyCliente": "select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and p.idCliente = ? order by fechaInicio",
+    "SelectPedidobyServicio": "select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and s.idPersona = ? order by fechaInicio",
     "insertarPedido": "insert into pedido(fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente) values(?,?,?,?,?,?);",
     "eliminarPedido": "delete from pedido where idPedido=?"
 }
