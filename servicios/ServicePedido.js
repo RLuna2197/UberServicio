@@ -13,9 +13,9 @@ function obtenerPedidos(idUsuario) {
     })
 }
 
-function insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total) {
+function insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente) {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.insertarPedido, [fechaInicio, fechaFin, horaInicio, horaFin, total], (error, resultado) => {
+        conexion.query(consulta.insertarPedido, [fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente], (error, resultado) => {
             if (error) {
                 reject(error)
             } else {

@@ -165,7 +165,7 @@ export class VerServicioComponent implements OnInit {
     this.pedidoNuevo.horaInicio = this.inputHoraInicio;
     this.pedidoNuevo.horaFin = this.inputHoraFin;
     this.pedidoNuevo.total = this.total;
-    
+    this.pedidoNuevo.idCliente = Number(this.idPersona);
 
     this.DataPedio.savePedido(this.pedidoNuevo).subscribe(resp => {
       console.log(resp);

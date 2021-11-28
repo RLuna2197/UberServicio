@@ -946,7 +946,7 @@ app.delete('/Categoria/:idCategoria', (req, res) => {
 app.get('/Pedido/:idUsuario', autenticarToken, (req, res) => {
 
     let idUsuario = req.params.idUsuario;
-
+    
     servicioPedido.obtenerPedidos(idUsuario)
         .then(data => {
             res.status(200).send(data);
@@ -957,12 +957,13 @@ app.get('/Pedido/:idUsuario', autenticarToken, (req, res) => {
 })
 
 //Agregar Pedidos
-app.post("/Pedido", (req, res) => {
+app.post("/Pedido", autenticarToken, (req, res) => {
     let fechaInicio = req.body.fechaInicio;
     let fechaFin = req.body.fechaFin;
     let horaInicio = req.body.horaInicio;
     let horaFin = req.body.horaFin;
     let total = req.body.total;
+    let idCliente = req.body.idCliente;
 
     let resp = {
         status: 200,
@@ -970,7 +971,7 @@ app.post("/Pedido", (req, res) => {
         idPedido: 0
     }
 
-    if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total)) {
+    if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total) || validador.validarDatos(idCliente)) {
         resp.status = 400;
         resp.mensaje = mensaje.mensajeError;
 
@@ -979,7 +980,7 @@ app.post("/Pedido", (req, res) => {
         })
         return res.status(400).send(JSON.stringify(resp))
     }
-    servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total)
+    servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
             resp.idPedido = data.insertId;
@@ -1139,7 +1140,7 @@ app.post('/PedidoServicio', autenticarToken, (req, res) => {
 
 })
 
-
+//Crear historial conversion
 app.post('/HistoConversion', autenticarToken, (req, res) => {
     let moneda = req.body.moneda;
     let valor = req.body.valor;
@@ -1170,7 +1171,7 @@ app.post('/HistoConversion', autenticarToken, (req, res) => {
             res.set({
                 "Context-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
 })
