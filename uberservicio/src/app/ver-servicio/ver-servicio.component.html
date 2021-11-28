@@ -198,7 +198,7 @@
           <select name="idUsuario" style="width: 90%;" class="form-select" [(ngModel)]="opcionSeleccionado" (change)="monedaCambio()" required>
            
 
-            <option [value]="1" selected>Dolares $</option>
+            <option  selected [value]="1">Dolares $</option>
 
             <option [value]="2">Euros €</option>
 
@@ -215,7 +215,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="agregarPedido()">Realizar Pedido</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarPedido()">Realizar Pedido</button>
       </div>
     
     </div>
@@ -224,7 +224,7 @@
 <!--MODAL2-->
 
 <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+  aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" *ngFor='let persona of personas'>
       
@@ -278,7 +278,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" *ngIf='inputComentario' (click)="agregarComentario()">Realizar Comentario</button>
+        <button type="button" class="btn btn-primary" *ngIf='inputComentario' data-dismiss="modal" (click)="agregarComentario()">Realizar Comentario</button>
       </div>
     
     </div>

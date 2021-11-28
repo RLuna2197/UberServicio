@@ -90,13 +90,13 @@
                 </div>
               </div>
               <div class="informations-container">
-                <p class="title" id="nombre" style="font-size: 15px;">Nombre del Servicio: {{ servicio.nombre }}</p>
-                <h2 class="sub-title" id="descripcion" style="font-size: 15px;">Descripcion: {{ servicio.descripcion }}</h2>
+                <p class="title" id="nombre" style="font-size: 15px;">{{ servicio.nombre }}</p>
+                <h2 class="sub-title" id="descripcion" style="font-size: 15px;">{{ servicio.descripcion }}</h2>
       
                 <p class="price"><svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" id="precio"
                       d="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" />
-                  </svg>Precio: {{ servicio.precio }}</p>
+                  </svg>$ {{ servicio.precio }}</p>
       
                 <div class="more-information">
                   <div class="info-and-date-container">
@@ -144,7 +144,7 @@
                           <label for="radio5">★</label>
                         </p>-->
                       </form>
-                      <p>Calificacion: {{servicio.calificacion}}</p>
+                      <p>Calificacion</p>
                     </div>
                   </div>
                   <p class="disclaimer">La empresa no se hace responsable ni hace devoluciones si usted no se encuentra

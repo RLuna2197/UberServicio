@@ -23,7 +23,7 @@ create table pedido(
     horaFin time,
     total double
     );
-	
+    
 create table historialConversion(
 	 idConversion integer primary key auto_increment,
 	moneda varchar(60),
@@ -87,7 +87,8 @@ ALTER TABLE servicio modify descripcion text;
 ALTER TABLE servicio modify nombre varchar(100);
 ALTER TABLE comentario modify comentario text;
 AlTER TABLE categoria modify descripcionCategoria text;
-
+Alter table pedido add idCliente integer;
+Alter table pedido add constraint Fk_clientepedido foreign key(idCliente) references persona(idUsuario);
 #procedimientos
 
 #procedimiento almacenado que permite insertar valores en la tabla de usuarios.
@@ -181,3 +182,4 @@ from comentario c, usuario u, persona p
 where c.idUsuario = u.idUsuario  and u.idUsuario = p.idUsuario and idServicio = 5
 order by idComentario desc);
 
+select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and p.idCliente = ? order by fechaInicio

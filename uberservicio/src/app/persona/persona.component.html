@@ -16,18 +16,30 @@
       <input class="user-input" type="text" name="" placeholder="Nombre" required>
       <input class="user-input" type="text" name="" placeholder="Apellido" required>
       <input class="user-input" type="text" name="" placeholder="Telefono" required>
-     
+      
       <input class="user-input" type="text" name="" placeholder="Correo" required>
       <input class="user-input" type="text" name="" placeholder="User" required>
       <input class="user-input" type="password" name="" placeholder="Password" required>
       <div class="col-xs-12 col-md-12">
-        <label class="form-label">Fotos de la persona</label>
+        <label class="form-label" style="color: white;">Fotos de la persona</label>
         <br/>
         <input name=" " type="file" />
       </div>
+      
+      <div class="col-xs-12 col-md-12">
+        <label class="form-label" style="color: white;">Que desea ser? </label>
+
+        <select name="idCategoria" style="width: 100%;" class="form-select" required>
+          <option class="option" id="idCategoria">Debes Seleccionar...</option>
+
+          <option value="">Comprador</option>
+
+          <option value="">Vendedor</option>
+
+        </select>
+      </div>
       <div class="options-01">
-        <label class="remember-me"><input type="checkbox" name="">Remember me</label>
-        <a href="#">Forgot your password?</a>
+        
       </div>
       <input class="btn" type="submit" name="" value="Registrate">
       <div class="options-02 a">

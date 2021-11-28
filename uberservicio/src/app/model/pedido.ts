@@ -5,6 +5,7 @@ export class Pedido {
     horaInicio: Date=new Date();
     horaFin: Date=new Date();
     total:number = 0;
+    idCliente:number = 0;
 
     constructor() {
         this.idPedido=this.idPedido;
@@ -13,5 +14,6 @@ export class Pedido {
         this.horaInicio=this.horaInicio;
         this.horaFin=this.horaFin;
         this.total=this.total
+        this.idCliente = this.idCliente;
     }
 }

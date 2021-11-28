@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PedidoService } from '../services/pedido.service';
 
 @Component({
   selector: 'app-historial-servicio',
@@ -6,10 +7,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./historial-servicio.component.css']
 })
 export class HistorialServicioComponent implements OnInit {
+  pedidos: any[] = [];
+  idPersona: number = 0;
+  term: string="";
 
-  constructor() { }
-
+  constructor(private dataApi: PedidoService) { }
+  
   ngOnInit(): void {
+    this.idPersona = Number(localStorage.getItem('id') as string);
+    
+    this.getPedidoByUser(this.idPersona);
+  }
+
+  private getPedidoByUser(idPersona: number){
+    
+    this.dataApi.getPedidoByUsuario(idPersona).subscribe((response) => {
+      this.pedidos = response;
+      
+    },
+      (error) => { console.error(error); }
+    );
+
+    this.dataApi.getPedidoByUsuario(idPersona).subscribe((pedido) => console.log(pedido)); // mostrar en consola
   }
 
 }
