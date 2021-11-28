@@ -17,7 +17,7 @@
 
 <body>
 
-  <div class="container centered">
+  <div class="container centered" *ngFor='let persona of personas' >
     <header class="perfil">
       <img src="https://avatars.githubusercontent.com/u/46529244?v=4" alt="">
       <div class="title">
@@ -34,8 +34,8 @@
         <h4>Projetos</h4>
         <p class="line-1 anim-typewriter"></p>
         <ol>
-          <li><a >  Nombre: </a></li>
-          <li><a >  Apellido: </a></li>
+          <li>Nombre:{{persona.apellido}}</li>
+          <li><a >  Apellido:{{persona.apellido}} </a></li>
           <li><a >  Telefono: </a></li>
           <li><a >  Correo de Usuario: </a></li>
           <li><a >  Nombre de Usuario: </a></li>

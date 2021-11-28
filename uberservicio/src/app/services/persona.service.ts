@@ -19,5 +19,6 @@ export class PersonaService {
       })
       };
     return this.http.get<any[]>(`${this.url}/Personas/${idUsuario}`,httpOptions);
+    //return this.http.get<any[]>(`${this.url}/Personas/${idUsuario}`,httpOptions);
   }
 }
