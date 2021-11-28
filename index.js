@@ -16,6 +16,7 @@ const servicioCategoria = require('./servicios/ServiceCategoria');
 const servicioPedido = require('./servicios/ServicePedido');
 const servicioHConversion = require('./servicios/ServiceHistorialConversion');
 const ServiceHistorialConversion = require('./servicios/ServiceHistorialConversion');
+const servicioPedidoServicio = require('./servicios/ServicePedidoServicio');
 //Validacion
 const validador = require('./servicios/validacion');
 
@@ -962,7 +963,8 @@ app.post("/Pedido", (req, res) => {
 
     let resp = {
         status: 200,
-        mensaje: ""
+        mensaje: "",
+        idPedido: 0
     }
 
     if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total)) {
@@ -977,6 +979,7 @@ app.post("/Pedido", (req, res) => {
     servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
+            resp.idPedido = data.insertId;
             res.set({
                 "Context-type": "Text/json"
             })
@@ -987,7 +990,7 @@ app.post("/Pedido", (req, res) => {
             res.set({
                 "Context-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
 })
@@ -1133,5 +1136,46 @@ app.get('/api/bitcoin', (req, res) => {
     })
 });
 
+
+//PedidoServicio
+
+app.post('/PedidoServicio', autenticarToken, (req, res) => {
+
+    let idPedido = req.body.idPedido;
+    let idServicio = req.body.idServicio;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+
+    if (validador.validarDatos(idPedido) || validador.validarDatos(idServicio)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioPedidoServicio.insertarPedidoServicio(idPedido, idServicio)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensaje.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
 
 app.listen(3000);

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Pedido } from '../model/pedido';
+import { PedidoServicio } from '../model/pedidoServicio';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Pedido } from '../model/pedido';
 export class PedidoService {
   url:string = environment.baseUrl;
   pedido: Pedido = new Pedido();
+  pedidoServicio: PedidoServicio = new PedidoServicio();
 
   constructor(private http: HttpClient) { }
 
@@ -28,5 +30,20 @@ export class PedidoService {
     this.pedido.total = obj.total;
     
     return this.http.post<Pedido>(this.url+'/Pedido',this.pedido,httpOptions);
+  }
+
+
+  savePedidoServicio(obj: PedidoServicio){
+    const httpOptions = {
+      headers: new HttpHeaders({
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      "llave": "Bearer eyJhbGciOiJIUzI1NiJ9.cm9iZXJMdW5hbHVuYTEyMw.BBD_ybOCN5btQEEzkN76HJ2u1bRTbD9zTr3lhYZr408"
+      })
+      };
+    this.pedidoServicio.idPedido = obj.idPedido;
+    this.pedidoServicio.idServicio = obj.idServicio;
+    
+    return this.http.post<PedidoServicio>(this.url+'/PedidoServicio',this.pedidoServicio,httpOptions);
   }
 }

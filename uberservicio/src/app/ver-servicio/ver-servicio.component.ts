@@ -5,6 +5,7 @@ import { Bitcoin } from '../model/bitcoin';
 import { Comentario } from '../model/comentario';
 import { Euro } from '../model/euro';
 import { Pedido } from '../model/pedido';
+import { PedidoServicio } from '../model/pedidoServicio';
 import { Servicio } from '../model/servicio';
 import { ComentarioService } from '../services/comentario.service';
 import { ConversionService } from '../services/conversion.service';
@@ -30,6 +31,7 @@ export class VerServicioComponent implements OnInit {
   inputPrecio: number=0;
   comentarioNuevo: Comentario = new Comentario();
   pedidoNuevo: Pedido = new Pedido();
+  pdNuevo: PedidoServicio = new PedidoServicio();
   conversionEuro: number=0;
   conversionBitcoin: number=0;
   opcionSeleccionado: number=0;
@@ -40,6 +42,7 @@ export class VerServicioComponent implements OnInit {
   inputHoraInicio: Date = new Date();
   inputHoraFin: Date = new Date();
   idServicio: number=0;
+  idPedido: number =0;
 
   constructor(private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
     this.formularioComentario=this.fb.group({
@@ -163,6 +166,24 @@ export class VerServicioComponent implements OnInit {
     
 
     this.DataPedio.savePedido(this.pedidoNuevo).subscribe(resp => {
+      console.log(resp);
+      this.idPedido = resp.idPedido;
+      this.agregarPedidoServicio(this.idPedido);
+      
+    }, erro => {
+      console.log(erro);
+    })
+
+    
+    
+  }
+
+
+  agregarPedidoServicio(idPedido: number){
+    this.pdNuevo.idPedido = idPedido;
+    this.pdNuevo.idServicio = this.idServicio;
+    
+    this.DataPedio.savePedidoServicio(this.pdNuevo).subscribe(resp => {
       console.log(resp);
       
     }, erro => {
