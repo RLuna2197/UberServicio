@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Bitcoin } from '../model/bitcoin';
 import { Comentario } from '../model/comentario';
 import { Euro } from '../model/euro';
@@ -38,9 +39,9 @@ export class VerServicioComponent implements OnInit {
   inputFechaFin: Date = new Date();
   inputHoraInicio: Date = new Date();
   inputHoraFin: Date = new Date();
- 
+  idServicio: number=0;
 
-  constructor(private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
+  constructor(private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
     this.formularioComentario=this.fb.group({
       comentario:['',Validators.required],
       calificacion:['',Validators.required]    
@@ -48,12 +49,13 @@ export class VerServicioComponent implements OnInit {
    }
   
   ngOnInit( ): void {
-
+    this.idServicio = Number(this.route.snapshot.paramMap.get('parametro'));
+    console.log(this.idServicio)
     localStorage.setItem('id', '7');
     this.getEuro();
     this.getBitcoin();
-    this.getServicios();
-    this.getComentarios();
+    this.getServicios(this.idServicio);
+    this.getComentarios(this.idServicio);
     
     //Obteniendo el usuario logeado
     this.idPersona = localStorage.getItem('id') as string;
@@ -67,27 +69,27 @@ export class VerServicioComponent implements OnInit {
     
   }
   //Obtener Servicio
-  private getServicios() {
+  private getServicios(idServicio : number) {
 
-    this.dataApi.getServiciosByid().subscribe((response) => {
+    this.dataApi.getServiciosByid(idServicio).subscribe((response) => {
       this.servicios = response;
       this.inputPrecio = Number(this.servicios[0].precio);
     },
       (error) => { console.error(error); }
     );
 
-    this.dataApi.getServiciosByid().subscribe((servicios) => console.log(servicios)); // mostrar en consola
+    this.dataApi.getServiciosByid(idServicio).subscribe((servicios) => console.log(servicios)); // mostrar en consola
   }
   
   //Obtener Comentario
-  private getComentarios(){
-    this.datApiComen.getComentarioByid().subscribe((response) => {
+  private getComentarios(idServicio: number){
+    this.datApiComen.getComentarioByid(idServicio).subscribe((response) => {
       this.comentarios = response;
     },
       (error) => { console.error(error); }
     );
 
-    this.datApiComen.getComentarioByid().subscribe((comentarios) => console.log(comentarios)); // mostrar en consola
+    this.datApiComen.getComentarioByid(idServicio).subscribe((comentarios) => console.log(comentarios)); // mostrar en consola
   }
 
   //Obtener datos de usuario registrado
@@ -137,7 +139,7 @@ export class VerServicioComponent implements OnInit {
   agregarComentario(){
     this.comentarioNuevo.comentario = this.inputComentario;
     this.comentarioNuevo.calificacion = this.califi;
-    this.comentarioNuevo.idServicio = 5;
+    this.comentarioNuevo.idServicio = this.idServicio;
     this.comentarioNuevo.idUsuario = Number(this.idPersona);
     
     this.datApiComen.saveComentario(this.comentarioNuevo).subscribe(res => {
@@ -147,8 +149,8 @@ export class VerServicioComponent implements OnInit {
       console.log(err);
     })
 
-    this.getComentarios();
-    this.getServicios();
+    this.getComentarios(this.idServicio);
+    this.getServicios(this.idServicio);
   }
 
 
@@ -158,7 +160,7 @@ export class VerServicioComponent implements OnInit {
     this.pedidoNuevo.horaInicio = this.inputHoraInicio;
     this.pedidoNuevo.horaFin = this.inputHoraFin;
     this.pedidoNuevo.total = this.total;
-    this.pedidoNuevo.idPedido = 5;
+    
 
     this.DataPedio.savePedido(this.pedidoNuevo).subscribe(resp => {
       console.log(resp);

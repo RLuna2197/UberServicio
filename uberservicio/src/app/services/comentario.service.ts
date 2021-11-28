@@ -11,7 +11,7 @@ export class ComentarioService {
   comentario: Comentario = new Comentario();
   constructor(private http: HttpClient) { }
 
-  getComentarioByid(){
+  getComentarioByid(idServicio: number){
     const httpOptions = {
       headers: new HttpHeaders({
       'Access-Control-Allow-Origin':'*',
@@ -19,7 +19,7 @@ export class ComentarioService {
       "llave": "Bearer eyJhbGciOiJIUzI1NiJ9.cm9iZXJMdW5hbHVuYTEyMw.BBD_ybOCN5btQEEzkN76HJ2u1bRTbD9zTr3lhYZr408"
       })
       };
-    return this.http.get<any[]>(`${this.url}/Comentarios/5`,httpOptions);
+    return this.http.get<any[]>(`${this.url}/Comentarios/${idServicio}`,httpOptions);
   }
 
   saveComentario(obj: Comentario){
