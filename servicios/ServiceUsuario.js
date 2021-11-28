@@ -20,7 +20,7 @@ function ObtenerUsuarios() {
 //Metodo seleccionar Usuario Por username
 function SeleccionarUsuarioBynombreUsuario(usuarioNombre) {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.SelectUsuariosByUserName, [usuarioNombre], (error, resultado) => {
+        conexion.query(consulta.SelectUsuariosByUserName, [usuarioNombre, usuarioNombre], (error, resultado) => {
             if (error) {
                 reject(error)
             } else {

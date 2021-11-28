@@ -56,7 +56,6 @@ export class VerServicioComponent implements OnInit {
   ngOnInit( ): void {
     this.idServicio = Number(this.route.snapshot.paramMap.get('parametro'));
     console.log(this.idServicio)
-    localStorage.setItem('id', '7');
     this.getEuro();
     this.getBitcoin();
     this.getServicios(this.idServicio);
