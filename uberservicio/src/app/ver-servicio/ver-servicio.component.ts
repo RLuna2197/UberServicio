@@ -38,6 +38,7 @@ export class VerServicioComponent implements OnInit {
   inputFechaFin: Date = new Date();
   inputHoraInicio: Date = new Date();
   inputHoraFin: Date = new Date();
+ 
 
   constructor(private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
     this.formularioComentario=this.fb.group({
@@ -141,7 +142,7 @@ export class VerServicioComponent implements OnInit {
     
     this.datApiComen.saveComentario(this.comentarioNuevo).subscribe(res => {
       console.log(res);
-
+     
     }, err => {
       console.log(err);
     })
@@ -161,7 +162,7 @@ export class VerServicioComponent implements OnInit {
 
     this.DataPedio.savePedido(this.pedidoNuevo).subscribe(resp => {
       console.log(resp);
-
+      
     }, erro => {
       console.log(erro);
     })
