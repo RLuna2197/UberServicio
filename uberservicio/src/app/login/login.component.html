@@ -11,15 +11,16 @@
   <!--form area start-->
   <div class="form">
     <!--login form start-->
-    <form class="login-form" action="" method="post">
+    <form class="login-form" action="" method="post" [formGroup]="formularioAgregar">
       <i class="fa fa-user fa-2x"></i>
-      <input class="user-input" type="text" name="" placeholder="Username" required>
-      <input class="user-input" type="password" name="" placeholder="Password" required>
+      <input class="user-input" type="text" name="" placeholder="Username" formControlName="usuario">
+      
+      <input class="user-input" type="password" name="" placeholder="Password" formControlName="contrasena">
       <div class="options-01">
         <label class="remember-me"><input type="checkbox" name="">Remember me</label>
         
       </div>
-      <input  href="/home" class="btn" type="submit" name=""  value="LOGIN">
+      <input   class="btn" type="submit" name="" (click)="login()"  value="LOGIN">
       <a href="/home"></a>
       <div class="options-02 a">
         <p>No te has registrado? <a href="/persona">Crea una cuenta</a></p>

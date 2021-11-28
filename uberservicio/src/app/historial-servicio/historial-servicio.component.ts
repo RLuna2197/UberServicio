@@ -7,18 +7,23 @@ import { PedidoService } from '../services/pedido.service';
   styleUrls: ['./historial-servicio.component.css']
 })
 export class HistorialServicioComponent implements OnInit {
-  pedido: any[] = [];
+  pedidos: any[] = [];
   idPersona: number = 0;
+  term: string="";
 
   constructor(private dataApi: PedidoService) { }
   
   ngOnInit(): void {
     this.idPersona = Number(localStorage.getItem('id') as string);
+    
+    this.getPedidoByUser(this.idPersona);
   }
 
   private getPedidoByUser(idPersona: number){
+    
     this.dataApi.getPedidoByUsuario(idPersona).subscribe((response) => {
-      this.pedido = response;
+      this.pedidos = response;
+      
     },
       (error) => { console.error(error); }
     );
