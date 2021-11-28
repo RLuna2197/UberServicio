@@ -1,9 +1,9 @@
 const conexion = require('../db/conexionDB');
 const consulta = require('../utilidades/consultaPedidos.json');
 
-function obtenerPedidos() {
+function obtenerPedidos(idUsuario) {
     return new Promise((resolve, reject) => {
-        conexion.query(consulta.SelectPedidos, (error, resultado) => {
+        conexion.query(consulta.SelectPedidosbyCliente, [idUsuario], (error, resultado) => {
             if (error) {
                 reject(error)
             } else {

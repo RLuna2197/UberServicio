@@ -943,8 +943,11 @@ app.delete('/Categoria/:idCategoria', (req, res) => {
 
 //Tabla Pedido
 //Consultar pedidos
-app.get('/Pedido', (req, res) => {
-    servicioPedido.obtenerPedidos()
+app.get('/Pedido/:idUsuario', autenticarToken, (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+
+    servicioPedido.obtenerPedidos(idUsuario)
         .then(data => {
             res.status(200).send(data);
         })
@@ -1037,47 +1040,6 @@ app.get('/HistoConversion', (req, res) => {
         })
 })
 
-//agregar Historial Conversion (No se si seria por aca o por un storage procedure que se agregara)
-/*  app.post('/HistoConversion', (req, res) => {
-
-    let moneda = req.body.moneda;
-    let valor = req.body.valor;
-    let idPedido = req.body.idPedido;
-
-
-    let resp = {
-        status: 200,
-        mensaje: ""
-    }
-
-    console.log(moneda, valor, idPedido)
-    if (validador.validarDatos(moneda) || validador.validarDatos(valor) || validador.validarDatos(idPedido)) {
-        resp.status = 400;
-        resp.mensaje = mensaje.MensajeValidador;
-
-        res.set({
-            "Context-Type": "Text/json"
-        })
-        return res.status(400).send(JSON.stringify(resp))
-    }
-    servicioHConversion.agregarHistorialConversion(moneda, valor, idPedido)
-        .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
-            res.set({
-                "Context-type": "Text/json"
-            })
-            return res.status(200).send(JSON.stringify(resp))
-        })
-        .catch(data => {
-            resp.status = 500;
-            res.set({
-                "Context-type": "Text/json"
-            })
-            resp.mensaje = mensajes.mensajeError
-            return res.status(200).send(JSON.stringify(resp));
-        })
-})*/
-
 //eliminar Historial Conversion
 app.delete('/HistoConversion/:idConversion', (req, res) => {
     let idConversion = req.params.idConversion;
@@ -1103,7 +1065,6 @@ app.delete('/HistoConversion/:idConversion', (req, res) => {
     })
     return res.status(200).send(JSON.stringify(resp));
 })
-
 
 
 app.get('/api/euro', (req, res) => {
