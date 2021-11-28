@@ -1,5 +1,5 @@
 {
-    "SelectPedidos": "SELECT * FROM pedido",
-    "insertarPedido": "insert into pedido(fechaInicio, fechaFin, horaInicio, horaFin, total) values(?,?,?,?,?);",
+    "SelectPedidosbyCliente": "select s.nombre, concat(pe.nombre, ' ', pe.apellido) as usuario, p.fechaInicio, p.horaInicio, p.fechaFin, p.horaFin, p.total from pedido p, servicio s, pedidoservicio ps, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and s.idPersona = pe.idUsuario and pe.idUsuario = ? order by p.fechaInicio",
+    "insertarPedido": "insert into pedido(fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente) values(?,?,?,?,?,?);",
     "eliminarPedido": "delete from pedido where idPedido=?"
 }

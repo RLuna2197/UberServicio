@@ -16,6 +16,7 @@ const servicioCategoria = require('./servicios/ServiceCategoria');
 const servicioPedido = require('./servicios/ServicePedido');
 const servicioHConversion = require('./servicios/ServiceHistorialConversion');
 const ServiceHistorialConversion = require('./servicios/ServiceHistorialConversion');
+const servicioPedidoServicio = require('./servicios/ServicePedidoServicio');
 //Validacion
 const validador = require('./servicios/validacion');
 
@@ -942,8 +943,11 @@ app.delete('/Categoria/:idCategoria', (req, res) => {
 
 //Tabla Pedido
 //Consultar pedidos
-app.get('/Pedido', (req, res) => {
-    servicioPedido.obtenerPedidos()
+app.get('/Pedido/:idUsuario', autenticarToken, (req, res) => {
+
+    let idUsuario = req.params.idUsuario;
+    
+    servicioPedido.obtenerPedidos(idUsuario)
         .then(data => {
             res.status(200).send(data);
         })
@@ -953,19 +957,21 @@ app.get('/Pedido', (req, res) => {
 })
 
 //Agregar Pedidos
-app.post("/Pedido", (req, res) => {
+app.post("/Pedido", autenticarToken, (req, res) => {
     let fechaInicio = req.body.fechaInicio;
     let fechaFin = req.body.fechaFin;
     let horaInicio = req.body.horaInicio;
     let horaFin = req.body.horaFin;
     let total = req.body.total;
+    let idCliente = req.body.idCliente;
 
     let resp = {
         status: 200,
-        mensaje: ""
+        mensaje: "",
+        idPedido: 0
     }
 
-    if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total)) {
+    if (validador.validarDatos(fechaInicio) || validador.validarDatos(fechaFin) || validador.validarDatos(horaInicio) || validador.validarDatos(horaFin) || validador.validarDatos(total) || validador.validarDatos(idCliente)) {
         resp.status = 400;
         resp.mensaje = mensaje.mensajeError;
 
@@ -974,9 +980,10 @@ app.post("/Pedido", (req, res) => {
         })
         return res.status(400).send(JSON.stringify(resp))
     }
-    servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total)
+    servicioPedido.insertarPedidos(fechaInicio, fechaFin, horaInicio, horaFin, total, idCliente)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
+            resp.idPedido = data.insertId;
             res.set({
                 "Context-type": "Text/json"
             })
@@ -987,7 +994,7 @@ app.post("/Pedido", (req, res) => {
             res.set({
                 "Context-type": "Text/json"
             })
-            resp.mensaje = mensajes.mensajeError
+            resp.mensaje = mensaje.mensajeError
             return res.status(200).send(JSON.stringify(resp));
         })
 })
@@ -1034,47 +1041,6 @@ app.get('/HistoConversion', (req, res) => {
         })
 })
 
-//agregar Historial Conversion (No se si seria por aca o por un storage procedure que se agregara)
-/*  app.post('/HistoConversion', (req, res) => {
-
-    let moneda = req.body.moneda;
-    let valor = req.body.valor;
-    let idPedido = req.body.idPedido;
-
-
-    let resp = {
-        status: 200,
-        mensaje: ""
-    }
-
-    console.log(moneda, valor, idPedido)
-    if (validador.validarDatos(moneda) || validador.validarDatos(valor) || validador.validarDatos(idPedido)) {
-        resp.status = 400;
-        resp.mensaje = mensaje.MensajeValidador;
-
-        res.set({
-            "Context-Type": "Text/json"
-        })
-        return res.status(400).send(JSON.stringify(resp))
-    }
-    servicioHConversion.agregarHistorialConversion(moneda, valor, idPedido)
-        .then(data => {
-            resp.mensaje = mensaje.mensajeOK;
-            res.set({
-                "Context-type": "Text/json"
-            })
-            return res.status(200).send(JSON.stringify(resp))
-        })
-        .catch(data => {
-            resp.status = 500;
-            res.set({
-                "Context-type": "Text/json"
-            })
-            resp.mensaje = mensajes.mensajeError
-            return res.status(200).send(JSON.stringify(resp));
-        })
-})*/
-
 //eliminar Historial Conversion
 app.delete('/HistoConversion/:idConversion', (req, res) => {
     let idConversion = req.params.idConversion;
@@ -1100,7 +1066,6 @@ app.delete('/HistoConversion/:idConversion', (req, res) => {
     })
     return res.status(200).send(JSON.stringify(resp));
 })
-
 
 
 app.get('/api/euro', (req, res) => {
@@ -1133,5 +1098,82 @@ app.get('/api/bitcoin', (req, res) => {
     })
 });
 
+
+//PedidoServicio
+
+app.post('/PedidoServicio', autenticarToken, (req, res) => {
+
+    let idPedido = req.body.idPedido;
+    let idServicio = req.body.idServicio;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+
+    if (validador.validarDatos(idPedido) || validador.validarDatos(idServicio)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioPedidoServicio.insertarPedidoServicio(idPedido, idServicio)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensaje.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
+
+//Crear historial conversion
+app.post('/HistoConversion', autenticarToken, (req, res) => {
+    let moneda = req.body.moneda;
+    let valor = req.body.valor;
+    let idPedido = req.body.idPedido;
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+    console.log(moneda, valor, idPedido)
+    if (validador.validarDatos(moneda) || validador.validarDatos(valor) || validador.validarDatos(idPedido)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioHConversion.agregarHistorialConversion(moneda, valor, idPedido)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensaje.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})
 
 app.listen(3000);
