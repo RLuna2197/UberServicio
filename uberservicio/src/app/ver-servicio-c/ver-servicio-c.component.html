@@ -88,35 +88,31 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Codigo de servicio</th>
           <th>Nombre</th>
-          <th>Descripcion 3</th>
-          <th>Fechas</th>
-          <th>Precio Total</th>
+          <th>Descripción</th>
+          <th>precio</th>
+          <th>Calificación</th>
+          <th>Estado</th>
           <th>Actualizar/Eliminar</th>
 
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Row 1 Content 1</td>
-          <td>Row 1 Content 2</td>
-          <td>Row 1 Content 3</td>
-          <td>Row 1 Content 4</td>
-          <td>Row 6 Content 4</td>
+        <tr *ngFor="let servicio of servicios">
+          <td>{{servicio.nombre}}</td>
+          <td>{{servicio.descripcion}}</td>
+          <td>${{servicio.precio}}</td>
+          <td *ngIf="servicio.calificacion>=1">{{servicio.calificacion}}</td>
+          <td *ngIf="servicio.calificacion<=0">N/A</td>
+          <td *ngIf="servicio.disponible">Disponible</td>
+          <td *!ngIf="servicio.disponible">Deshabilitado</td>
+          <th>
           <a role="button" href="/actuaS" id="btn6" class="btn btn-enlace" style="color:white">Actualizar</a>
-          <a role="button"  id="btn6" class="btn btn-elim " style="color:white">Eliminar</a>
+          <a role="button"  id="btn6" class="btn btn-elim " style="color:white" *ngIf="servicio.disponible">Deshabilitar</a>
+          <a role="button"  id="btn6" class="btn btn-elim " style="color:white" *!ngIf="servicio.disponible">Habilitar</a>
+          </th>
         </tr>
-        <tr>
-          <td>Row 1 Content 1</td>
-          <td>Row 1 Content 2</td>
-          <td>Row 1 Content 3</td>
-          <td>Row 1 Content 4</td>
-          <td>Row 6 Content 4</td>
-          <a role="button" href="/actuaS" id="btn6" class="btn btn-enlace" style="color:white">Actualizar</a>
-          <a role="button"  id="btn6" class="btn btn-elim" style="color:white">Eliminar</a>
-        </tr>
-      
+        
         
       </tbody>
     </table>

@@ -18,6 +18,20 @@ function SeleccionarServicio() {
 }
 
 //Metodo seleccionar Servicio por ID
+function SeleccionarServicioByPersona(idPersona) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.selectServicioByPersona, [idPersona], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(resultado)
+            }
+        })
+    })
+    
+}
+
+//Metodo seleccionar Servicio por ID
 function SeleccionarServicioById(idServicio) {
     return new Promise((resolve, reject) => {
         conexion.query(consulta.SelectServicioById, [idServicio], (error, resultado) => {
@@ -61,5 +75,6 @@ module.exports = {
     SeleccionarServicio : SeleccionarServicio,
     SeleccionarServicioById : SeleccionarServicioById,
     agregarServicio : agregarServicio,
-    actualizarServicio : actualizarServicio
+    actualizarServicio : actualizarServicio,
+    SeleccionarServicioByPersona : SeleccionarServicioByPersona
 }

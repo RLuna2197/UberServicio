@@ -75,7 +75,6 @@ app.get('/Comentarios/:idServicio', autenticarToken, (req, res) => {
 })
 
 //Agregar Comentario
-
 app.post('/Comentarios', autenticarToken, validador.validate(validador.CommentValidation), (req, res) => {
 
     let comentario = req.body.comentario;
@@ -626,7 +625,7 @@ app.get('/Servicios/:idServicio', autenticarToken, (req, res) => {
 //Get por categoria
 app.get('/Servicios', autenticarToken, (req, res) => {
     //Obtener parametro 
-
+    
     servicio.SeleccionarServicio()
         .then(data => {
             for (let index = 0; index < data.length; index++) {
@@ -636,6 +635,22 @@ app.get('/Servicios', autenticarToken, (req, res) => {
                 };
                 
             }
+            res.status(200).send(data);
+        })
+        .catch(error => {
+            res.status(500).send(mensaje.mensajeError + error);
+        })
+})
+
+
+//Get por categoria
+app.get('/Servicios/persona/:idPersona', autenticarToken, (req, res) => {
+    //Obtener parametro 
+    let idPersona = req.params.idPersona;
+
+    servicio.SeleccionarServicioByPersona(idPersona)
+        .then(data => {
+            
             res.status(200).send(data);
         })
         .catch(error => {

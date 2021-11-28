@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiltroServicioPipe } from './filtro-servicio.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CommonModule } from '@angular/common';
+import { VerServicioCComponent } from './ver-servicio-c/ver-servicio-c.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { CommonModule } from '@angular/common';
     ServicioComponent,
     HistorialServicioComponent,
     VerServicioVComponent,
-
+    VerServicioCComponent,
     PedidoComponent,
     HomeVComponent,
     Nadvar2vComponent,
