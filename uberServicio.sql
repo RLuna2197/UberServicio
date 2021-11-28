@@ -182,4 +182,4 @@ from comentario c, usuario u, persona p
 where c.idUsuario = u.idUsuario  and u.idUsuario = p.idUsuario and idServicio = 5
 order by idComentario desc);
 
-select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and p.idCliente = ? order by fechaInicio
+select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and p.idCliente = 7 order by fechaInicio

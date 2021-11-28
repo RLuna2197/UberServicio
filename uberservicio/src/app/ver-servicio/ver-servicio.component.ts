@@ -45,6 +45,7 @@ export class VerServicioComponent implements OnInit {
   inputHoraFin: Date = new Date();
   idServicio: number=0;
   idPedido: number =0;
+  idVendedor: number = 0;
 
   constructor(private router: Router, private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
     this.formularioComentario=this.fb.group({
@@ -78,6 +79,8 @@ export class VerServicioComponent implements OnInit {
     this.dataApi.getServiciosByid(idServicio).subscribe((response) => {
       this.servicios = response;
       this.inputPrecio = Number(this.servicios[0].precio);
+      this.idVendedor = this.servicios[0].idPersona;
+      console.log(this.idVendedor)
     },
       (error) => { console.error(error); }
     );
@@ -164,7 +167,7 @@ export class VerServicioComponent implements OnInit {
     this.pedidoNuevo.horaInicio = this.inputHoraInicio;
     this.pedidoNuevo.horaFin = this.inputHoraFin;
     this.pedidoNuevo.total = this.total;
-    this.pedidoNuevo.idCliente = Number(this.idPersona);
+    this.pedidoNuevo.idCliente = this.idVendedor;
 
     this.DataPedio.savePedido(this.pedidoNuevo).subscribe(resp => {
       console.log(resp);

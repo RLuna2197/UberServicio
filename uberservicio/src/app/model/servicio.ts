@@ -6,6 +6,7 @@ export class Servicio {
     disponible: boolean = false;
     calificacion:number= 0;
     nombreCategoria: string = '';
+    idPersona: number=0;
     persona:string = '';
     Imagenes: Array<any> = [];
     Comentarios: Array<any> = [];
@@ -20,6 +21,7 @@ export class Servicio {
         this.nombreCategoria,
         this.persona,
         this.Imagenes,
-        this.Comentarios
+        this.Comentarios,
+        this.idPersona
     }
 }
