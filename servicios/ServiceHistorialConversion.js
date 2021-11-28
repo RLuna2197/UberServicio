@@ -16,6 +16,20 @@ function SeleccionarConversionPorPedido(idPedido){
     })
 }
 
+
+function agregarHistorialConversion(moneda, valor, idPedido) {
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.insertarHistorialConversion, [moneda, valor, idPedido], (error, resultado) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(resultado)
+            }
+        })
+    })
+}
+
 module.exports = {
-    SeleccionarConversionPorPedido : SeleccionarConversionPorPedido
+    SeleccionarConversionPorPedido : SeleccionarConversionPorPedido,
+    agregarHistorialConversion : agregarHistorialConversion
 }

@@ -23,7 +23,7 @@ create table pedido(
     horaFin time,
     total double
     );
-	
+    
 create table historialConversion(
 	 idConversion integer primary key auto_increment,
 	moneda varchar(60),
@@ -181,3 +181,5 @@ from comentario c, usuario u, persona p
 where c.idUsuario = u.idUsuario  and u.idUsuario = p.idUsuario and idServicio = 5
 order by idComentario desc);
 
+
+insert into pedidoservicio() values(1,1)

@@ -1178,4 +1178,40 @@ app.post('/PedidoServicio', autenticarToken, (req, res) => {
 
 })
 
+
+app.post('/HistoConversion', autenticarToken, (req, res) => {
+    let moneda = req.body.moneda;
+    let valor = req.body.valor;
+    let idPedido = req.body.idPedido;
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+    console.log(moneda, valor, idPedido)
+    if (validador.validarDatos(moneda) || validador.validarDatos(valor) || validador.validarDatos(idPedido)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador;
+        res.set({
+            "Context-Type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp))
+    }
+    servicioHConversion.agregarHistorialConversion(moneda, valor, idPedido)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            return res.status(200).send(JSON.stringify(resp))
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Context-type": "Text/json"
+            })
+            resp.mensaje = mensajes.mensajeError
+            return res.status(200).send(JSON.stringify(resp));
+        })
+})
+
 app.listen(3000);

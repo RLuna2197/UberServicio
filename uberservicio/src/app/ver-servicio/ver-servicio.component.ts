@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Bitcoin } from '../model/bitcoin';
 import { Comentario } from '../model/comentario';
 import { Euro } from '../model/euro';
+import { HistorialConversion } from '../model/historialConversion';
 import { Pedido } from '../model/pedido';
 import { PedidoServicio } from '../model/pedidoServicio';
 import { Servicio } from '../model/servicio';
@@ -32,6 +33,7 @@ export class VerServicioComponent implements OnInit {
   comentarioNuevo: Comentario = new Comentario();
   pedidoNuevo: Pedido = new Pedido();
   pdNuevo: PedidoServicio = new PedidoServicio();
+  hConversion: HistorialConversion = new HistorialConversion();
   conversionEuro: number=0;
   conversionBitcoin: number=0;
   opcionSeleccionado: number=0;
@@ -44,7 +46,7 @@ export class VerServicioComponent implements OnInit {
   idServicio: number=0;
   idPedido: number =0;
 
-  constructor(private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
+  constructor(private router: Router, private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
     this.formularioComentario=this.fb.group({
       comentario:['',Validators.required],
       calificacion:['',Validators.required]    
@@ -169,6 +171,9 @@ export class VerServicioComponent implements OnInit {
       console.log(resp);
       this.idPedido = resp.idPedido;
       this.agregarPedidoServicio(this.idPedido);
+      this.agregarHConversion(this.idPedido);
+     
+      this.router.navigate(['historials']);
       
     }, erro => {
       console.log(erro);
@@ -182,8 +187,22 @@ export class VerServicioComponent implements OnInit {
   agregarPedidoServicio(idPedido: number){
     this.pdNuevo.idPedido = idPedido;
     this.pdNuevo.idServicio = this.idServicio;
-    
+
     this.DataPedio.savePedidoServicio(this.pdNuevo).subscribe(resp => {
+      console.log(resp);
+      
+    }, erro => {
+      console.log(erro);
+    })
+    
+  }
+
+  agregarHConversion(idPedido: number){
+    this.hConversion.valor = (this.total / this.inputPrecio);
+    this.hConversion.moneda =  this.simbolo;
+    this.hConversion.idPedido = idPedido;
+
+    this.DataPedio.savehistorialConversion(this.hConversion).subscribe(resp => {
       console.log(resp);
       
     }, erro => {
