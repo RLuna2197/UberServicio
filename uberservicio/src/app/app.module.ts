@@ -17,6 +17,7 @@ import { Nadvar2vComponent } from './nadvar2v/nadvar2v.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FiltroServicioPipe } from './filtro-servicio.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeVComponent,
     Nadvar2vComponent,
     PerfilComponent,
-    PedidoComponent
+    PedidoComponent,
+    FiltroServicioPipe
 
   ],
   imports: [
