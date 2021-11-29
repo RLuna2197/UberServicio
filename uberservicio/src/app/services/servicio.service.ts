@@ -44,4 +44,16 @@ export class ServicioService {
       };
     return this.http.get<any[]>(this.url+'/Servicios',httpOptions);
   }
+
+
+  eliminarServicios(idServicio: number, disponible: number){
+    const httpOptions = {
+      headers: new HttpHeaders({
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      "llave": "bearer eyJhbGciOiJIUzI1NiJ9.cm9iZXJMdW5hbHVuYTEyMw.BBD_ybOCN5btQEEzkN76HJ2u1bRTbD9zTr3lhYZr408"
+      })
+      };
+    return this.http.put(this.url+`/Servicios/Estado/${idServicio}/${disponible}`, httpOptions);
+  }
 }

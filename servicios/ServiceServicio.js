@@ -71,10 +71,23 @@ function actualizarServicio(descripcion, nombre, precio, disponible, calificacio
 
 }
 
+//Metodo Eliminar Servicio
+function eliminarServicio(disponible, idServicio) {
+
+    return new Promise((resolve, reject) => {
+        conexion.query(consulta.EliminarServicio, [disponible, idServicio], (error, resultado) => {
+            if (error) reject(error)
+            else resolve(resultado)
+        })
+    })
+
+}
+
 module.exports = {
     SeleccionarServicio : SeleccionarServicio,
     SeleccionarServicioById : SeleccionarServicioById,
     agregarServicio : agregarServicio,
     actualizarServicio : actualizarServicio,
-    SeleccionarServicioByPersona : SeleccionarServicioByPersona
+    SeleccionarServicioByPersona : SeleccionarServicioByPersona,
+    eliminarServicio : eliminarServicio
 }

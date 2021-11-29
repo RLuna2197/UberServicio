@@ -10,6 +10,8 @@ import { ServicioService } from '../services/servicio.service';
 export class VerServicioCComponent implements OnInit {
   servicios: Servicio[] = [];
   idUsuario: number = 0;
+  term: string = "";
+  disponible: number =0;
 
   constructor(private dataApi: ServicioService) { }
 
@@ -28,6 +30,30 @@ export class VerServicioCComponent implements OnInit {
     );
 
     this.dataApi.getServiciosByUsuario(idPersona).subscribe((servicio) => console.log(servicio)); // mostrar en consola
+  }
+
+  eliminar(valor: number){
+    this.disponible = 0;
+    this.dataApi.eliminarServicios(valor, this.disponible).subscribe(res => {
+      console.log(res);
+      this.getServicioByUser(this.idUsuario);
+    }, err => {
+      console.log(err);
+    })
+
+    
+  }
+
+  Habilitar(valor: number){
+    this.disponible = 1;
+    this.dataApi.eliminarServicios(valor, this.disponible).subscribe(res => {
+      console.log(res);
+      this.getServicioByUser(this.idUsuario);
+    }, err => {
+      console.log(err);
+    })
+
+    
   }
 
 }

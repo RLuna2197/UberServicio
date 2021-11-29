@@ -75,12 +75,12 @@
     
     
 <br/>
-<div class="alert alert-success" role="alert">
+<!-- <div class="alert alert-success" role="alert">
     Tabla de Servicios Creados
-  </div>
+  </div> -->
 
   <div class="search-bar" style="margin-left: 8%;">
-    <input type="text" placeholder="Buscar..."> <i type="button" id="palabra" ></i>
+    <input type="text" placeholder="Buscar..." [(ngModel)]="term"> <i type="button" id="palabra" ></i>
 
   </div>
 
@@ -98,18 +98,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let servicio of servicios">
+        <tr *ngFor="let servicio of servicios |filter:term">
           <td>{{servicio.nombre}}</td>
           <td>{{servicio.descripcion}}</td>
           <td>${{servicio.precio}}</td>
           <td *ngIf="servicio.calificacion>=1">{{servicio.calificacion}}</td>
           <td *ngIf="servicio.calificacion<=0">N/A</td>
           <td *ngIf="servicio.disponible">Disponible</td>
-          <td *!ngIf="servicio.disponible">Deshabilitado</td>
+          <td *ngIf="!servicio.disponible">Deshabilitado</td>
           <th>
           <a role="button" href="/actuaS" id="btn6" class="btn btn-enlace" style="color:white">Actualizar</a>
-          <a role="button"  id="btn6" class="btn btn-elim " style="color:white" *ngIf="servicio.disponible">Deshabilitar</a>
-          <a role="button"  id="btn6" class="btn btn-elim " style="color:white" *!ngIf="servicio.disponible">Habilitar</a>
+          <a role="button"  id="btn6" class="btn btn-elim " style="color:white" *ngIf="servicio.disponible" (click)="eliminar(servicio.idServicio)">Deshabilitar</a>
+          <a role="button"  id="btn6" class="btn btn-elim " style="color:white" *ngIf="!servicio.disponible" (click)="Habilitar(servicio.idServicio)">Habilitar</a>
           </th>
         </tr>
         

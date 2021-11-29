@@ -3,6 +3,6 @@
     "selectServicioByPersona":"select * from servicio where idPersona= ?",
     "SelectServicioById" : "select s.idServicio, s.nombre, s.descripcion, s.precio, s.disponible, s.calificacion, c.nombreCategoria, s.idPersona, p.nombre as 'persona' from servicio s, categoria c, persona p where s.idCategoria = c.idCategoria and s.idPersona = p.idUsuario and idServicio = ?",
     "insertServicio": "INSERT INTO servicio (descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona) values(?,?,?,?,?,?,?)",
-    "UpdateServicio": "UPDATE servicio SET descripcion=?, nombre=?, precio=?, disponible=?, calificacion=?, idCategoria=? WHERE idServicio=?"
-    
+    "UpdateServicio": "UPDATE servicio SET descripcion=?, nombre=?, precio=?, disponible=?, calificacion=?, idCategoria=? WHERE idServicio=?",
+    "EliminarServicio":"UPDATE servicio SET disponible=? WHERE idServicio=?"
 }

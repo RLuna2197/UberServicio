@@ -751,6 +751,51 @@ app.put('/Servicios/:idServicio', autenticarToken, validador.validate(validador.
 
 })
 
+//Update Disponibilidad de servicio
+app.put('/Servicios/Estado/:idServicio/:disponible',  (req, res) => {
+
+    //recibiendo del body
+    let disponible = req.params.disponible;
+
+    //recibiendo del parametro
+    let idServicio = req.params.idServicio;
+
+    let resp = {
+        status: 200,
+        mensaje: ""
+    }
+
+    if (validador.validarDatos(disponible) || validador.validarDatos(idServicio)) {
+        resp.status = 400;
+        resp.mensaje = mensaje.MensajeValidador
+
+        res.set({
+            "Content-type": "Text/json"
+        })
+        return res.status(400).send(JSON.stringify(resp));
+
+    }
+    servicio.eliminarServicio(disponible,  idServicio)
+        .then(data => {
+            resp.mensaje = mensaje.mensajeOK;
+            res.set({
+                "Context-type": "Text/json"
+
+            })
+            return res.status(200).send(JSON.stringify(resp));
+        })
+        .catch(data => {
+            resp.status = 500;
+            res.set({
+                "Content-type": "Text/json"
+            })
+            resp.mensaje = mensaje.mensajeError + data
+            return res.status(200).send(JSON.stringify(resp));
+        })
+
+})
+
+
 //login 
 
 const TOKEN_SECRET = "betheone$2021";
