@@ -12,32 +12,39 @@
   <!--form area start-->
   <div class="form">
     <!--login form start-->
-    <form class="login-form" action="" method="post">
+    <form class="login-form" action="" method="post" [formGroup]="formularioAgregar">
       <i class="fa fa-user fa-2x"></i>
-      <input class="user-input" type="text" name="" placeholder="Nombre" required >
-      <input class="user-input" type="text" name="" placeholder="Apellido" required >
-      <input class="user-input" type="text" name="" placeholder="Telefono" required >
+      <input class="user-input" type="text" name="" placeholder="Nombre" required formControlName="nombre">
+      <input class="user-input" type="text" name="" placeholder="Apellido" required formControlName="apellido">
+      <input class="user-input" type="text" name="" placeholder="Telefono" required formControlName="telefono">
       
-      <input class="user-input" type="text" name="" placeholder="Correo" required >
-      <input class="user-input" type="text" name="" placeholder="User" required >
-      <input class="user-input" type="password" name="" placeholder="Password" >
+      <input class="user-input" type="text" name="" placeholder="Correo" required formControlName="correo">
+      <input class="user-input" type="text" name="" placeholder="User" required formControlName="usuarioNombre">
+      <input class="user-input" type="password" name="" placeholder="Password" formControlName="contrasena">
       <div class="col-xs-12 col-md-12">
         <label class="form-label" style="color: white;">Fotos de la persona</label >
         <br/>
-        <input name=" " type="file" />
+        <input name=" " type="file" formControlName="urlFoto"/>
       </div>
-      
+      <br>
       <div class="col-xs-12 col-md-12">
-        <label class="form-label" style="color: white;">Que desea ser? </label>
+        <!-- <label class="form-label" style="color: white;">Que desea ser? </label>
+        <div>
+          <input type="radio" id="huey" name="drone" value="1"
+                 checked>
+          <label for="huey" style="color: white;">Vendedor</label>
+        </div>
+        
+        <div>
+          <input type="radio" id="dewey" name="drone" value="1">
+          <label for="dewey" style="color: white;">Comprador</label>
+        </div> -->
+        
+          <select formControlName="captura" name="idCategoria" style="width: 100%;" class="form-select" required>
+          <option class="option" [value]="item" *ngFor="let item of lista">{{item}}</option>
 
-        <select name="idCategoria" style="width: 100%;" class="form-select" required>
-          <option class="option" id="idCategoria"  selected="selected">Debes Seleccionar...</option>
+        </select> 
 
-          <option value="comprador">Comprador</option>
-
-          <option value="vendedor">Vendedor</option>
-
-        </select>
       </div>
       <div class="options-01">
         

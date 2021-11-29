@@ -41,10 +41,10 @@ function createUsersValidation(data) {
 
 function PersonValidation(data) {
     const schema = yup.object().shape({
-        nombre: yup.string().min(4).max(50).required(),
-        apellido: yup.string().min(4).max(50).required(),
-        telefono: yup.string().max(8).required(),
-        urlFoto: yup.string().required()
+        nombre: yup.string().min(4).max(50),
+        apellido: yup.string().min(4).max(50),
+        telefono: yup.string().max(8),
+        urlFoto: yup.string()
 
     });
     
