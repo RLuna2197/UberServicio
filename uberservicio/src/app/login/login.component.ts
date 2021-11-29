@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     this.usuario.contrasena = this.formularioAgregar.value.contrasena;
     
     this.dataApi.saveLogin(this.usuario).subscribe(res => {
-      
+      localStorage.setItem('user',this.usuario.usuarioNombre);
       this.token = res.mensaje;
 
       //Si es exitoso, obtenemos los datos de usuario
