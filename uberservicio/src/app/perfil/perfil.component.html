@@ -17,13 +17,12 @@
 
 <body>
 
-  <div class="container centered" *ngFor='let persona of personas' >
+  <div class="container centered" *ngFor='let usuario of usuarios'>
     <header class="perfil">
       <img src="https://avatars.githubusercontent.com/u/46529244?v=4" alt="">
       <div class="title">
-        <h1>Nombre del Usuario</h1>
-        <h3>usuario123@gmail</h3>
-        <p>#imersaodev #alura</p>
+        <h1>Usuario:{{ usuario.usuarioNombre}}</h1>
+        <h3>Correo: {{usuario.correo}}</h3>
 
       </div>
     </header>
@@ -31,15 +30,12 @@
     <!-- estrutura do projeto -->
     <main class="projetos">
       <div class="container-projetos">
-        <h4>Projetos</h4>
+        <h4>Datos de la persona</h4>
         <p class="line-1 anim-typewriter"></p>
-        <ol>
-          <li>Nombre:{{persona.apellido}}</li>
-          <li><a >  Apellido:{{persona.apellido}} </a></li>
-          <li><a >  Telefono: </a></li>
-          <li><a >  Correo de Usuario: </a></li>
-          <li><a >  Nombre de Usuario: </a></li>
-          <li><a >  Preferencia del Usuario: </a></li>
+        <ol *ngFor='let persona of personas'>
+          <li>Nombre:{{ persona.nombre}}</li>
+          <li>Apellido:{{ persona.apellido}}</li>
+          <li>Telefono:{{ persona.telefono}}</li>
           
           
         </ol>
@@ -47,12 +43,14 @@
 
     </main>
       <br/>
-  <a class="css-boton boton-primario" data-toggle="modal" data-target="#exampleModalCenter2">
+  <a class="css-boton boton-primario" [routerLink]="['/actualizar-perfil/',persona.idUsuario]">
    Actualizar Perfil
   </a> 
   </div>
 
-  <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  
+
+  <!--<div (click)="updatePerfil(persona)" class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -68,17 +66,17 @@
           <div class="col-xs-12 col-md-12">
             <label for="start">Nuevo nombre</label>
     <br/>
-    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu nombre...">
+    <input type="text" style="width: 90%;" class="form-control" (ngModel)="nombre" name="user" value="" placeholder="Escribe tu nombre...">
           </div>
           <div class="col-xs-12 col-md-12">
             <label for="start">Nuevo Apellido</label>
     <br/>
-    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu apellido...">
+    <input type="text" style="width: 90%;" class="form-control" [(ngModel)]="persona.apellido" name="user" value="" placeholder="Escribe tu apellido...">
           </div>
           <div class="col-xs-12 col-md-12">
             <label for="start">Nuevo Telefono</label>
     <br/>
-    <input type="text" style="width: 90%;" class="form-control" name="user" value="" placeholder="Escribe tu telefono...">
+    <input type="text" style="width: 90%;" class="form-control" [(ngModel)]="personastelefono" name="user" value="" placeholder="Escribe tu telefono...">
           </div>
           <div class="col-xs-12 col-md-12">
             <label for="start">Nuevo User</label>
@@ -107,11 +105,11 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Actualizar </button>
+          <button type="button" class="btn btn-primary" value="Update">Actualizar </button>
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 
   
   <!-- Script -->

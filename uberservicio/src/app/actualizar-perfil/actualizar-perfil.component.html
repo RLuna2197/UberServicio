@@ -1,0 +1,21 @@
+<style>
+    form{
+        margin-left: 10%;
+    }
+</style>
+<body>
+<form action="" [formGroup]='personaForm'>
+    <!--form area start-->
+    <div class="form">
+      <!--login form start-->
+      <form action="" method="post">
+        <i class="fa fa-user fa-2x"></i>
+        <input FormControlName='nombre' [(ngModel)]='personaOld.nombre' class="user-input" type="text" name="" placeholder="Nombre" required>
+        <input  FormControlName='apellido' [(ngModel)]='personaOld.apellido' class="user-input" type="text" name="" placeholder="Apellido" required>
+        <input  FormControlName='telefono' [(ngModel)]='personaOld.telefono' class="user-input" type="text" name="" placeholder="Telefono" required>
+     
+        </form>
+    </div>
+        
+</form>
+  </body>

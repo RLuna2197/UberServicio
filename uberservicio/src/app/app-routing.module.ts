@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil.component';
 import { ActualizarSComponent } from './actualizar-s/actualizar-s.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { HistorialServicioComponent } from './historial-servicio/historial-servicio.component';
@@ -86,6 +87,9 @@ const routes: Routes = [
 ,
 {
   path:'actuaS', component: ActualizarSComponent
+},
+{
+  path:'actualizar-perfil', component: ActualizarPerfilComponent
 }
 ];
 

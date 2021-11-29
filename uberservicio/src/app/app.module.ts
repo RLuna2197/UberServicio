@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiltroServicioPipe } from './filtro-servicio.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ActualizarPerfilComponent } from './actualizar-perfil/actualizar-perfil.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     Nadvar2vComponent,
     PerfilComponent,
     PedidoComponent,
-    FiltroServicioPipe
+    FiltroServicioPipe,
+    ActualizarPerfilComponent
 
   ],
   imports: [
