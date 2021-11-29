@@ -14,15 +14,15 @@
     <!--login form start-->
     <form class="login-form" action="" method="post">
       <i class="fa fa-user fa-2x"></i>
-      <input class="user-input" type="text" name="" placeholder="Nombre" required>
-      <input class="user-input" type="text" name="" placeholder="Apellido" required>
-      <input class="user-input" type="text" name="" placeholder="Telefono" required>
+      <input class="user-input" type="text" name="" placeholder="Nombre" required >
+      <input class="user-input" type="text" name="" placeholder="Apellido" required >
+      <input class="user-input" type="text" name="" placeholder="Telefono" required >
       
-      <input class="user-input" type="text" name="" placeholder="Correo" required>
-      <input class="user-input" type="text" name="" placeholder="User" required>
-      <input class="user-input" type="password" name="" placeholder="Password" required>
+      <input class="user-input" type="text" name="" placeholder="Correo" required >
+      <input class="user-input" type="text" name="" placeholder="User" required >
+      <input class="user-input" type="password" name="" placeholder="Password" >
       <div class="col-xs-12 col-md-12">
-        <label class="form-label" style="color: white;">Fotos de la persona</label>
+        <label class="form-label" style="color: white;">Fotos de la persona</label >
         <br/>
         <input name=" " type="file" />
       </div>
@@ -31,18 +31,18 @@
         <label class="form-label" style="color: white;">Que desea ser? </label>
 
         <select name="idCategoria" style="width: 100%;" class="form-select" required>
-          <option class="option" id="idCategoria">Debes Seleccionar...</option>
+          <option class="option" id="idCategoria"  selected="selected">Debes Seleccionar...</option>
 
-          <option value="">Comprador</option>
+          <option value="comprador">Comprador</option>
 
-          <option value="">Vendedor</option>
+          <option value="vendedor">Vendedor</option>
 
         </select>
       </div>
       <div class="options-01">
         
       </div>
-      <input class="btn" type="submit" name="" value="Registrate">
+      <input class="btn" type="submit" name="" value="Registrate" (click)="agregarUsuario()">
       <div class="options-02 a">
         <p>Volver a Login <a href="/login">Login</a></p>
       </div>

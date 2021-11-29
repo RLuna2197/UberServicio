@@ -226,7 +226,7 @@ app.get('/Usuarios/:usuarioNombre', autenticarToken, (req, res) => {
 })
 
 //Agregar Usuarios
-app.post('/Usuarios', autenticarToken, validador.validate(validador.createUsersValidation), (req, res) => {
+app.post('/Usuarios', validador.validate(validador.createUsersValidation), (req, res) => {
 
     let correo = req.body.correo;
     let usuarioNombre = req.body.usuarioNombre;
