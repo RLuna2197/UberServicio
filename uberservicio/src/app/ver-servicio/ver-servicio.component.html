@@ -87,9 +87,9 @@
           <th>User</th>
           <th>Comentario</th>
           <th></th>
-          <th></th>
-
           <th>Puntuacion</th>
+
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -105,7 +105,6 @@
             </div>
           </td>
           <td>{{comentario.comentario}}</td>
-          <td></td>
           <td></td>
           <td>
           <div class="box date">
@@ -137,15 +136,16 @@
             
           </div>
         </td>
+        <td><button type="button" class="close" *ngIf="comentario.idUsuario==idPersona" (click)="eliminarComentario(comentario.idComentario)">X</button></td>
         </tr>
         
       
         <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter2">
           <a class="btn btn-success">Agregar Comentario</a>
         </div>
-        <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter3">
+       <!--  <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter3">
           <a class="btn btn-success">Actualizar Comentario</a>
-        </div>
+        </div> -->
       </tbody>
     </table>
   </div>

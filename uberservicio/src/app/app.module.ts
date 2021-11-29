@@ -22,6 +22,7 @@ import { FiltroServicioPipe } from './filtro-servicio.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CommonModule } from '@angular/common';
 import { VerServicioCComponent } from './ver-servicio-c/ver-servicio-c.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { VerServicioCComponent } from './ver-servicio-c/ver-servicio-c.component
     ReactiveFormsModule,
     FormsModule,
     Ng2SearchPipeModule,
-    CommonModule
+    CommonModule,
+    NgxPaginationModule
 
   ],
   providers: [],

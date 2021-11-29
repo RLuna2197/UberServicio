@@ -48,6 +48,7 @@ export class VerServicioComponent implements OnInit {
   idVendedor: number = 0;
 
   constructor(private router: Router, private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
+  
     this.formularioComentario=this.fb.group({
       comentario:['',Validators.required],
       calificacion:['',Validators.required]    
@@ -142,7 +143,7 @@ export class VerServicioComponent implements OnInit {
     this.califi = cali; 
     console.log(cali)
   }
-
+  //Crear Comentario
   agregarComentario(){
     this.comentarioNuevo.comentario = this.inputComentario;
     this.comentarioNuevo.calificacion = this.califi;
@@ -160,6 +161,15 @@ export class VerServicioComponent implements OnInit {
     this.getServicios(this.idServicio);
   }
 
+  eliminarComentario(valor: string){
+    this.datApiComen.deleteComentario(valor).subscribe((response) => {
+      console.log(response);
+      this.getComentarios(this.idServicio);
+      this.getServicios(this.idServicio);
+    },
+      (error) => { console.error(error); }
+    );
+  }
 
   agregarPedido(){
     this.pedidoNuevo.fechaInicio = this.inputFechaInicio;

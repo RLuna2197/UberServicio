@@ -39,4 +39,15 @@ export class ComentarioService {
     return this.http.post<Comentario>(this.url+'/Comentarios',this.comentario,httpOptions);
   }
 
+  deleteComentario(idComentario: string){
+    const httpOptions = {
+      headers: new HttpHeaders({
+      'Access-Control-Allow-Origin':'*',
+      'Content-Type': 'application/json',
+      "llave": "Bearer eyJhbGciOiJIUzI1NiJ9.cm9iZXJMdW5hbHVuYTEyMw.BBD_ybOCN5btQEEzkN76HJ2u1bRTbD9zTr3lhYZr408"
+      })
+      };
+    return this.http.delete(`${this.url}/Comentarios/${idComentario}`,httpOptions);
+  }
+
 }
