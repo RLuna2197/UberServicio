@@ -80,6 +80,14 @@
 <br/>
 <!-- coments-->
 <div class="container my-5">
+  <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter2">
+    <a class="btn btn-success">Agregar Comentario</a>
+   
+  </div>
+  <div class="col-xs-12 col-md-6" >
+    <pagination-controls (pageChange)="page = $event"  previousLabel="Anterior"
+    nextLabel="Siguiente" ></pagination-controls>
+  </div>
   <div class="shadow-4 rounded-5 overflow-hidden">
     <table class="table align-middle mb-0 bg-white">
       <thead class="bg-light">
@@ -93,10 +101,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor='let comentario of comentarios'>
+        <tr *ngFor='let comentario of comentarios | paginate: { itemsPerPage: 5, currentPage: page }'>
           <td>
             <div class="d-flex align-items-center">
-              <img src="/assets/img/{{comentario.urlFoto}}" alt="" style="width: 45px; height: 45px"
+              <img src="/assets/img/perfiles/{{comentario.urlFoto}}" alt="" style="width: 45px; height: 45px"
                 class="rounded-circle" />
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{comentario.nombre}}</p>
@@ -140,9 +148,8 @@
         </tr>
         
       
-        <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter2">
-          <a class="btn btn-success">Agregar Comentario</a>
-        </div>
+        
+        
        <!--  <div class="col-xs-12 col-md-6" data-toggle="modal" data-target="#exampleModalCenter3">
           <a class="btn btn-success">Actualizar Comentario</a>
         </div> -->

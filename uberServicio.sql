@@ -89,6 +89,8 @@ ALTER TABLE comentario modify comentario text;
 AlTER TABLE categoria modify descripcionCategoria text;
 Alter table pedido add idCliente integer;
 Alter table pedido add constraint Fk_clientepedido foreign key(idCliente) references persona(idUsuario);
+
+alter table persona  modify urlFoto text;
 #procedimientos
 
 #procedimiento almacenado que permite insertar valores en la tabla de usuarios.
@@ -186,3 +188,4 @@ select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, 
 
 
 select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and s.idPersona = 6 order by fechaInicio
+

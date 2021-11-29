@@ -46,6 +46,7 @@ export class VerServicioComponent implements OnInit {
   idServicio: number=0;
   idPedido: number =0;
   idVendedor: number = 0;
+  public page: number = 0;
 
   constructor(private router: Router, private route: ActivatedRoute, private fb:FormBuilder, private dataApi: ServicioService , private datApiComen: ComentarioService, private dataApiPerson: PersonaService, private DataConversion: ConversionService, private DataPedio: PedidoService) {
   
