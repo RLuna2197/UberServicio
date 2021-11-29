@@ -226,7 +226,7 @@ app.get('/Usuarios/:usuarioNombre', autenticarToken, (req, res) => {
 })
 
 //Agregar Usuarios
-app.post('/Usuarios', validador.validate(validador.createUsersValidation), (req, res) => {
+app.post('/Usuarios',  (req, res) => {
 
     let correo = req.body.correo;
     let usuarioNombre = req.body.usuarioNombre;
@@ -237,7 +237,8 @@ app.post('/Usuarios', validador.validate(validador.createUsersValidation), (req,
 
     let resp = {
         status: 200,
-        mensaje: ""
+        mensaje: "",
+        idUsuario: ""
     }
 
 
@@ -254,6 +255,7 @@ app.post('/Usuarios', validador.validate(validador.createUsersValidation), (req,
     servicioUsuario.agregarUsuario(correo, usuarioNombre, contrasena, vendedor, comprador, estado)
         .then(data => {
             resp.mensaje = mensaje.mensajeOK;
+            resp.idUsuario = data.insertId;
             res.set({
                 "Context-type": "Text/json"
             })
@@ -368,7 +370,7 @@ app.get('/Personas/:idUsuario', autenticarToken, (req, res) => {
 })
 
 //Update SET
-app.put('/Personas/:idUsuario', autenticarToken, validador.validate(validador.PersonValidation), (req, res) => {
+app.put('/Personas/:idUsuario', autenticarToken,  (req, res) => {
 
 
     //recibiendo del body
@@ -384,7 +386,7 @@ app.put('/Personas/:idUsuario', autenticarToken, validador.validate(validador.Pe
         mensaje: ""
     }
 
-    if (validador.validarDatos(nombre) || validador.validarDatos(apellido) || validador.validarDatos(telefono) || validador.validarDatos(urlFoto) || validador.validarDatos(idUsuario)) {
+    /* if (validador.validarDatos(nombre) || validador.validarDatos(apellido) || validador.validarDatos(telefono) || validador.validarDatos(urlFoto) || validador.validarDatos(idUsuario)) {
         resp.status = 400;
         resp.mensaje = mensaje.MensajeValidador
 
@@ -393,7 +395,7 @@ app.put('/Personas/:idUsuario', autenticarToken, validador.validate(validador.Pe
         })
         return res.status(400).send(JSON.stringify(resp));
 
-    }
+    } */
 
     servicioPersona.actualizarPersona(nombre, apellido, telefono, urlFoto, idUsuario)
         .then(data => {
