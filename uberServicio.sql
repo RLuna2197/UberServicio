@@ -104,12 +104,13 @@ create procedure sp_agregar_usuarios( in P_Correo varchar(100),
 begin
 	
     insert into usuario(correo,usuarioNombre,contrasena,vendedor,comprador, estado)  values 
-    (P_Correo,P_UsuarioNombre,P_Contrasena,P_Vendedor,P_Comprador, 1);
+    (P_Correo,P_UsuarioNombre,P_Contrasena,P_Vendedor,P_Comprador, P_estado);
     
 end//
-DELIMITER;
+DELIMITER ;
 
-call sp_agregar_usuarios("prueba@gmail.com","prueba","prueba123",0,0);
+call sp_agregar_usuarios("prueba@gmail.com","prueba","prueba123",0,0,1);
+
 
 #vista de la tabla usuarios
 create view vw_usuarios as (select * from usuario);
@@ -150,31 +151,58 @@ DELIMITER ;
 
 #Agregando datos a la tablas
 insert into Categoria(nombreCategoria,descripcionCategoria) VALUES
-("Electronica","Soluciones a la parte electronica de sus equipos ");
+("Electronica","Soluciones a la parte electronica de sus equipos"),
+("Carpinteria", "Soluciones a toda clase de muebles"),
+("Mecanica", "Soluciones a todo su vehiculo"),
+("Limpieza", "Soluciones a la limpieza de su hogar, negocio o lugar de trabajo"),
+("Plomeria", "Soluciones para cualquier desperfecto en su hogar, trabajo o negocio"),
+("Jardineria", "Limpieza y mantenimiento de sus jardines");
 
-insert into usuario(correo,usuarioNombre,contrasena) values
-("crissisabel98@gmail.com","cristi98","cris123"),
-("robertoluna@gmail.com","roberLuna","luna123"),
-("victor@gmail.com","victorv","victo123"),
-("alezzo@gmail.com","alezzo","aless123");
-
+insert into usuario(correo,usuarioNombre,contrasena,vendedor,comprador,estado) values
+("crissisabel98@gmail.com","cristi98","cris123",0,1,1),
+("robertoluna@gmail.com","roberLuna","luna123",1,1,1),
+("victor@gmail.com","victorv","victo123",1,0,1),
+("alezzo@gmail.com","alezzo","aless123",0,1,1),
+("ernesto.emsd@gmail.com","ernest77","12345678",1,0,1),
+("juarez.juarez@gmail.com","jj3125","Jjhello123",0,1,1),
+("Ppedro3110@gmail.com","pedroJ35","pepe645",1,0,1),
+("MichaelJack@gmail.com","MichaelJ696","MiJ748fd",0,1,1),
+("MichaelJ@gmail.com","Jordan4_1k","MJ4k1586",1,0,1),
+("AdolfMurk@gmail.com","Adlf_Mrk","AdlfM45682",0,1,1);
 
 insert into persona(idUsuario,nombre, apellido, telefono, urlFoto) values
-(1,"Cristina","Martinez","7777-2200","prueba1.jpg"),
-(2,"Roberto","Luna","7227-2230","prueba2.jpg"),
-(3,"Victor","Venezuela","7334-2200","prueba3.jpg"),
-(4,"Alessandro","Solorzano","3347-2200","prueba4.jpg");
+(2,"Cristina","Martinez","7777-2200","prueba1.jpg"),
+(3,"Roberto","Luna","7227-2230","prueba2.jpg"),
+(4,"Victor","Valenzuela","7334-2200","prueba3.jpg"),
+(5,"Alessandro","Solorzano","3347-2200","prueba4.jpg"),
+(6,"Ernesto","Salazar","7136-0489","prueba5.jpg"),
+(7,"Manuel","Juarez","7458-9658","prueba6.jpg"),
+(8,"Pedro","Portillo","7254-8987","prueba7.jpg"),
+(9,"Michael","Jackson","7898-1203","prueba8.jpg"),
+(10,"Michael","Jordan","7789-9823","prueba9.jpg"),
+(11,"Adolf","Murk","7985-9652","prueba10.jpg");
+
     
 
 insert into servicio(descripcion, nombre, precio, disponible, calificacion, idCategoria, idPersona) values
-("reparacion alectrica de refrigeradoras","reparacion de refrigeradoras","100",1,10,1,1),
-("reparacion alectrica de carros","soluciones electronicas de carro","100",1,10,1,2);
+("reparacion electrica de refrigeradoras","reparacion de refrigeradoras","100",1,10,1,2),
+("reparacion de tapiceria de sillones","reparacion de tapizado","45",1,10,2,3),
+("restauracion de muebles","Restauracion de Muebles","50",1,10,2,3),
+("reparacion de Motor","reparacion de carro","110",1,10,3,4),
+("reparacion electrica de carros","soluciones electronicas de carro","100",1,10,3,4),
+("repacion de fugas en casa","soluciones a fugas en el hogar","35",1,10,5,6),
+("limpieza completa al lugar","limpieza de lugar","55",1,8,4,8);
 
-insert into imagenServicio(url, idServicio)values ("servicio1.jpg",1),("servicio2.jpg",2);
+insert into imagenServicio(url, idServicio)values ("servicio1.jpg",3),("servicio2.jpg",4);
     
 insert into comentario(comentario, calificacion, idServicio, idUsuario) values
-("Muy buen servicio, lo recomiendo",10,1,1),
-("Lo recomiendo",10,2,2);
+("Muy buen servicio, lo recomiendo",10,3,1),
+("Lo recomiendo",10,4,2),
+("Excelente Servicio",10,7,2),
+("Muy buen servicio",10,5,5),
+("Buen Servicio",8,6,7),
+("Lo recomiendo,Buen trabajo",10,7,7),
+("Excelente",10,2,5);
 
 
 
@@ -187,5 +215,7 @@ order by idComentario desc);
 select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and p.idCliente = 7 order by fechaInicio;
 
 
-select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and s.idPersona = 6 order by fechaInicio
+select s.nombre, pe.nombre as usuario, p.fechaInicio, p.fechaFin, p.horaInicio, p.horaFin, p.total from pedido p, pedidoservicio ps, servicio s, persona pe where p.idPedido = ps.idPedido and ps.idServicio = s.idServicio and p.idCliente = pe.idUsuario and s.idPersona = 6 order by fechaInicio;
+
+
 
